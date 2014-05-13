@@ -1,6 +1,6 @@
 package modele;
 
-public class Domaine
+public class Domain
 {
 
 }
