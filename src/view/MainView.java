@@ -16,20 +16,59 @@ import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 
-public class MainView {
+public class MainView 
+{
 
 	private JFrame frame;
-
+	private JPanel mainPanel;
+	private Box hbResult;
+	private JSeparator separatorTop;
+	private JPanel panelResult;
+	private Box hbResultSetting;
+	private JPanel panMainSetting; 
+	private JPanel panSeparatorTop;
+	private JPanel panelSeparatorLow;
+	private JSeparator separatorLow;
+	private Box vbLeftSettingRun;
+	private Box hbResultContainer;
+	private JPanel mainPanResult;
+	private JPanel panResultSetting;
+	private JScrollPane scrollPaneResult;
+	private JTextArea textAreaResult;
+	private Box hbAction;
+	private JPanel panelAction;
+	private Box vbButton;
+	private JPanel panelButton;
+	private Box hbRun;
+	private JPanel panelRun;
+	private Box hbTopSettingRun;
+	private Box hbLowSettingRun;
+	private Box hbContainerRunBtn;
+	private JPanel panContainRunBtn;
+	private JButton btnRun;
+	private Box vbRightSettingRun;
+	private Box hbExit;
+	private JPanel panelExit;
+	private Box hbTopSettingExit;
+	private Box hbLowSettingExit;
+	
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
 					MainView window = new MainView();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
@@ -39,138 +78,143 @@ public class MainView {
 	/**
 	 * Create the application.
 	 */
-	public MainView() {
+	public MainView() 
+	{
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() 
+	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		
-		Box hbResult = Box.createHorizontalBox();
+		hbResult = Box.createHorizontalBox();
 		mainPanel.add(hbResult, BorderLayout.CENTER);
 		
-		JPanel panelResult = new JPanel();
+		panelResult = new JPanel();
 		hbResult.add(panelResult);
 		panelResult.setLayout(new BorderLayout(0, 0));
 		
-		Box hbResultSetting = Box.createHorizontalBox();
+		hbResultSetting = Box.createHorizontalBox();
 		hbResultSetting.setPreferredSize(new Dimension(0, 20));
 		panelResult.add(hbResultSetting, BorderLayout.SOUTH);
 		
-		JPanel panMainSetting = new JPanel();
+		panMainSetting = new JPanel();
 		hbResultSetting.add(panMainSetting);
 		panMainSetting.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panSeparatorTop = new JPanel();
+		panSeparatorTop = new JPanel();
 		panSeparatorTop.setPreferredSize(new Dimension(0, 10));
 		panMainSetting.add(panSeparatorTop, BorderLayout.NORTH);
 		panSeparatorTop.setLayout(new BorderLayout(0, 0));
 		
-		JSeparator separatorTop = new JSeparator();
+		separatorTop = new JSeparator();
 		panSeparatorTop.add(separatorTop, BorderLayout.CENTER);
 		
-		JPanel panelSeparatorLow = new JPanel();
+		panelSeparatorLow = new JPanel();
 		panelSeparatorLow.setPreferredSize(new Dimension(0, 10));
 		panMainSetting.add(panelSeparatorLow, BorderLayout.SOUTH);
 		panelSeparatorLow.setLayout(new BorderLayout(0, 0));
 		
-		JSeparator separatorLow = new JSeparator();
+		separatorLow = new JSeparator();
 		panelSeparatorLow.add(separatorLow, BorderLayout.CENTER);
 		
-		Box hbResultContainer = Box.createHorizontalBox();
+		hbResultContainer = Box.createHorizontalBox();
 		panelResult.add(hbResultContainer, BorderLayout.CENTER);
 		
-		JPanel mainPanResult = new JPanel();
+		mainPanResult = new JPanel();
 		hbResultContainer.add(mainPanResult);
 		mainPanResult.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panResultSetting = new JPanel();
+		panResultSetting = new JPanel();
 		mainPanResult.add(panResultSetting, BorderLayout.SOUTH);
 		
-		JScrollPane scrollPaneResult = new JScrollPane();
+		scrollPaneResult = new JScrollPane();
 		mainPanResult.add(scrollPaneResult, BorderLayout.CENTER);
 		
-		JTextArea textAreaResult = new JTextArea();
+		textAreaResult = new JTextArea();
 		scrollPaneResult.setViewportView(textAreaResult);
 		
-		Box hbAction = Box.createHorizontalBox();
+		hbAction = Box.createHorizontalBox();
 		hbAction.setPreferredSize(new Dimension(0, 100));
 		mainPanel.add(hbAction, BorderLayout.SOUTH);
 		
-		JPanel panelAction = new JPanel();
+		panelAction = new JPanel();
 		hbAction.add(panelAction);
 		panelAction.setLayout(new BorderLayout(0, 0));
 		
-		Box vbButton = Box.createVerticalBox();
+		vbButton = Box.createVerticalBox();
 		vbButton.setPreferredSize(new Dimension(130, 0));
 		panelAction.add(vbButton, BorderLayout.EAST);
 		
-		JPanel panelButton = new JPanel();
+		panelButton = new JPanel();
 		vbButton.add(panelButton);
 		panelButton.setLayout(new BorderLayout(0, 0));
 		
-		Box hbRun = Box.createHorizontalBox();
+		hbRun = Box.createHorizontalBox();
 		hbRun.setPreferredSize(new Dimension(0, 50));
 		panelButton.add(hbRun, BorderLayout.NORTH);
 		
-		JPanel panelRun = new JPanel();
+		panelRun = new JPanel();
 		hbRun.add(panelRun);
 		panelRun.setLayout(new BorderLayout(0, 0));
 		
-		Box hbTopSettingRun = Box.createHorizontalBox();
+		hbTopSettingRun = Box.createHorizontalBox();
 		hbTopSettingRun.setPreferredSize(new Dimension(0, 15));
 		panelRun.add(hbTopSettingRun, BorderLayout.NORTH);
 		
-		Box hbLowSettingRun = Box.createHorizontalBox();
+		hbLowSettingRun = Box.createHorizontalBox();
 		hbLowSettingRun.setPreferredSize(new Dimension(0, 8));
 		panelRun.add(hbLowSettingRun, BorderLayout.SOUTH);
 		
-		Box hbContainerRunBtn = Box.createHorizontalBox();
+		hbContainerRunBtn = Box.createHorizontalBox();
 		panelRun.add(hbContainerRunBtn, BorderLayout.CENTER);
 		
-		JPanel panContainRunBtn = new JPanel();
+		panContainRunBtn = new JPanel();
 		panContainRunBtn.setMinimumSize(new Dimension(0, 0));
 		hbContainerRunBtn.add(panContainRunBtn);
 		panContainRunBtn.setLayout(new BorderLayout(0, 0));
 		
-		JButton btnRun = new JButton("Lancer");
-		btnRun.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnRun = new JButton("Lancer");
+		btnRun.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				//TODO lancer algo
 			}
 		});
 		panContainRunBtn.add(btnRun, BorderLayout.CENTER);
 		
-		Box vbLeftSettingRun = Box.createVerticalBox();
+		vbLeftSettingRun = Box.createVerticalBox();
 		vbLeftSettingRun.setPreferredSize(new Dimension(10, 0));
 		panelRun.add(vbLeftSettingRun, BorderLayout.WEST);
 		
-		Box vbRightSettingRun = Box.createVerticalBox();
+		vbRightSettingRun = Box.createVerticalBox();
 		vbRightSettingRun.setPreferredSize(new Dimension(10, 0));
 		panelRun.add(vbRightSettingRun, BorderLayout.EAST);
 		
-		Box hbExit = Box.createHorizontalBox();
+		hbExit = Box.createHorizontalBox();
 		hbExit.setPreferredSize(new Dimension(0, 50));
 		panelButton.add(hbExit, BorderLayout.SOUTH);
 		
-		JPanel panelExit = new JPanel();
+		panelExit = new JPanel();
 		hbExit.add(panelExit);
 		panelExit.setLayout(new BorderLayout(0, 0));
 		
-		Box hbTopSettingExit = Box.createHorizontalBox();
+		hbTopSettingExit = Box.createHorizontalBox();
 		hbTopSettingExit.setPreferredSize(new Dimension(8, 10));
 		panelExit.add(hbTopSettingExit, BorderLayout.NORTH);
 		
-		Box hbLowSettingExit = Box.createHorizontalBox();
+		hbLowSettingExit = Box.createHorizontalBox();
 		hbLowSettingExit.setPreferredSize(new Dimension(0, 15));
 		panelExit.add(hbLowSettingExit, BorderLayout.SOUTH);
 		
@@ -216,7 +260,7 @@ public class MainView {
 		panChoice.add(hbChoiceTopSetting, BorderLayout.NORTH);
 		
 		Box hbChoiceLowSetting = Box.createHorizontalBox();
-		hbChoiceLowSetting.setPreferredSize(new Dimension(0, 20));
+		hbChoiceLowSetting.setPreferredSize(new Dimension(0, 15));
 		panChoice.add(hbChoiceLowSetting, BorderLayout.SOUTH);
 		
 		Box horizontalBox = Box.createHorizontalBox();
@@ -242,18 +286,38 @@ public class MainView {
 		JLabel lblAlgo = new JLabel("Algorithme");
 		panAlgo.add(lblAlgo, BorderLayout.CENTER);
 		
+		JPanel panAlgoLeftSetting = new JPanel();
+		panAlgoLeftSetting.setPreferredSize(new Dimension(35, 10));
+		panAlgo.add(panAlgoLeftSetting, BorderLayout.WEST);
+		
+		JPanel panAlgoSeparator = new JPanel();
+		panAlgoSeparator.setPreferredSize(new Dimension(10, 2));
+		panAlgo.add(panAlgoSeparator, BorderLayout.SOUTH);
+		panAlgoSeparator.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panAlgoSeparatorLeftSetting = new JPanel();
+		panAlgoSeparatorLeftSetting.setPreferredSize(new Dimension(5, 0));
+		panAlgoSeparator.add(panAlgoSeparatorLeftSetting, BorderLayout.WEST);
+		
+		JPanel panAlgoSeparatorRightSetting = new JPanel();
+		panAlgoSeparatorRightSetting.setPreferredSize(new Dimension(58, 0));
+		panAlgoSeparator.add(panAlgoSeparatorRightSetting, BorderLayout.EAST);
+		
+		JSeparator separatorAlgo = new JSeparator();
+		panAlgoSeparator.add(separatorAlgo, BorderLayout.CENTER);
+		
 		Box hbLowChoiceAlgo = Box.createHorizontalBox();
 		panChoiceAlgo.add(hbLowChoiceAlgo, BorderLayout.CENTER);
 		
-		JPanel panel = new JPanel();
-		hbLowChoiceAlgo.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel panRdbChoiceAlgo = new JPanel();
+		hbLowChoiceAlgo.add(panRdbChoiceAlgo);
+		panRdbChoiceAlgo.setLayout(new BorderLayout(0, 0));
 		
 		JRadioButton rdbtnForwardCheking = new JRadioButton("Forward Cheking");
-		panel.add(rdbtnForwardCheking, BorderLayout.NORTH);
+		panRdbChoiceAlgo.add(rdbtnForwardCheking, BorderLayout.SOUTH);
 		
 		JRadioButton rdbtnTestGenerate = new JRadioButton("Test & Generate");
-		panel.add(rdbtnTestGenerate, BorderLayout.SOUTH);
+		panRdbChoiceAlgo.add(rdbtnTestGenerate, BorderLayout.NORTH);
 		
 		JPanel panChoiceHeuristic = new JPanel();
 		panChoiceHeuristic.setPreferredSize(new Dimension(200, 10));
@@ -261,6 +325,7 @@ public class MainView {
 		
 		JPanel panChoiceAc = new JPanel();
 		panChoiceElement.add(panChoiceAc, BorderLayout.CENTER);
+		panChoiceAc.setLayout(new BorderLayout(0, 0));
 		
 		JPanel mainPanTopSetting = new JPanel();
 		mainPanel.add(mainPanTopSetting, BorderLayout.NORTH);
