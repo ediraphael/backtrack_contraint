@@ -13,7 +13,7 @@ public class Constraint
 		this.operator = operator;
 	}
 	
-	public boolean check()
+	public boolean checkInstance()
 	{
 		return operator.execute(leftVariable, rightVariable);
 	}
