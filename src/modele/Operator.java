@@ -44,10 +44,10 @@ public enum Operator
 		{
 			return left.getValeur() != right.getValeur();
 		}
-		
+
 		public boolean checkIfPossible(Variable left, Variable right)
 		{
-			return false;
+			return !(left.getDomain().getAmplitude() == 0 && right.getDomain().getAmplitude() == 0 && left.getDomain().getBottomBoundary() == right.getDomain().getBottomBoundary() && left.getDomain().getUpperBoundary() == right.getDomain().getUpperBoundary());
 		}
 	},
 	INFERIOREQUAL("<=")
