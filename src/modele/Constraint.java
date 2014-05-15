@@ -2,24 +2,49 @@ package modele;
 
 public class Constraint
 {
-	int firstVar;
-	int secondVar;
-	//TODO le type de contrainte
+	private Variable leftVariable;
+	private Variable rightVariable;
+	private Operator operator;
+
+	public Constraint(Variable leftVariable, Variable rightVariable, Operator operator)
+	{
+		this.leftVariable = leftVariable;
+		this.rightVariable = rightVariable;
+		this.operator = operator;
+	}
 	
-	public int getFirstVar() 
+	public boolean check()
 	{
-		return firstVar;
+		return operator.execute(leftVariable, rightVariable);
 	}
-	public void setFirstVar(int firstVar) 
+
+	public Variable getFirstVar()
 	{
-		this.firstVar = firstVar;
+		return leftVariable;
 	}
-	public int getSecondVar() 
+
+	public void setFirstVar(Variable firstVar)
 	{
-		return secondVar;
+		this.leftVariable = firstVar;
 	}
-	public void setSecondVar(int secondVar) 
+
+	public Variable getSecondVar()
 	{
-		this.secondVar = secondVar;
+		return rightVariable;
+	}
+
+	public Operator getOperator()
+	{
+		return operator;
+	}
+
+	public void setOperator(Operator operator)
+	{
+		this.operator = operator;
+	}
+
+	public void setSecondVar(Variable secondVar)
+	{
+		this.rightVariable = secondVar;
 	}
 }
