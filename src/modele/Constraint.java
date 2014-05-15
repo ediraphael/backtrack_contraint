@@ -22,6 +22,11 @@ public class Constraint
 	{
 		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
+	
+	public Domain reduceDomainVariables()
+	{
+		return null;
+	}
 
 	public Variable getFirstVar()
 	{
