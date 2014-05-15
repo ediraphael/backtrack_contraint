@@ -6,6 +6,13 @@ public class Constraint
 	private int rightVariable;
 	private Operator operator;
 
+	public Constraint(int leftVariable, int rightVariable, Operator operator)
+	{
+		this.leftVariable = leftVariable;
+		this.rightVariable = rightVariable;
+		this.operator = operator;
+	}
+
 	public int getFirstVar()
 	{
 		return leftVariable;
