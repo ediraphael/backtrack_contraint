@@ -2,28 +2,33 @@ package modele;
 
 public class Constraint
 {
-	private int leftVariable;
-	private int rightVariable;
+	private Variable leftVariable;
+	private Variable rightVariable;
 	private Operator operator;
 
-	public Constraint(int leftVariable, int rightVariable, Operator operator)
+	public Constraint(Variable leftVariable, Variable rightVariable, Operator operator)
 	{
 		this.leftVariable = leftVariable;
 		this.rightVariable = rightVariable;
 		this.operator = operator;
 	}
+	
+	public boolean check()
+	{
+		return operator.execute(leftVariable, rightVariable);
+	}
 
-	public int getFirstVar()
+	public Variable getFirstVar()
 	{
 		return leftVariable;
 	}
 
-	public void setFirstVar(int firstVar)
+	public void setFirstVar(Variable firstVar)
 	{
 		this.leftVariable = firstVar;
 	}
 
-	public int getSecondVar()
+	public Variable getSecondVar()
 	{
 		return rightVariable;
 	}
@@ -38,7 +43,7 @@ public class Constraint
 		this.operator = operator;
 	}
 
-	public void setSecondVar(int secondVar)
+	public void setSecondVar(Variable secondVar)
 	{
 		this.rightVariable = secondVar;
 	}
