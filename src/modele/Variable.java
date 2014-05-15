@@ -64,4 +64,9 @@ public class Variable
 		this.isInstantiated = isInstantiated;
 	}
 
+	@Override
+	public String toString()
+	{
+		return this.nom + " " + this.domain + " : " + this.valeur + " active:" + this.isInstantiated;
+	}
 }
