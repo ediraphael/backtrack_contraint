@@ -32,4 +32,9 @@ public class Domain
 		this.upperBoundary = upperBoundary;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "[" + this.bottomBoundary + ".." + this.upperBoundary + "]";
+	}
 }
