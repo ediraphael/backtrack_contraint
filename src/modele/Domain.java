@@ -12,6 +12,11 @@ public class Domain
 		this.upperBoundary = upperBoundary;
 	}
 
+	public boolean isCompatibleTo(Domain otherDomain)
+	{
+		return (this.bottomBoundary < otherDomain.upperBoundary && otherDomain.bottomBoundary < this.upperBoundary) || (otherDomain.bottomBoundary < this.upperBoundary && this.bottomBoundary < otherDomain.upperBoundary);
+	}
+
 	public int getBottomBoundary()
 	{
 		return bottomBoundary;
