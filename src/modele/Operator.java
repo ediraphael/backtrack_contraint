@@ -8,12 +8,22 @@ public enum Operator
 		{
 			return left.getValeur() < right.getValeur();
 		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return left.getDomain().getBottomBoundary() < right.getDomain().getUpperBoundary();
+		}
 	},
 	SUPERIOR(">")
 	{
 		public boolean execute(Variable left, Variable right)
 		{
 			return left.getValeur() > right.getValeur();
+		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return right.getDomain().getBottomBoundary() < left.getDomain().getUpperBoundary();
 		}
 	},
 	EQUAL("=")
@@ -22,12 +32,22 @@ public enum Operator
 		{
 			return left.getValeur() == right.getValeur();
 		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return left.getDomain().isCompatibleTo(right.getDomain());
+		}
 	},
 	NOTEQUAL("!=")
 	{
 		public boolean execute(Variable left, Variable right)
 		{
 			return left.getValeur() != right.getValeur();
+		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return !(left.getDomain().getAmplitude() == 0 && right.getDomain().getAmplitude() == 0 && left.getDomain().getBottomBoundary() == right.getDomain().getBottomBoundary() && left.getDomain().getUpperBoundary() == right.getDomain().getUpperBoundary());
 		}
 	},
 	INFERIOREQUAL("<=")
@@ -36,12 +56,22 @@ public enum Operator
 		{
 			return left.getValeur() <= right.getValeur();
 		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return left.getDomain().getBottomBoundary() <= right.getDomain().getUpperBoundary();
+		}
 	},
 	SUPERIOREQUAL(">=")
 	{
 		public boolean execute(Variable left, Variable right)
 		{
 			return left.getValeur() >= right.getValeur();
+		}
+
+		public boolean checkIfPossible(Variable left, Variable right)
+		{
+			return right.getDomain().getBottomBoundary() <= left.getDomain().getUpperBoundary();
 		}
 	};
 
@@ -53,6 +83,11 @@ public enum Operator
 	}
 
 	public boolean execute(Variable left, Variable right)
+	{
+		return false;
+	}
+
+	public boolean checkIfPossible(Variable left, Variable right)
 	{
 		return false;
 	}

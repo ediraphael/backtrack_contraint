@@ -28,6 +28,11 @@ public class Domain
 		return (this.bottomBoundary < otherDomain.upperBoundary && otherDomain.bottomBoundary < this.upperBoundary) || (otherDomain.bottomBoundary < this.upperBoundary && this.bottomBoundary < otherDomain.upperBoundary);
 	}
 
+	public int getAmplitude()
+	{
+		return this.upperBoundary - this.bottomBoundary;
+	}
+
 	public int getBottomBoundary()
 	{
 		return bottomBoundary;
