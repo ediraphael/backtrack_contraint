@@ -4,14 +4,14 @@ public class Variable
 {
 	private String nom;
 	private Domain domain;
-	private int valeur;
+	private int value;
 	private boolean isInstantiated;
 
 	public Variable(String nom, Domain domain)
 	{
 		this.nom = nom;
 		this.domain = domain;
-		this.valeur = 0;
+		this.value = 0;
 		this.isInstantiated = false;
 	}
 
@@ -19,7 +19,7 @@ public class Variable
 	{
 		this.nom = nom;
 		this.domain = domain;
-		this.valeur = valeur;
+		this.value = valeur;
 		this.isInstantiated = isInstantiated;
 	}
 
@@ -43,14 +43,14 @@ public class Variable
 		this.domain = domain;
 	}
 
-	public int getValeur()
+	public int getValue()
 	{
-		return valeur;
+		return value;
 	}
 
-	public void setValeur(int valeur)
+	public void setValue(int valeur)
 	{
-		this.valeur = valeur;
+		this.value = valeur;
 		this.isInstantiated = true;
 	}
 
@@ -67,6 +67,6 @@ public class Variable
 	@Override
 	public String toString()
 	{
-		return this.nom + " " + this.domain + " : " + this.valeur + " active:" + this.isInstantiated;
+		return this.nom + " " + this.domain + " : " + this.value + " active:" + this.isInstantiated;
 	}
 }

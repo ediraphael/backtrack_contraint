@@ -6,7 +6,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() < right.getValeur();
+			return left.getValue() < right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -18,15 +18,15 @@ public enum Operator
 		{
 			if (left.isInstantiated() && !right.isInstantiated())
 			{
-				if (left.getValeur() >= right.getDomain().getBottomBoundary() && left.getValeur() < right.getDomain().getUpperBoundary())
+				if (left.getValue() >= right.getDomain().getBottomBoundary() && left.getValue() < right.getDomain().getUpperBoundary())
 				{
-					right.getDomain().setBottomBoundary(left.getValeur() + 1);
+					right.getDomain().setBottomBoundary(left.getValue() + 1);
 				}
 			} else if (!left.isInstantiated() && right.isInstantiated())
 			{
-				if (right.getValeur() <= left.getDomain().getUpperBoundary() && right.getValeur() > left.getDomain().getBottomBoundary())
+				if (right.getValue() <= left.getDomain().getUpperBoundary() && right.getValue() > left.getDomain().getBottomBoundary())
 				{
-					left.getDomain().setBottomBoundary(right.getValeur() - 1);
+					left.getDomain().setBottomBoundary(right.getValue() - 1);
 				}
 			} else if (checkIfPossible(left, right))
 			{
@@ -45,7 +45,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() > right.getValeur();
+			return left.getValue() > right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -57,15 +57,15 @@ public enum Operator
 		{
 			if (left.isInstantiated() && !right.isInstantiated())
 			{
-				if (left.getValeur() <= right.getDomain().getUpperBoundary() && left.getValeur() > right.getDomain().getBottomBoundary())
+				if (left.getValue() <= right.getDomain().getUpperBoundary() && left.getValue() > right.getDomain().getBottomBoundary())
 				{
-					right.getDomain().setUpperBoundary(left.getValeur() - 1);
+					right.getDomain().setUpperBoundary(left.getValue() - 1);
 				}
 			} else if (!left.isInstantiated() && right.isInstantiated())
 			{
-				if (right.getValeur() >= left.getDomain().getBottomBoundary() && right.getValeur() < left.getDomain().getUpperBoundary())
+				if (right.getValue() >= left.getDomain().getBottomBoundary() && right.getValue() < left.getDomain().getUpperBoundary())
 				{
-					left.getDomain().setBottomBoundary(right.getValeur() + 1);
+					left.getDomain().setBottomBoundary(right.getValue() + 1);
 				}
 			} else if (checkIfPossible(left, right))
 			{
@@ -84,7 +84,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() == right.getValeur();
+			return left.getValue() == right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -103,7 +103,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() != right.getValeur();
+			return left.getValue() != right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -115,7 +115,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() <= right.getValeur();
+			return left.getValue() <= right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -127,15 +127,15 @@ public enum Operator
 		{
 			if (left.isInstantiated() && !right.isInstantiated())
 			{
-				if (left.getValeur() >= right.getDomain().getBottomBoundary() && left.getValeur() <= right.getDomain().getUpperBoundary())
+				if (left.getValue() >= right.getDomain().getBottomBoundary() && left.getValue() <= right.getDomain().getUpperBoundary())
 				{
-					right.getDomain().setBottomBoundary(left.getValeur());
+					right.getDomain().setBottomBoundary(left.getValue());
 				}
 			} else if (!left.isInstantiated() && right.isInstantiated())
 			{
-				if (right.getValeur() <= left.getDomain().getUpperBoundary() && right.getValeur() >= left.getDomain().getBottomBoundary())
+				if (right.getValue() <= left.getDomain().getUpperBoundary() && right.getValue() >= left.getDomain().getBottomBoundary())
 				{
-					left.getDomain().setBottomBoundary(right.getValeur());
+					left.getDomain().setBottomBoundary(right.getValue());
 				}
 			} else if (checkIfPossible(left, right))
 			{
@@ -154,7 +154,7 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValeur() >= right.getValeur();
+			return left.getValue() >= right.getValue();
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
@@ -166,15 +166,15 @@ public enum Operator
 		{
 			if (left.isInstantiated() && !right.isInstantiated())
 			{
-				if (left.getValeur() <= right.getDomain().getUpperBoundary() && left.getValeur() >= right.getDomain().getBottomBoundary())
+				if (left.getValue() <= right.getDomain().getUpperBoundary() && left.getValue() >= right.getDomain().getBottomBoundary())
 				{
-					right.getDomain().setUpperBoundary(left.getValeur());
+					right.getDomain().setUpperBoundary(left.getValue());
 				}
 			} else if (!left.isInstantiated() && right.isInstantiated())
 			{
-				if (right.getValeur() >= left.getDomain().getBottomBoundary() && right.getValeur() <= left.getDomain().getUpperBoundary())
+				if (right.getValue() >= left.getDomain().getBottomBoundary() && right.getValue() <= left.getDomain().getUpperBoundary())
 				{
-					left.getDomain().setBottomBoundary(right.getValeur());
+					left.getDomain().setBottomBoundary(right.getValue());
 				}
 			} else if (checkIfPossible(left, right))
 			{
