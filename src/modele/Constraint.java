@@ -12,15 +12,15 @@ public class Constraint
 		this.rightVariable = rightVariable;
 		this.operator = operator;
 	}
-	
+
 	public boolean checkInstance()
 	{
 		return operator.execute(leftVariable, rightVariable);
 	}
-	
+
 	public boolean checkIfPossible()
 	{
-		return false;
+		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
 
 	public Variable getFirstVar()
