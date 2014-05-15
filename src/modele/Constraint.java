@@ -17,6 +17,11 @@ public class Constraint
 	{
 		return operator.execute(leftVariable, rightVariable);
 	}
+	
+	public boolean checkIfPossible()
+	{
+		return false;
+	}
 
 	public Variable getFirstVar()
 	{
