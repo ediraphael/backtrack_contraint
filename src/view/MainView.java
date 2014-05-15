@@ -3,19 +3,26 @@ package view;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.Box;
+
 import java.awt.Dimension;
+
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JSeparator;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
 
 public class MainView 
 {
@@ -34,8 +41,6 @@ public class MainView
 	private Box hbResultContainer;
 	private JPanel mainPanResult;
 	private JPanel panResultSetting;
-	private JScrollPane scrollPaneResult;
-	private JTextArea textAreaResult;
 	private Box hbAction;
 	private JPanel panelAction;
 	private Box vbButton;
@@ -62,7 +67,7 @@ public class MainView
 	private Box vbChoiceLeftSetting;
 	private Box hbChoiceTopSetting;
 	private Box hbChoiceLowSetting;
-	private Box horizontalBox;
+	private Box hbChoiceContainer;
 	private JPanel panChoiceElement;
 	private JPanel panChoiceAlgo;
 	private Box hbTopChoiceAlgo;
@@ -107,14 +112,37 @@ public class MainView
 	private JPanel panHeristicSeparator;
 	private JPanel panHeuristicSeparatorLeftSetting;
 	private JSeparator separator;
-	private JPanel panHeuristicSeparatorRightSetting;
 	private JPanel panContainerHeuristicList;
 	private JPanel panHeuristicList;
 	private JPanel panHeuristicListTopSetting;
 	private JPanel panHeuristicListLowSetting;
 	private JPanel panHeuristicListLeftSetting;
-	private JPanel panHeuristicListRightSetting;
-	private JComboBox cbHeuristic;
+	private JComboBox<String> cbHeuristic;
+	private JPanel panUploadFile;
+	private JPanel panLabelFileLeftSetting;
+	private JPanel panUploadSeparatorContainer;
+	private JPanel panContainerLabelFile;
+	private JLabel lblFichier;
+	private JPanel panUploadSeparatorLeftSetting;
+	private JPanel panUploadSeparatorRightSetting;
+	private JPanel panUploadSeparator;
+	private JSeparator separatorUpload;
+	private JPanel panContainerUpload;
+	private JPanel panBtnUploadContainer;
+	private JPanel panBtnUploadLeftSetting;
+	private JPanel panBtnUploadTopSetting;
+	private JPanel panBtnUploadRightSetting;
+	private JPanel panBtnUpload;
+	private JButton btnSearch;
+	private JPanel panBtnUploadLowSetting;
+	private final ButtonGroup buttonGroupAlgo = new ButtonGroup();
+	private final ButtonGroup buttonGroupAc = new ButtonGroup();
+	private JPanel panShowFileContainer;
+	private JPanel panShowResultContainer;
+	private JPanel panSeparatorShow;
+	private JPanel panShowResult;
+	private JTextArea textAreaShowResult;
+	private JTextArea textAreaShowFile;
 	
 	
 	/**
@@ -202,11 +230,29 @@ public class MainView
 		panResultSetting = new JPanel();
 		mainPanResult.add(panResultSetting, BorderLayout.SOUTH);
 		
-		scrollPaneResult = new JScrollPane();
-		mainPanResult.add(scrollPaneResult, BorderLayout.CENTER);
+		panShowFileContainer = new JPanel();
+		panShowFileContainer.setPreferredSize(new Dimension(250, 10));
+		mainPanResult.add(panShowFileContainer, BorderLayout.WEST);
+		panShowFileContainer.setLayout(new BorderLayout(0, 0));
 		
-		textAreaResult = new JTextArea();
-		scrollPaneResult.setViewportView(textAreaResult);
+		textAreaShowFile = new JTextArea();
+		panShowFileContainer.add(textAreaShowFile, BorderLayout.CENTER);
+		
+		panShowResultContainer = new JPanel();
+		mainPanResult.add(panShowResultContainer, BorderLayout.CENTER);
+		panShowResultContainer.setLayout(new BorderLayout(0, 0));
+		
+		panSeparatorShow = new JPanel();
+		panSeparatorShow.setPreferredSize(new Dimension(9, 10));
+		panShowResultContainer.add(panSeparatorShow, BorderLayout.WEST);
+		panSeparatorShow.setLayout(new BorderLayout(0, 0));
+		
+		panShowResult = new JPanel();
+		panShowResultContainer.add(panShowResult, BorderLayout.CENTER);
+		panShowResult.setLayout(new BorderLayout(0, 0));
+		
+		textAreaShowResult = new JTextArea();
+		panShowResult.add(textAreaShowResult, BorderLayout.CENTER);
 		
 		hbAction = Box.createHorizontalBox();
 		hbAction.setPreferredSize(new Dimension(0, 100));
@@ -327,11 +373,11 @@ public class MainView
 		hbChoiceLowSetting.setPreferredSize(new Dimension(0, 15));
 		panChoice.add(hbChoiceLowSetting, BorderLayout.SOUTH);
 		
-		horizontalBox = Box.createHorizontalBox();
-		panChoice.add(horizontalBox, BorderLayout.CENTER);
+		hbChoiceContainer = Box.createHorizontalBox();
+		panChoice.add(hbChoiceContainer, BorderLayout.CENTER);
 		
 		panChoiceElement = new JPanel();
-		horizontalBox.add(panChoiceElement);
+		hbChoiceContainer.add(panChoiceElement);
 		panChoiceElement.setLayout(new BorderLayout(0, 0));
 		
 		panChoiceAlgo = new JPanel();
@@ -378,9 +424,12 @@ public class MainView
 		panRdbChoiceAlgo.setLayout(new BorderLayout(0, 0));
 
 		rdbtnForwardCheking = new JRadioButton("Forward Cheking");
+		buttonGroupAlgo.add(rdbtnForwardCheking);
 		panRdbChoiceAlgo.add(rdbtnForwardCheking, BorderLayout.SOUTH);
 		
 		rdbtnTestGenerate = new JRadioButton("Test & Generate");
+		rdbtnTestGenerate.setSelected(true);
+		buttonGroupAlgo.add(rdbtnTestGenerate);
 		panRdbChoiceAlgo.add(rdbtnTestGenerate, BorderLayout.NORTH);
 		
 		panChoiceHeuristicAndUpload = new JPanel();
@@ -405,7 +454,7 @@ public class MainView
 		panHeuristic.add(lblHeuristique, BorderLayout.CENTER);
 		
 		panHeristicLabelLeftSetting = new JPanel();
-		panHeristicLabelLeftSetting.setPreferredSize(new Dimension(33, 10));
+		panHeristicLabelLeftSetting.setPreferredSize(new Dimension(35, 10));
 		panHeuristic.add(panHeristicLabelLeftSetting, BorderLayout.WEST);
 		
 		panHeristicSeparatorContainer = new JPanel();
@@ -423,9 +472,6 @@ public class MainView
 		panHeuristicSeparatorLeftSetting = new JPanel();
 		panHeristicSeparatorContainer.add(panHeuristicSeparatorLeftSetting, BorderLayout.WEST);
 		
-		panHeuristicSeparatorRightSetting = new JPanel();
-		panHeristicSeparatorContainer.add(panHeuristicSeparatorRightSetting, BorderLayout.EAST);
-		
 		hbLowChoiceHeuristic = Box.createHorizontalBox();
 		panChoiceHeuristic.add(hbLowChoiceHeuristic, BorderLayout.CENTER);
 		
@@ -437,7 +483,11 @@ public class MainView
 		panContainerHeuristicList.add(panHeuristicList, BorderLayout.CENTER);
 		panHeuristicList.setLayout(new BorderLayout(0, 0));
 		
-		cbHeuristic = new JComboBox();
+		cbHeuristic = new JComboBox<String>();
+		cbHeuristic.setMinimumSize(new Dimension(25, 24));
+		cbHeuristic.setPreferredSize(new Dimension(25, 24));
+		cbHeuristic.addItem("");
+		cbHeuristic.addItem("Domaine minimum");
 		panHeuristicList.add(cbHeuristic, BorderLayout.CENTER);
 		
 		panHeuristicListTopSetting = new JPanel();
@@ -451,11 +501,75 @@ public class MainView
 		panHeuristicListLeftSetting = new JPanel();
 		panContainerHeuristicList.add(panHeuristicListLeftSetting, BorderLayout.WEST);
 		
-		panHeuristicListRightSetting = new JPanel();
-		panContainerHeuristicList.add(panHeuristicListRightSetting, BorderLayout.EAST);
-		
 		panUpload = new JPanel();
 		panChoiceHeuristicAndUpload.add(panUpload, BorderLayout.CENTER);
+		panUpload.setLayout(new BorderLayout(0, 0));
+		
+		panUploadFile = new JPanel();
+		panUploadFile.setPreferredSize(new Dimension(10, 25));
+		panUpload.add(panUploadFile, BorderLayout.NORTH);
+		panUploadFile.setLayout(new BorderLayout(0, 0));
+		
+		panLabelFileLeftSetting = new JPanel();
+		panLabelFileLeftSetting.setPreferredSize(new Dimension(65, 10));
+		panUploadFile.add(panLabelFileLeftSetting, BorderLayout.WEST);
+		
+		panUploadSeparatorContainer = new JPanel();
+		panUploadSeparatorContainer.setPreferredSize(new Dimension(10, 2));
+		panUploadFile.add(panUploadSeparatorContainer, BorderLayout.SOUTH);
+		panUploadSeparatorContainer.setLayout(new BorderLayout(0, 0));
+		
+		panUploadSeparatorLeftSetting = new JPanel();
+		panUploadSeparatorLeftSetting.setPreferredSize(new Dimension(30, 10));
+		panUploadSeparatorContainer.add(panUploadSeparatorLeftSetting, BorderLayout.WEST);
+		
+		panUploadSeparatorRightSetting = new JPanel();
+		panUploadSeparatorRightSetting.setPreferredSize(new Dimension(30, 10));
+		panUploadSeparatorContainer.add(panUploadSeparatorRightSetting, BorderLayout.EAST);
+		
+		panUploadSeparator = new JPanel();
+		panUploadSeparatorContainer.add(panUploadSeparator, BorderLayout.CENTER);
+		panUploadSeparator.setLayout(new BorderLayout(0, 0));
+		
+		separatorUpload = new JSeparator();
+		panUploadSeparator.add(separatorUpload, BorderLayout.CENTER);
+		
+		panContainerLabelFile = new JPanel();
+		panUploadFile.add(panContainerLabelFile, BorderLayout.CENTER);
+		panContainerLabelFile.setLayout(new BorderLayout(0, 0));
+		
+		lblFichier = new JLabel("Fichier");
+		panContainerLabelFile.add(lblFichier, BorderLayout.CENTER);
+		
+		panContainerUpload = new JPanel();
+		panUpload.add(panContainerUpload, BorderLayout.CENTER);
+		panContainerUpload.setLayout(new BorderLayout(0, 0));
+		
+		panBtnUploadContainer = new JPanel();
+		panBtnUploadContainer.setPreferredSize(new Dimension(10, 25));
+		panContainerUpload.add(panBtnUploadContainer, BorderLayout.CENTER);
+		panBtnUploadContainer.setLayout(new BorderLayout(0, 0));
+		
+		panBtnUploadLeftSetting = new JPanel();
+		panBtnUploadLeftSetting.setPreferredSize(new Dimension(30, 10));
+		panBtnUploadContainer.add(panBtnUploadLeftSetting, BorderLayout.WEST);
+		
+		panBtnUploadTopSetting = new JPanel();
+		panBtnUploadContainer.add(panBtnUploadTopSetting, BorderLayout.NORTH);
+		
+		panBtnUploadRightSetting = new JPanel();
+		panBtnUploadRightSetting.setPreferredSize(new Dimension(30, 10));
+		panBtnUploadContainer.add(panBtnUploadRightSetting, BorderLayout.EAST);
+		
+		panBtnUpload = new JPanel();
+		panBtnUploadContainer.add(panBtnUpload, BorderLayout.CENTER);
+		panBtnUpload.setLayout(new BorderLayout(0, 0));
+		
+		btnSearch = new JButton("Parcourir");
+		panBtnUpload.add(btnSearch, BorderLayout.CENTER);
+		
+		panBtnUploadLowSetting = new JPanel();
+		panBtnUploadContainer.add(panBtnUploadLowSetting, BorderLayout.SOUTH);
 		
 		panChoiceAc = new JPanel();
 		panChoiceAc.setPreferredSize(new Dimension(100, 10));
@@ -491,6 +605,7 @@ public class MainView
 		panAcSeparator.add(panAlcSeparatorRightSetting, BorderLayout.EAST);
 		
 		separatorAc = new JSeparator();
+		separatorAc.setMaximumSize(new Dimension(20, 20));
 		panAcSeparator.add(separatorAc, BorderLayout.CENTER);
 		
 		hbLowChoiceAc = Box.createHorizontalBox();
@@ -509,19 +624,23 @@ public class MainView
 		panAcRdbContainer.setLayout(new BorderLayout(0, 0));
 
 		rdbtnAucun = new JRadioButton("Aucun");
+		rdbtnAucun.setSelected(true);
+		buttonGroupAc.add(rdbtnAucun);
 		panAcRdbContainer.add(rdbtnAucun, BorderLayout.NORTH);
 
 		rdbtnAC3 = new JRadioButton("AC 3");
+		buttonGroupAc.add(rdbtnAC3);
 		panAcRdbContainer.add(rdbtnAC3, BorderLayout.SOUTH);
 
 		mainPanTopSetting = new JPanel();
 		mainPanel.add(mainPanTopSetting, BorderLayout.NORTH);
 
 		mainPanRightSetting = new JPanel();
+		mainPanRightSetting.setPreferredSize(new Dimension(10, 0));
 		mainPanel.add(mainPanRightSetting, BorderLayout.WEST);
+		mainPanRightSetting.setLayout(null);
 
 		mainPanLeftSetting = new JPanel();
 		mainPanel.add(mainPanLeftSetting, BorderLayout.EAST);
 	}
-
 }
