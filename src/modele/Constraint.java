@@ -23,9 +23,9 @@ public class Constraint
 		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
 	
-	public Domain reduceDomainVariables()
+	public void reduceDomainVariables()
 	{
-		return null;
+		operator.reduceDomains(leftVariable, rightVariable);
 	}
 
 	public Variable getFirstVar()

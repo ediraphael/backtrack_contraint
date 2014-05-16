@@ -29,17 +29,22 @@ public enum Operator
 
 		public void reduceDomains(Variable left, Variable right)
 		{
+			boolean isPossible = false;
 			boolean importantChange = true;
 			while (importantChange)
 			{
 				importantChange = false;
 				for (Domain leftDomain : left.getDomains())
 				{
+					isPossible = false;
 					for (Domain rightDomain : right.getDomains())
 					{
-
 						if (left.isInstantiated() && !right.isInstantiated())
 						{
+							if (left.getValue() <= rightDomain.getUpperBoundary())
+							{
+								isPossible = true;
+							}
 							// Case
 							// --------1------------------------
 							// --------[-------]----------------
@@ -72,6 +77,7 @@ public enum Operator
 							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() > leftDomain.getBottomBoundary())
 							{
 								leftDomain.setBottomBoundary(right.getValue() - 1);
+								isPossible = true;
 							}
 							// Case
 							// --------[-------]----------------
@@ -82,21 +88,34 @@ public enum Operator
 							else if (right.getValue() == leftDomain.getUpperBoundary())
 							{
 								left.getDomains().remove(leftDomain);
+								isPossible = true;
 								importantChange = true;
 							}
 						}
 						// Mean that the bottom boundary of the left domain is under to the upper boundary of the right domain
-						else if (checkIfPossible(left, right))
+						else if (leftDomain.getBottomBoundary() < rightDomain.getUpperBoundary())
 						{
+							isPossible = true;
 							// Case
 							// --------[-------]----------------
 							// -----[------------]--------------
 							// Become
 							// --------[-------]----------------
 							// ---------[--------]--------------
-							if (leftDomain.getBottomBoundary() >= rightDomain.getBottomBoundary())
+							if (leftDomain.getBottomBoundary() >= rightDomain.getBottomBoundary() && leftDomain.getBottomBoundary() < rightDomain.getUpperBoundary())
 							{
-								rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+								boolean shouldReduce = true;
+								for (Domain checkLeftDomain : left.getDomains())
+								{
+									if (leftDomain != checkLeftDomain && checkLeftDomain.getBottomBoundary() < rightDomain.getUpperBoundary())
+									{
+										shouldReduce = false;
+									}
+								}
+								if (shouldReduce)
+								{
+									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+								}
 							}
 							// Case
 							// --------[-----------]------------
@@ -104,7 +123,7 @@ public enum Operator
 							// Become
 							// --------[--------]---------------
 							// -----------[------]---------------
-							if (rightDomain.getUpperBoundary() <= leftDomain.getUpperBoundary())
+							if (rightDomain.getUpperBoundary() <= leftDomain.getUpperBoundary() && rightDomain.getUpperBoundary() > leftDomain.getBottomBoundary())
 							{
 								leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
 							}
@@ -114,8 +133,14 @@ public enum Operator
 							break;
 						}
 					}
+					if (!isPossible)
+					{
+						left.getDomains().remove(leftDomain);
+						importantChange = true;
+					}
 					if (importantChange)
 					{
+						Operator.SUPERIOR.reduceDomains(right, left);
 						break;
 					}
 				}
@@ -126,116 +151,17 @@ public enum Operator
 	{
 		public boolean execute(Variable left, Variable right)
 		{
-			return left.getValue() > right.getValue();
+			return Operator.INFERIOR.execute(right, left);
 		}
 
 		public boolean checkIfPossible(Variable left, Variable right)
 		{
-			boolean possible = false;
-			for (Domain leftDomain : left.getDomains())
-			{
-				for (Domain rightDomain : right.getDomains())
-				{
-					if (rightDomain.getBottomBoundary() < leftDomain.getUpperBoundary())
-					{
-						possible = true;
-					}
-				}
-			}
-			return possible;
+			return Operator.INFERIOR.checkIfPossible(right, left);
 		}
 
 		public void reduceDomains(Variable left, Variable right)
 		{
-			boolean importantChange = true;
-			while (importantChange)
-			{
-				importantChange = false;
-				for (Domain leftDomain : left.getDomains())
-				{
-					for (Domain rightDomain : right.getDomains())
-					{
-						if (left.isInstantiated() && !right.isInstantiated())
-						{
-							// Case
-							// ------------------1--------------
-							// -----[------------]--------------
-							// Become
-							// ------------------1--------------
-							// -----[-----------]---------------
-							if (left.getValue() <= rightDomain.getUpperBoundary() && left.getValue() > rightDomain.getBottomBoundary())
-							{
-								rightDomain.setUpperBoundary(left.getValue() - 1);
-							}
-							// Case
-							// -----1---------------------------
-							// -----[------------]--------------
-							// Become
-							// -----1--------------------------
-							// ---------------------------------
-							else if (left.getValue() == rightDomain.getBottomBoundary())
-							{
-								right.getDomains().remove(rightDomain);
-							}
-						} else if (!left.isInstantiated() && right.isInstantiated())
-						{
-							// Case
-							// -----[------------]--------------
-							// -----1---------------------------
-							// Become
-							// ------[-----------]--------------
-							// -----1---------------------------
-							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() < leftDomain.getUpperBoundary())
-							{
-								leftDomain.setBottomBoundary(right.getValue() + 1);
-							}
-							// Case
-							// -----[------------]--------------
-							// ------------------1--------------
-							// Become
-							// ---------------------------------
-							// ------------------1--------------
-							else if (right.getValue() == leftDomain.getUpperBoundary())
-							{
-								left.getDomains().remove(leftDomain);
-								importantChange = true;
-							}
-						}
-						// Mean that the bottom boundary of the right domain is under to the upper boundary of the left domain
-						else if (checkIfPossible(left, right))
-						{
-							// Case
-							// -----------[------]--------------
-							// ---------[--------]--------------
-							// Become
-							// -----------[------]--------------
-							// ---------[-------]---------------
-							if (leftDomain.getUpperBoundary() <= rightDomain.getUpperBoundary())
-							{
-								rightDomain.setUpperBoundary(leftDomain.getUpperBoundary() - 1);
-							}
-							// Case
-							// ---------[----------]------------
-							// ---------[--------]--------------
-							// Become
-							// ----------[---------]------------
-							// ---------[--------]--------------
-							if (rightDomain.getBottomBoundary() >= leftDomain.getBottomBoundary())
-							{
-								leftDomain.setBottomBoundary(rightDomain.getBottomBoundary() + 1);
-							}
-						}
-						if (importantChange)
-						{
-							break;
-						}
-					}
-					if (importantChange)
-					{
-						break;
-					}
-				}
-			}
+			Operator.INFERIOR.reduceDomains(right, left);
 		}
 	},
 	EQUAL("=")
@@ -335,30 +261,30 @@ public enum Operator
 						{
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 							{
-								// cas
+								// case
 								// --------1------------------------
 								// --------[----------]-------------
-								// Devient
+								// Become
 								// --------1------------------------
 								// ---------[---------]-------------
 								if (left.getValue() == rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
 								{
 									rightDomain.setBottomBoundary(left.getValue() + 1);
 								}
-								// cas
+								// case
 								// -------------------1-------------
 								// --------[----------]-------------
-								// Devient
+								// Become
 								// -------------------1-------------
 								// --------[---------]--------------
 								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() == rightDomain.getUpperBoundary())
 								{
 									rightDomain.setUpperBoundary(left.getValue() - 1);
 								}
-								// cas
+								// case
 								// --------------1------------------
 								// --------[----------]-------------
-								// Devient
+								// Become
 								// --------------1------------------
 								// --------[----]-[--]--------------
 								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
@@ -372,10 +298,10 @@ public enum Operator
 						{
 							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
 							{
-								// cas
+								// case
 								// --------1------------------------
 								// --------[----------]-------------
-								// Devient
+								// Become
 								// --------1------------------------
 								// ---------[---------]-------------
 								if (right.getValue() == leftDomain.getBottomBoundary() && right.getValue() != leftDomain.getUpperBoundary())
@@ -392,10 +318,10 @@ public enum Operator
 								{
 									leftDomain.setUpperBoundary(right.getValue() - 1);
 								}
-								// cas
+								// case
 								// --------------1------------------
 								// --------[----------]-------------
-								// Devient
+								// Become
 								// --------------1------------------
 								// --------[----]-[--]--------------
 								else if (right.getValue() != leftDomain.getBottomBoundary() && right.getValue() != leftDomain.getUpperBoundary())
@@ -406,7 +332,7 @@ public enum Operator
 								}
 							}
 						}
-						// Cas :
+						// Case :
 						// ----[]-----------------------
 						// ----[]-----------------------
 						else if (leftDomain.getBottomBoundary() == rightDomain.getBottomBoundary() && leftDomain.getUpperBoundary() == rightDomain.getUpperBoundary() && leftDomain.getAmplitude() == 0)
@@ -457,9 +383,14 @@ public enum Operator
 			{
 				for (Domain rightDomain : right.getDomains())
 				{
-
 					if (left.isInstantiated() && !right.isInstantiated())
 					{
+						// case
+						// --------------1------------------
+						// --------[----------]-------------
+						// Become
+						// --------------1------------------
+						// --------[----]-[--]--------------
 						if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 						{
 							rightDomain.setBottomBoundary(left.getValue());
@@ -583,18 +514,19 @@ public enum Operator
 
 	public static void main(String[] args)
 	{
-		Variable var1 = new Variable("var1", new Domain(5, 6));
-		Variable var2 = new Variable("var2", new Domain(6, 7));
+		Variable var1 = new Variable("var1", new Domain(5, 7));
+		Variable var2 = new Variable("var2", new Domain(8, 10));
 		var1.getDomains().add(new Domain(10, 15));
 		var2.getDomains().add(new Domain(15, 20));
+		Constraint contraint = new Constraint(var1, var2, SUPERIOR);
 		System.out.println("Début");
 		System.out.println(var1);
 		System.out.println(var2);
 		System.out.println("-----------------");
-		var1.setValue(6);
-		Operator.EQUAL.reduceDomains(var1, var2);
-		System.out.println(var1);
-		System.out.println(var2);
+		// var2.setValue(7);
+		contraint.reduceDomainVariables();
+		System.out.println(contraint.getFirstVar());
+		System.out.println(contraint.getSecondVar());
 
 	}
 }
