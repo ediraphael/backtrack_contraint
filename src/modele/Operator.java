@@ -413,40 +413,130 @@ public enum Operator
 
 		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
-			for (Domain leftDomain : left.getDomains())
+			boolean isPossible = false;
+			boolean importantChange = true;
+			HashMap<Domain, Integer> rightDomainUsed = new HashMap<Domain, Integer>();
+			while (importantChange)
 			{
-				for (Domain rightDomain : right.getDomains())
+				importantChange = false;
+				for (Domain leftDomain : left.getDomains())
 				{
-					if (left.isInstantiated() && !right.isInstantiated())
+					importantChange = false;
+					isPossible = false;
+					for (Domain rightDomain : right.getDomains())
 					{
-						// case
-						// --------------1------------------
-						// --------[----------]-------------
-						// Become
-						// --------------1------------------
-						// --------[----]-[--]--------------
-						if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
+						importantChange = false;
+						if (left.isInstantiated() && !right.isInstantiated())
 						{
-							rightDomain.setBottomBoundary(left.getValue());
+							if (left.getValue() <= rightDomain.getUpperBoundary())
+							{
+								isPossible = true;
+								rightDomainUsed.put(rightDomain, 1);
+							}
+							// Case
+							// --------1------------------------
+							// --------[-------]----------------
+							// Become
+							// --------1------------------------
+							// ---------[------]----------------
+							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
+							{
+								rightDomain.setBottomBoundary(left.getValue());
+							}
+						} else if (!left.isInstantiated() && right.isInstantiated())
+						{
+							if (right.getValue() >= leftDomain.getBottomBoundary())
+							{
+								isPossible = true;
+								rightDomainUsed.put(rightDomain, 1);
+							}
+							// Case
+							// --------[-------]----------------
+							// ----------------1----------------
+							// Become
+							// --------[------]-----------------
+							// ----------------1----------------
+							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() >= leftDomain.getBottomBoundary())
+							{
+								leftDomain.setBottomBoundary(right.getValue());
+							}
 						}
-					} else if (!left.isInstantiated() && right.isInstantiated())
-					{
-						if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() >= leftDomain.getBottomBoundary())
+						// Mean that the bottom boundary of the left domain is under to the upper boundary of the right domain
+						else if (leftDomain.getBottomBoundary() <= rightDomain.getUpperBoundary())
 						{
-							leftDomain.setBottomBoundary(right.getValue());
+							isPossible = true;
+							rightDomainUsed.put(rightDomain, 1);
+							// Case
+							// --------[-------]----------------
+							// -----[------------]--------------
+							// Become
+							// --------[-------]----------------
+							// ---------[--------]--------------
+							if (leftDomain.getBottomBoundary() >= rightDomain.getBottomBoundary() && leftDomain.getBottomBoundary() <= rightDomain.getUpperBoundary())
+							{
+								boolean shouldReduce = true;
+								for (Domain checkLeftDomain : left.getDomains())
+								{
+									if (leftDomain != checkLeftDomain && checkLeftDomain.getBottomBoundary() <= rightDomain.getUpperBoundary())
+									{
+										shouldReduce = false;
+									}
+								}
+								if (shouldReduce)
+								{
+									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary());
+								}
+							}
+							// Case
+							// --------[-----------]------------
+							// -----------[------]--------------
+							// Become
+							// --------[--------]---------------
+							// -----------[------]---------------
+							if (rightDomain.getUpperBoundary() <= leftDomain.getUpperBoundary() && rightDomain.getUpperBoundary() >= leftDomain.getBottomBoundary())
+							{
+								boolean shouldReduce = true;
+								for (Domain checkRightDomain : right.getDomains())
+								{
+									if (rightDomain != checkRightDomain && checkRightDomain.getUpperBoundary() >= rightDomain.getBottomBoundary())
+									{
+										shouldReduce = false;
+									}
+								}
+								if (shouldReduce)
+								{
+									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary());
+								}
+							}
 						}
-					} else if (checkIfPossible(left, right))
-					{
-						if (leftDomain.getBottomBoundary() > rightDomain.getBottomBoundary())
+						if (importantChange)
 						{
-							rightDomain.setBottomBoundary(leftDomain.getBottomBoundary());
-						}
-						if (rightDomain.getUpperBoundary() < leftDomain.getUpperBoundary())
-						{
-							leftDomain.setUpperBoundary(rightDomain.getUpperBoundary());
+							break;
 						}
 					}
+					if (!isPossible)
+					{
+						left.getDomains().remove(leftDomain);
+						importantChange = true;
+					}
+					if (importantChange)
+					{
+						break;
+					}
 				}
+			}
+			for (Domain rightDomain : right.getDomains())
+			{
+				if (!rightDomainUsed.containsKey(rightDomain))
+				{
+					right.getDomains().remove(rightDomain);
+					importantChange = true;
+					break;
+				}
+			}
+			if (importantChange)
+			{
+				Operator.INFERIOR.reduceDomains(left, right);
 			}
 		}
 	},
