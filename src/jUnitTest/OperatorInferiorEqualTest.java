@@ -18,7 +18,7 @@ public class OperatorInferiorEqualTest extends AbstractOperatorTest
 	{
 		setOperator(Operator.INFERIOREQUAL);
 	}
-	
+
 	@Test
 	public void leftInferiorRightTest()
 	{
@@ -171,10 +171,10 @@ public class OperatorInferiorEqualTest extends AbstractOperatorTest
 		leftDomainTest = initDomain(15, 20);
 		rightDomainTest = initDomain(8, 13);
 		reduceDomains();
-		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
-		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
-		assertEquals(initDomain(0, 5), getLeftVariable().getDomains().get(1));
-		assertEquals(initDomain(25, 30), getRightVariable().getDomains().get(1));
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(0, 5)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(25, 30)));
 	}
 
 	@Test
@@ -211,8 +211,8 @@ public class OperatorInferiorEqualTest extends AbstractOperatorTest
 		reduceDomains();
 		assertTrue(getLeftVariable().getDomains().size() == 2);
 		assertTrue(getRightVariable().getDomains().size() == 1);
-		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
-		assertEquals(initDomain(15, 20), getLeftVariable().getDomains().get(1));
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(15, 20)));
 		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
 	}
 }
