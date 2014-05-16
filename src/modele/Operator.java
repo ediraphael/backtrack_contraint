@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public enum Operator
 {
@@ -31,6 +32,7 @@ public enum Operator
 		{
 			boolean isPossible = false;
 			boolean importantChange = true;
+			HashMap<Domain, Integer> rightDomainUsed = new HashMap<Domain, Integer>();
 			while (importantChange)
 			{
 				importantChange = false;
@@ -41,9 +43,10 @@ public enum Operator
 					{
 						if (left.isInstantiated() && !right.isInstantiated())
 						{
-							if (left.getValue() <= rightDomain.getUpperBoundary())
+							if (left.getValue() < rightDomain.getUpperBoundary())
 							{
 								isPossible = true;
+								rightDomainUsed.put(rightDomain, 1);
 							}
 							// Case
 							// --------1------------------------
@@ -65,9 +68,15 @@ public enum Operator
 							{
 								right.getDomains().remove(rightDomain);
 								importantChange = true;
+								isPossible = false;
 							}
 						} else if (!left.isInstantiated() && right.isInstantiated())
 						{
+							if (right.getValue() > leftDomain.getBottomBoundary())
+							{
+								isPossible = true;
+								rightDomainUsed.put(rightDomain, 1);
+							}
 							// Case
 							// --------[-------]----------------
 							// ----------------1----------------
@@ -77,7 +86,6 @@ public enum Operator
 							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() > leftDomain.getBottomBoundary())
 							{
 								leftDomain.setBottomBoundary(right.getValue() - 1);
-								isPossible = true;
 							}
 							// Case
 							// --------[-------]----------------
@@ -85,17 +93,18 @@ public enum Operator
 							// Become
 							// ---------------------------------
 							// --------1------------------------
-							else if (right.getValue() == leftDomain.getUpperBoundary())
+							else if (right.getValue() == leftDomain.getBottomBoundary())
 							{
 								left.getDomains().remove(leftDomain);
-								isPossible = true;
 								importantChange = true;
+								isPossible = false;
 							}
 						}
 						// Mean that the bottom boundary of the left domain is under to the upper boundary of the right domain
 						else if (leftDomain.getBottomBoundary() < rightDomain.getUpperBoundary())
 						{
 							isPossible = true;
+							rightDomainUsed.put(rightDomain, 1);
 							// Case
 							// --------[-------]----------------
 							// -----[------------]--------------
@@ -154,6 +163,20 @@ public enum Operator
 						Operator.SUPERIOR.reduceDomains(right, left);
 						break;
 					}
+				}
+				for (Domain rightDomain : right.getDomains())
+				{
+					if (!rightDomainUsed.containsKey(rightDomain))
+					{
+						right.getDomains().remove(rightDomain);
+						importantChange = true;
+						break;
+					}
+				}
+				if (importantChange)
+				{
+					Operator.SUPERIOR.reduceDomains(right, left);
+					break;
 				}
 			}
 		}
