@@ -69,4 +69,20 @@ public class Domain
 	{
 		return "[" + this.bottomBoundary + ".." + this.upperBoundary + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj.getClass() != this.getClass())
+		{
+			return false;
+		} else if (this.bottomBoundary != ((Domain) obj).getBottomBoundary())
+		{
+			return false;
+		} else if (this.upperBoundary != ((Domain) obj).getUpperBoundary())
+		{
+			return false;
+		}
+		return true;
+	}
 }
