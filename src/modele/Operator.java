@@ -223,14 +223,48 @@ public enum Operator
 								// --------[----]-[--]--------------
 								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
 								{
-									rightDomain.setUpperBoundary(left.getValue() - 1);
 									right.getDomains().add(new Domain(left.getValue() + 1, rightDomain.getUpperBoundary()));
+									rightDomain.setUpperBoundary(left.getValue() - 1);
 									importantChange = true;
 								}
 							}
 						} else if (!left.isInstantiated() && right.isInstantiated())
 						{
-							this.reduceDomains(right, left);
+							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
+							{
+								// cas
+								// --------1------------------------
+								// --------[----------]-------------
+								// Devient
+								// --------1------------------------
+								// ---------[---------]-------------
+								if (right.getValue() == leftDomain.getBottomBoundary() && right.getValue() != leftDomain.getUpperBoundary())
+								{
+									leftDomain.setBottomBoundary(right.getValue() + 1);
+								}
+								// cas
+								// -------------------1-------------
+								// --------[----------]-------------
+								// Devient
+								// -------------------1-------------
+								// --------[---------]--------------
+								else if (right.getValue() != leftDomain.getBottomBoundary() && right.getValue() == leftDomain.getUpperBoundary())
+								{
+									leftDomain.setUpperBoundary(right.getValue() - 1);
+								}
+								// cas
+								// --------------1------------------
+								// --------[----------]-------------
+								// Devient
+								// --------------1------------------
+								// --------[----]-[--]--------------
+								else if (right.getValue() != leftDomain.getBottomBoundary() && right.getValue() != leftDomain.getUpperBoundary())
+								{
+									left.getDomains().add(new Domain(right.getValue() + 1, leftDomain.getUpperBoundary()));
+									leftDomain.setUpperBoundary(right.getValue() - 1);
+									importantChange = true;
+								}
+							}
 						}
 						// Cas :
 						// ----[]-----------------------
@@ -405,5 +439,18 @@ public enum Operator
 	public String toString()
 	{
 		return this.representation;
+	}
+
+	public static void main(String[] args)
+	{
+		Variable var1 = new Variable("var1", new Domain(5, 5));
+		Variable var2 = new Variable("var2", new Domain(5, 6));
+		Operator.NOTEQUAL.reduceDomains(var1, var2);
+		System.out.println(var1);
+		System.out.println(var2);
+		var1.setValue(5);
+		Operator.NOTEQUAL.reduceDomains(var1, var2);
+		System.out.println(var1);
+		System.out.println(var2);
 	}
 }
