@@ -525,8 +525,8 @@ public enum Operator
 		System.out.println("-----------------");
 		// var2.setValue(7);
 		contraint.reduceDomainVariables();
-		System.out.println(contraint.getFirstVar());
-		System.out.println(contraint.getSecondVar());
+		System.out.println(contraint.getLeftVariable());
+		System.out.println(contraint.getRightVariable());
 
 	}
 }

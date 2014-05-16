@@ -28,17 +28,17 @@ public class Constraint
 		operator.reduceDomains(leftVariable, rightVariable);
 	}
 
-	public Variable getFirstVar()
+	public Variable getLeftVariable()
 	{
 		return leftVariable;
 	}
 
-	public void setFirstVar(Variable firstVar)
+	public void setLeftVariable(Variable leftVariable)
 	{
-		this.leftVariable = firstVar;
+		this.leftVariable = leftVariable;
 	}
 
-	public Variable getSecondVar()
+	public Variable getRightVariable()
 	{
 		return rightVariable;
 	}
@@ -53,8 +53,8 @@ public class Constraint
 		this.operator = operator;
 	}
 
-	public void setSecondVar(Variable secondVar)
+	public void setRightVariable(Variable rightVariable)
 	{
-		this.rightVariable = secondVar;
+		this.rightVariable = rightVariable;
 	}
 }
