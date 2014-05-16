@@ -224,4 +224,73 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
 		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
 	}
+	
+	@Test
+	public void twoRightSurroundingEqualOneLeftTest()
+	{
+		// Case
+		// ------[---------]---------
+		// ---[---]-------[----]-----
+		initLeftVariable("left", 5, 15);
+		initRightVariable("right", 0, 7);
+		getRightVariable().getDomains().add(initDomain(13, 20));
+		leftDomainTest = initDomain(5, 7);
+		rightDomainTest = initDomain(5, 7);
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 2);
+		assertTrue(getRightVariable().getDomains().size() == 2);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
+	}
+	
+	@Test
+	public void twoLeftCrenelEqualTwoRightTest()
+	{
+		// Case
+		// ------[---------]--[--]---
+		// ---[---]-------[----]-----
+		initLeftVariable("left", 5, 15);
+		initRightVariable("right", 0, 7);
+		getRightVariable().getDomains().add(initDomain(13, 20));
+		getLeftVariable().getDomains().add(initDomain(19, 25));
+		leftDomainTest = initDomain(5, 7);
+		rightDomainTest = initDomain(5, 7);
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 3);
+		assertTrue(getRightVariable().getDomains().size() == 3);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(19, 20)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(19, 20)));
+	}
+	
+	@Test
+	public void twoRightCrenelEqualTwoLeftTest()
+	{
+		// Case
+		// ------[---------]--[--]---
+		// ---[---]-------[----]-----
+		initLeftVariable("left", 0, 7);
+		initRightVariable("right", 5, 15);
+		getLeftVariable().getDomains().add(initDomain(13, 20));
+		getRightVariable().getDomains().add(initDomain(19, 25));
+		leftDomainTest = initDomain(5, 7);
+		rightDomainTest = initDomain(5, 7);
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 3);
+		assertTrue(getRightVariable().getDomains().size() == 3);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(19, 20)));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(19, 20)));
+	}
 }
