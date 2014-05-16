@@ -22,7 +22,7 @@ public class Constraint
 	{
 		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
-	
+
 	public void reduceDomainVariables()
 	{
 		operator.reduceDomains(leftVariable, rightVariable);
@@ -56,5 +56,11 @@ public class Constraint
 	public void setRightVariable(Variable rightVariable)
 	{
 		this.rightVariable = rightVariable;
+	}
+
+	@Override
+	public String toString()
+	{
+		return leftVariable.getNom() + " " + operator + " " + rightVariable.getNom();
 	}
 }
