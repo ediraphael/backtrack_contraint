@@ -61,6 +61,6 @@ public class Constraint
 	@Override
 	public String toString()
 	{
-		return leftVariable.getNom() + " " + operator + " " + rightVariable.getNom();
+		return leftVariable.getName() + " " + operator + " " + rightVariable.getName();
 	}
 }

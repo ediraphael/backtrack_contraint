@@ -4,44 +4,44 @@ import java.util.ArrayList;
 
 public class Variable
 {
-	private String nom;
+	private String name;
 	private ArrayList<Domain> domains;
 	private int value;
 	private boolean isInstantiated;
 
-	public Variable(String nom, Domain domain)
+	public Variable(String name, Domain domain)
 	{
-		this.nom = nom;
+		this.name = name;
 		this.domains = new ArrayList<Domain>();
 		this.domains.add(domain);
 		this.value = 0;
 		this.isInstantiated = false;
 	}
 
-	public Variable(String nom, ArrayList<Domain> domain)
+	public Variable(String name, ArrayList<Domain> domain)
 	{
-		this.nom = nom;
+		this.name = name;
 		this.domains = domain;
 		this.value = 0;
 		this.isInstantiated = false;
 	}
 
-	public Variable(String nom, ArrayList<Domain> domain, int valeur, boolean isInstantiated)
+	public Variable(String name, ArrayList<Domain> domain, int value, boolean isInstantiated)
 	{
-		this.nom = nom;
+		this.name = name;
 		this.domains = domain;
-		this.value = valeur;
+		this.value = value;
 		this.isInstantiated = isInstantiated;
 	}
 
-	public String getNom()
+	public String getName()
 	{
-		return nom;
+		return name;
 	}
 
-	public void setNom(String nom)
+	public void setName(String name)
 	{
-		this.nom = nom;
+		this.name = name;
 	}
 
 	public ArrayList<Domain> getDomains()
@@ -59,9 +59,9 @@ public class Variable
 		return value;
 	}
 
-	public void setValue(int valeur)
+	public void setValue(int value)
 	{
-		this.value = valeur;
+		this.value = value;
 		this.isInstantiated = true;
 	}
 
@@ -78,6 +78,6 @@ public class Variable
 	@Override
 	public String toString()
 	{
-		return this.nom + " " + this.domains + " : " + this.value + " active:" + this.isInstantiated;
+		return this.name + " " + this.domains + " : " + this.value + " active:" + this.isInstantiated;
 	}
 }
