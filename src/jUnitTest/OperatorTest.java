@@ -100,19 +100,19 @@ public class OperatorTest
 
 		// Case
 		// -[--]------[----]-----------
-		// -----[---]-----------------
+		// -----[---]------------------
 		initLeftVariable("left", 15, 20);
 		initRightVariable("right", 8, 13);
 		leftVariable.getDomains().add(initDomain(0, 5));
 		leftDomain = initDomain(0, 5);
 		rightDomain = initDomain(8, 13);
 		reduceDomains();
+		assertTrue(leftVariable.getDomains().size() == 1);
 		assertEquals(leftDomain, leftVariable.getDomains().get(0));
 		assertEquals(rightDomain, rightVariable.getDomains().get(0));
-		assertTrue(leftVariable.getDomains().size() == 1);
 
 		// Case
-		// -----[---]-----------------
+		// -----[---]------------------
 		// -[--]------[----]-----------
 		initLeftVariable("left", 8, 13);
 		initRightVariable("right", 15, 20);
@@ -120,9 +120,55 @@ public class OperatorTest
 		leftDomain = initDomain(8, 13);
 		rightDomain = initDomain(15, 20);
 		reduceDomains();
+		assertTrue(rightVariable.getDomains().size() == 1);
 		assertEquals(leftDomain, leftVariable.getDomains().get(0));
 		assertEquals(rightDomain, rightVariable.getDomains().get(0));
+
+		// Case
+		// -[--]------[----]-----------
+		// -----[---]--------[---]-----
+		initLeftVariable("left", 15, 20);
+		initRightVariable("right", 8, 13);
+		leftVariable.getDomains().add(initDomain(0, 5));
+		rightVariable.getDomains().add(initDomain(25, 30));
+		leftDomain = initDomain(15, 20);
+		rightDomain = initDomain(8, 13);
+		reduceDomains();
+		assertEquals(leftDomain, leftVariable.getDomains().get(0));
+		assertEquals(rightDomain, rightVariable.getDomains().get(0));
+		assertEquals(initDomain(0, 5), leftVariable.getDomains().get(1));
+		assertEquals(initDomain(25, 30), rightVariable.getDomains().get(1));
+
+		// Case
+		// -----[---]--------[---]-----
+		// -[--]------[----]-----------
+		initLeftVariable("left", 8, 13);
+		initRightVariable("right", 15, 20);
+		leftVariable.getDomains().add(initDomain(25, 30));
+		rightVariable.getDomains().add(initDomain(0, 5));
+		leftDomain = initDomain(8, 13);
+		rightDomain = initDomain(15, 20);
+		reduceDomains();
+		assertTrue(leftVariable.getDomains().size() == 1);
 		assertTrue(rightVariable.getDomains().size() == 1);
+		assertEquals(leftDomain, leftVariable.getDomains().get(0));
+		assertEquals(rightDomain, rightVariable.getDomains().get(0));
+
+		// Case
+		// -----[---]--[---]-----------
+		// -[--]--------------[----]---
+		initLeftVariable("left", 5, 10);
+		initRightVariable("right", 25, 30);
+		leftVariable.getDomains().add(initDomain(15, 20));
+		rightVariable.getDomains().add(initDomain(0, 4));
+		leftDomain = initDomain(5, 10);
+		rightDomain = initDomain(25, 30);
+		reduceDomains();
+		assertTrue(leftVariable.getDomains().size() == 2);
+		assertTrue(rightVariable.getDomains().size() == 1);
+		assertEquals(leftDomain, leftVariable.getDomains().get(0));
+		assertEquals(initDomain(15, 20), leftVariable.getDomains().get(1));
+		assertEquals(rightDomain, rightVariable.getDomains().get(0));
 	}
 
 	public void reduceDomains()
