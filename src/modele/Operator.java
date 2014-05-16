@@ -180,6 +180,79 @@ public enum Operator
 			}
 			return possible;
 		}
+
+		public void reduceDomains(Variable left, Variable right)
+		{
+			boolean importantChange = true;
+			while (importantChange)
+			{
+				importantChange = false;
+				for (Domain leftDomain : left.getDomains())
+				{
+					for (Domain rightDomain : right.getDomains())
+					{
+						if (left.isInstantiated() && !right.isInstantiated())
+						{
+							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
+							{
+								// cas
+								// --------1------------------------
+								// --------[----------]-------------
+								// Devient
+								// --------1------------------------
+								// ---------[---------]-------------
+								if (left.getValue() == rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
+								{
+									rightDomain.setBottomBoundary(left.getValue() + 1);
+								}
+								// cas
+								// -------------------1-------------
+								// --------[----------]-------------
+								// Devient
+								// -------------------1-------------
+								// --------[---------]--------------
+								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() == rightDomain.getUpperBoundary())
+								{
+									rightDomain.setUpperBoundary(left.getValue() - 1);
+								}
+								// cas
+								// --------------1------------------
+								// --------[----------]-------------
+								// Devient
+								// --------------1------------------
+								// --------[----]-[--]--------------
+								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
+								{
+									rightDomain.setUpperBoundary(left.getValue() - 1);
+									right.getDomains().add(new Domain(left.getValue() + 1, rightDomain.getUpperBoundary()));
+									importantChange = true;
+								}
+							}
+						} else if (!left.isInstantiated() && right.isInstantiated())
+						{
+							this.reduceDomains(right, left);
+						}
+						// Cas :
+						// ----[]-----------------------
+						// ----[]-----------------------
+						else if (leftDomain.getBottomBoundary() == rightDomain.getBottomBoundary() && leftDomain.getUpperBoundary() == rightDomain.getUpperBoundary() && leftDomain.getAmplitude() == 0)
+						{
+							left.getDomains().remove(leftDomain);
+							right.getDomains().remove(rightDomain);
+							importantChange = true;
+						}
+						if (importantChange)
+						{
+							break;
+						}
+					}
+					if (importantChange)
+					{
+						break;
+					}
+				}
+			}
+		}
 	},
 	INFERIOREQUAL("<=")
 	{
@@ -328,4 +401,9 @@ public enum Operator
 		this.representation = representation;
 	}
 
+	@Override
+	public String toString()
+	{
+		return this.representation;
+	}
 }
