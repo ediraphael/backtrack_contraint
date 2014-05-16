@@ -25,7 +25,7 @@ public class Domain
 
 	public boolean isCompatibleTo(Domain otherDomain)
 	{
-		return (this.bottomBoundary < otherDomain.upperBoundary && otherDomain.bottomBoundary < this.upperBoundary) || (otherDomain.bottomBoundary < this.upperBoundary && this.bottomBoundary < otherDomain.upperBoundary);
+		return (this.bottomBoundary <= otherDomain.upperBoundary && otherDomain.bottomBoundary <= this.upperBoundary) || (otherDomain.bottomBoundary <= this.upperBoundary && this.bottomBoundary <= otherDomain.upperBoundary);
 	}
 
 	public int getAmplitude()

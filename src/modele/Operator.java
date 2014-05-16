@@ -269,7 +269,16 @@ public enum Operator
 			{
 				for (Domain rightDomain : right.getDomains())
 				{
+					System.out.println(leftDomain);
+					System.out.println(rightDomain);
 					Domain newDomain = leftDomain.getIntersectionWith(rightDomain);
+					// Case
+					// -----------[------]--------------
+					// ---------[-----------]-----------
+					// Become
+					// -----------[------]--------------
+					// -----------[------]--------------
+					System.out.println(newDomain);
 					newLeftDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
 					newRightDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
 				}
@@ -565,11 +574,11 @@ public enum Operator
 	{
 		Variable var1 = new Variable("var1", new Domain(5, 5));
 		Variable var2 = new Variable("var2", new Domain(5, 6));
-		Operator.NOTEQUAL.reduceDomains(var1, var2);
+		Operator.EQUAL.reduceDomains(var1, var2);
 		System.out.println(var1);
 		System.out.println(var2);
 		var1.setValue(5);
-		Operator.NOTEQUAL.reduceDomains(var1, var2);
+		Operator.EQUAL.reduceDomains(var1, var2);
 		System.out.println(var1);
 		System.out.println(var2);
 	}
