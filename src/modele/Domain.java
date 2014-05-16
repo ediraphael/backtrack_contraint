@@ -5,14 +5,17 @@ public class Domain
 	private int bottomBoundary;
 	private int upperBoundary;
 
-	public Domain(int bottomBoundary, int upperBoundary)
+	public Domain(int bottomBoundary, int upperBoundary) throws DomainBoundaryException
 	{
-		super();
+		if (bottomBoundary > upperBoundary)
+		{
+			throw new DomainBoundaryException("The bottom boundary should be inferior or equal to the upper boundary");
+		}
 		this.bottomBoundary = bottomBoundary;
 		this.upperBoundary = upperBoundary;
 	}
 
-	public Domain getIntersectionWith(Domain otherDomain)
+	public Domain getIntersectionWith(Domain otherDomain) throws DomainBoundaryException
 	{
 		if (this.isCompatibleTo(otherDomain))
 		{
@@ -38,8 +41,12 @@ public class Domain
 		return bottomBoundary;
 	}
 
-	public void setBottomBoundary(int bottomBoundary)
+	public void setBottomBoundary(int bottomBoundary) throws DomainBoundaryException
 	{
+		if (bottomBoundary > this.upperBoundary)
+		{
+			throw new DomainBoundaryException("The bottom boundary should be inferior or equal to the upper boundary");
+		}
 		this.bottomBoundary = bottomBoundary;
 	}
 
@@ -48,8 +55,12 @@ public class Domain
 		return upperBoundary;
 	}
 
-	public void setUpperBoundary(int upperBoundary)
+	public void setUpperBoundary(int upperBoundary) throws DomainBoundaryException
 	{
+		if (upperBoundary < this.bottomBoundary)
+		{
+			throw new DomainBoundaryException("The bottom boundary should be inferior or equal to the upper boundary");
+		}
 		this.upperBoundary = upperBoundary;
 	}
 

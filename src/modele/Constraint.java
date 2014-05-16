@@ -23,7 +23,7 @@ public class Constraint
 		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
 
-	public void reduceDomainVariables()
+	public void reduceDomainVariables() throws DomainBoundaryException
 	{
 		operator.reduceDomains(leftVariable, rightVariable);
 	}

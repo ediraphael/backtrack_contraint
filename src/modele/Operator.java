@@ -27,7 +27,7 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			boolean isPossible = false;
 			boolean importantChange = true;
@@ -170,7 +170,7 @@ public enum Operator
 			return Operator.INFERIOR.checkIfPossible(right, left);
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			Operator.INFERIOR.reduceDomains(right, left);
 		}
@@ -198,7 +198,7 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			ArrayList<Domain> newLeftDomains = new ArrayList<Domain>();
 			ArrayList<Domain> newRightDomains = new ArrayList<Domain>();
@@ -258,7 +258,7 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			boolean importantChange = true;
 			while (importantChange)
@@ -388,7 +388,7 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			for (Domain leftDomain : left.getDomains())
 			{
@@ -450,7 +450,7 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right)
+		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			for (Domain leftDomain : left.getDomains())
 			{
@@ -502,7 +502,7 @@ public enum Operator
 		return false;
 	}
 
-	public void reduceDomains(Variable left, Variable right)
+	public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 	{
 
 	}
@@ -523,7 +523,7 @@ public enum Operator
 		return this.representation;
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws DomainBoundaryException
 	{
 		Variable var1 = new Variable("var1", new Domain(5, 9));
 		Variable var2 = new Variable("var2", new Domain(8, 10));
