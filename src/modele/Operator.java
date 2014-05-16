@@ -265,22 +265,33 @@ public enum Operator
 		{
 			ArrayList<Domain> newLeftDomains = new ArrayList<Domain>();
 			ArrayList<Domain> newRightDomains = new ArrayList<Domain>();
-			for (Domain leftDomain : left.getDomains())
+			if (left.isInstantiated() && !right.isInstantiated())
 			{
-				for (Domain rightDomain : right.getDomains())
+				newLeftDomains.add(new Domain(left.getValue(), left.getValue()));
+				newRightDomains.add(new Domain(left.getValue(), left.getValue()));
+			} else if (!left.isInstantiated() && right.isInstantiated())
+			{
+				newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
+				newRightDomains.add(new Domain(right.getValue(), right.getValue()));
+			} else
+			{
+				for (Domain leftDomain : left.getDomains())
 				{
-					System.out.println(leftDomain);
-					System.out.println(rightDomain);
-					Domain newDomain = leftDomain.getIntersectionWith(rightDomain);
-					// Case
-					// -----------[------]--------------
-					// ---------[-----------]-----------
-					// Become
-					// -----------[------]--------------
-					// -----------[------]--------------
-					System.out.println(newDomain);
-					newLeftDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
-					newRightDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
+					for (Domain rightDomain : right.getDomains())
+					{
+						// Case
+						// -----------[------]--------------
+						// ---------[-----------]-----------
+						// Become
+						// -----------[------]--------------
+						// -----------[------]--------------
+						if (leftDomain.isCompatibleTo(rightDomain))
+						{
+							Domain newDomain = leftDomain.getIntersectionWith(rightDomain);
+							newLeftDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
+							newRightDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
+						}
+					}
 				}
 			}
 			left.setDomains(newLeftDomains);
@@ -572,14 +583,18 @@ public enum Operator
 
 	public static void main(String[] args)
 	{
-		Variable var1 = new Variable("var1", new Domain(5, 5));
-		Variable var2 = new Variable("var2", new Domain(5, 6));
+		Variable var1 = new Variable("var1", new Domain(5, 6));
+		Variable var2 = new Variable("var2", new Domain(6, 7));
+		var1.getDomains().add(new Domain(10, 15));
+		var2.getDomains().add(new Domain(15, 20));
+		System.out.println("Début");
+		System.out.println(var1);
+		System.out.println(var2);
+		System.out.println("-----------------");
+		var1.setValue(6);
 		Operator.EQUAL.reduceDomains(var1, var2);
 		System.out.println(var1);
 		System.out.println(var2);
-		var1.setValue(5);
-		Operator.EQUAL.reduceDomains(var1, var2);
-		System.out.println(var1);
-		System.out.println(var2);
+
 	}
 }
