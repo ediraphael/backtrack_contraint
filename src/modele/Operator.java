@@ -38,9 +38,11 @@ public enum Operator
 				importantChange = false;
 				for (Domain leftDomain : left.getDomains())
 				{
+					importantChange = false;
 					isPossible = false;
 					for (Domain rightDomain : right.getDomains())
 					{
+						importantChange = false;
 						if (left.isInstantiated() && !right.isInstantiated())
 						{
 							if (left.getValue() < rightDomain.getUpperBoundary())
@@ -160,24 +162,22 @@ public enum Operator
 					}
 					if (importantChange)
 					{
-						Operator.SUPERIOR.reduceDomains(right, left);
 						break;
 					}
 				}
-				for (Domain rightDomain : right.getDomains())
+			}
+			for (Domain rightDomain : right.getDomains())
+			{
+				if (!rightDomainUsed.containsKey(rightDomain))
 				{
-					if (!rightDomainUsed.containsKey(rightDomain))
-					{
-						right.getDomains().remove(rightDomain);
-						importantChange = true;
-						break;
-					}
-				}
-				if (importantChange)
-				{
-					Operator.SUPERIOR.reduceDomains(right, left);
+					right.getDomains().remove(rightDomain);
+					importantChange = true;
 					break;
 				}
+			}
+			if (importantChange)
+			{
+				Operator.INFERIOR.reduceDomains(left, right);
 			}
 		}
 	},

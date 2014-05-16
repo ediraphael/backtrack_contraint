@@ -97,6 +97,32 @@ public class OperatorTest
 		reduceDomains();
 		assertTrue(leftVariable.getDomains().isEmpty());
 		assertTrue(rightVariable.getDomains().isEmpty());
+
+		// Case
+		// -[--]------[----]-----------
+		// -----[---]-----------------
+		initLeftVariable("left", 15, 20);
+		initRightVariable("right", 8, 13);
+		leftVariable.getDomains().add(initDomain(0, 5));
+		leftDomain = initDomain(0, 5);
+		rightDomain = initDomain(8, 13);
+		reduceDomains();
+		assertEquals(leftDomain, leftVariable.getDomains().get(0));
+		assertEquals(rightDomain, rightVariable.getDomains().get(0));
+		assertTrue(leftVariable.getDomains().size() == 1);
+
+		// Case
+		// -----[---]-----------------
+		// -[--]------[----]-----------
+		initLeftVariable("left", 8, 13);
+		initRightVariable("right", 15, 20);
+		rightVariable.getDomains().add(initDomain(0, 5));
+		leftDomain = initDomain(8, 13);
+		rightDomain = initDomain(15, 20);
+		reduceDomains();
+		assertEquals(leftDomain, leftVariable.getDomains().get(0));
+		assertEquals(rightDomain, rightVariable.getDomains().get(0));
+		assertTrue(rightVariable.getDomains().size() == 1);
 	}
 
 	public void reduceDomains()
