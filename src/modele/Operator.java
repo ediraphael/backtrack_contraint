@@ -125,7 +125,18 @@ public enum Operator
 							// -----------[------]---------------
 							if (rightDomain.getUpperBoundary() <= leftDomain.getUpperBoundary() && rightDomain.getUpperBoundary() > leftDomain.getBottomBoundary())
 							{
-								leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
+								boolean shouldReduce = true;
+								for (Domain checkRightDomain : right.getDomains())
+								{
+									if (rightDomain != checkRightDomain && checkRightDomain.getUpperBoundary() > rightDomain.getBottomBoundary())
+									{
+										shouldReduce = false;
+									}
+								}
+								if (shouldReduce)
+								{
+									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
+								}
 							}
 						}
 						if (importantChange)
@@ -514,7 +525,7 @@ public enum Operator
 
 	public static void main(String[] args)
 	{
-		Variable var1 = new Variable("var1", new Domain(5, 7));
+		Variable var1 = new Variable("var1", new Domain(5, 9));
 		Variable var2 = new Variable("var2", new Domain(8, 10));
 		var1.getDomains().add(new Domain(10, 15));
 		var2.getDomains().add(new Domain(15, 20));
@@ -528,7 +539,6 @@ public enum Operator
 		System.out.println(contraint);
 		System.out.println(contraint.getLeftVariable());
 		System.out.println(contraint.getRightVariable());
-		
 
 	}
 }
