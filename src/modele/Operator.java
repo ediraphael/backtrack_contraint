@@ -374,6 +374,38 @@ public enum Operator
 							left.getDomains().remove(leftDomain);
 							right.getDomains().remove(rightDomain);
 							importantChange = true;
+						} else
+						{
+							if (leftDomain.getAmplitude() == 0 && leftDomain.getIntersectionWith(rightDomain) != null)
+							{
+								if (leftDomain.getBottomBoundary() == rightDomain.getBottomBoundary())
+								{
+									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+								} else if (leftDomain.getBottomBoundary() == rightDomain.getUpperBoundary())
+								{
+									rightDomain.setUpperBoundary(leftDomain.getBottomBoundary() - 1);
+								} else
+								{
+									right.getDomains().add(new Domain(leftDomain.getBottomBoundary() + 1, rightDomain.getUpperBoundary()));
+									rightDomain.setUpperBoundary(leftDomain.getBottomBoundary() - 1);
+									importantChange = true;
+								}
+							}
+							if (rightDomain.getAmplitude() == 0 && leftDomain.getIntersectionWith(rightDomain) != null)
+							{
+								if (rightDomain.getBottomBoundary() == leftDomain.getBottomBoundary())
+								{
+									leftDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+								} else if (rightDomain.getBottomBoundary() == leftDomain.getUpperBoundary())
+								{
+									leftDomain.setBottomBoundary(leftDomain.getBottomBoundary() - 1);
+								} else
+								{
+									left.getDomains().add(new Domain(rightDomain.getBottomBoundary() + 1, leftDomain.getUpperBoundary()));
+									leftDomain.setUpperBoundary(rightDomain.getBottomBoundary() - 1);
+									importantChange = true;
+								}
+							}
 						}
 						if (importantChange)
 						{
