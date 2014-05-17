@@ -612,6 +612,18 @@ public enum Operator
 
 	}
 
+	public Operator getOperatorByString(String operatorRepresentation)
+	{
+		for (Operator operator : Operator.values())
+		{
+			if (operator.getRepresentation().equals(operatorRepresentation))
+			{
+				return operator;
+			}
+		}
+		return null;
+	}
+
 	public String getRepresentation()
 	{
 		return representation;
