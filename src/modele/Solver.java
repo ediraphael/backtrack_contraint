@@ -15,6 +15,33 @@ public class Solver
 		this.finalOutput = finalOutput;
 	}
 
+	public String generateFinalOutput()
+	{
+		String outputRepresentation = "";
+		String elements[] = finalOutput.split("\\+");
+		String textPattern = "\\s*\".*\"\\s*";
+		for (String element : elements)
+		{
+			if (element.matches(textPattern))
+			{
+				element = element.replaceAll("\"", "");
+				outputRepresentation += element;
+			}
+			// Should be a variable
+			else
+			{
+				for (Variable variable : this.variableList)
+				{
+					if (element.trim().equals(variable.getName()))
+					{
+						outputRepresentation += variable.getValue();
+					}
+				}
+			}
+		}
+		return outputRepresentation;
+	}
+
 	public ArrayList<Variable> getVariableList()
 	{
 		return variableList;

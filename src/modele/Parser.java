@@ -102,9 +102,12 @@ public class Parser
 			// Fixing output String
 			String showOutputPatternString = "show\\(([a-zA-Z]+)\\)";
 			finalOutput = finalOutput.replaceAll(showOutputPatternString, "$1");
-			finalOutput = finalOutput.replace(",", "+");
+			finalOutput = finalOutput.replaceAll(",(\\s+|\t+)", ",");
+			finalOutput = finalOutput.replaceAll(",", "+");
 			finalOutput = finalOutput.replaceAll("output|\\[|\\]|;", "");
-			System.out.println(finalOutput);
+			finalOutput = finalOutput.replaceAll("\\\\t", "\t");
+			finalOutput = finalOutput.replaceAll("\\\\n", "\n");
+			
 			return new Solver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
@@ -118,5 +121,6 @@ public class Parser
 		Parser parser = new Parser();
 		Solver solver = parser.loadFile("basic.mzn");
 		System.out.println(solver);
+		System.out.println(solver.generateFinalOutput());
 	}
 }
