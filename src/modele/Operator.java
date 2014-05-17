@@ -198,7 +198,7 @@ public enum Operator
 			Operator.INFERIOR.reduceDomains(right, left);
 		}
 	},
-	EQUAL("=")
+	EQUAL("==")
 	{
 		public boolean execute(Variable left, Variable right)
 		{
