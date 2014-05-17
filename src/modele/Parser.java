@@ -77,6 +77,9 @@ public class Parser
 					{
 						System.err.println("Error creation constraint : " + line);
 					}
+				} else
+				{
+					System.err.println("Not regocnize : " + line);
 				}
 			}
 			return new Solver(variableList, constraintList);
