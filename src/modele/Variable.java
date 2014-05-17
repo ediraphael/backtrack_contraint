@@ -118,4 +118,16 @@ public class Variable
 		}
 		return true;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		try
+		{
+			return new Variable(new String(name), new ArrayList<>(domains), value, isInstantiated);
+		} catch (VariableValueException e)
+		{
+			return null;
+		}
+	}
 }

@@ -87,4 +87,16 @@ public class Domain
 		}
 		return true;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		try
+		{
+			return new Domain(bottomBoundary, upperBoundary);
+		} catch (DomainBoundaryException e)
+		{
+			return null;
+		}
+	}
 }

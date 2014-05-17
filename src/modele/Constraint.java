@@ -65,4 +65,10 @@ public class Constraint
 	{
 		return leftVariable.getName() + " " + operator + " " + rightVariable.getName();
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		return new Constraint((Variable) leftVariable.clone(), (Variable) rightVariable.clone(), operator);
+	}
 }
