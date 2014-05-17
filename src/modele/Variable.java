@@ -83,7 +83,7 @@ public class Variable
 			this.isInstantiated = true;
 		} else
 		{
-			throw new VariableValueException("Error during setting new value, " + value + " is out of possible Domains");
+			throw new VariableValueException("Error during setting new value, " + value + " is out of possible Domains " + domains);
 		}
 	}
 
@@ -125,13 +125,14 @@ public class Variable
 		ArrayList<Domain> newDomains = new ArrayList<Domain>();
 		for (Domain domain : domains)
 		{
-			newDomains.add((Domain)domain.clone());
+			newDomains.add((Domain) domain.clone());
 		}
 		try
 		{
 			return new Variable(new String(name), newDomains, value, isInstantiated);
 		} catch (VariableValueException e)
 		{
+			e.printStackTrace();
 			return null;
 		}
 	}

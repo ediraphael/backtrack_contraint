@@ -3,6 +3,7 @@ package modele;
 import java.util.ArrayList;
 
 import Exception.DomainBoundaryException;
+import Exception.VariableValueException;
 
 public class Solver
 {
@@ -32,6 +33,88 @@ public class Solver
 		}
 	}
 
+	public ArrayList<Variable> doTestAndGenerate()
+	{
+		for (Variable variable : variableList)
+		{
+			if (!variable.isInstantiated())
+			{
+				if (solutionList.size() == 0)
+				{
+					for (Domain domain : variable.getDomains())
+					{
+						if (solutionList.size() == 0)
+						{
+							for (int i = domain.getBottomBoundary(); i <= domain.getUpperBoundary(); i++)
+							{
+								if (solutionList.size() == 0)
+								{
+									try
+									{
+										variable.setValue(i);
+									} catch (VariableValueException e1)
+									{
+										e1.printStackTrace();
+									}
+									boolean noProbleme = true;
+									for (Constraint constraint : constraintList)
+									{
+										if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
+										{
+											noProbleme = constraint.checkInstance() && noProbleme;
+										}
+									}
+									if (noProbleme)
+									{
+										try
+										{
+											Solver newSolver = (Solver) this.clone();
+											solutionList = newSolver.doTestAndGenerate();
+											if (solutionList.size() == 0)
+											{
+												boolean allInstantiated = true;
+												for (Variable finalVariable : variableList)
+												{
+													allInstantiated = allInstantiated && finalVariable.isInstantiated();
+												}
+												if (allInstantiated)
+												{
+													boolean allConstraintGood = true;
+													for (Constraint finalConstraint : constraintList)
+													{
+														allConstraintGood = allConstraintGood && finalConstraint.checkInstance();
+													}
+													if (allConstraintGood)
+													{
+														ArrayList<Variable> solution = new ArrayList<Variable>();
+														for (Variable variable2 : variableList)
+														{
+															solution.add((Variable) variable2.clone());
+														}
+														solutionList = solution;
+														return solutionList;
+													}
+												}
+											}
+											else
+											{
+												return solutionList;
+											}
+										} catch (CloneNotSupportedException e)
+										{
+											e.printStackTrace();
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return solutionList;
+	}
+
 	public String generateFinalOutput()
 	{
 		String outputRepresentation = "";
@@ -47,7 +130,7 @@ public class Solver
 			// Should be a variable
 			else
 			{
-				for (Variable variable : this.variableList)
+				for (Variable variable : this.solutionList)
 				{
 					if (element.trim().equals(variable.getName()))
 					{
