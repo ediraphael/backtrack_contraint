@@ -118,6 +118,28 @@ public class Solver
 	@Override
 	protected Object clone() throws CloneNotSupportedException
 	{
-		return new Solver(new ArrayList<Variable>(variableList), new ArrayList<Constraint>(constraintList), new String(finalOutput));
+		ArrayList<Variable> newVariableList = new ArrayList<Variable>();
+		for (Variable variable : variableList)
+		{
+			newVariableList.add((Variable) variable.clone());
+		}
+		ArrayList<Constraint> newConstraintList = new ArrayList<Constraint>();
+		for (Constraint constraint : constraintList)
+		{
+			Variable left = null;
+			Variable right = null;
+			for (Variable variable : newVariableList)
+			{
+				if (constraint.getLeftVariable().equals(variable))
+				{
+					left = variable;
+				} else if (constraint.getRightVariable().equals(variable))
+				{
+					right = variable;
+				}
+			}
+			newConstraintList.add(new Constraint(left, right, constraint.getOperator()));
+		}
+		return new Solver(newVariableList, newConstraintList, new String(finalOutput));
 	}
 }

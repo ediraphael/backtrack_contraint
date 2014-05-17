@@ -107,7 +107,7 @@ public class Parser
 			finalOutput = finalOutput.replaceAll("output|\\[|\\]|;", "");
 			finalOutput = finalOutput.replaceAll("\\\\t", "\t");
 			finalOutput = finalOutput.replaceAll("\\\\n", "\n");
-			
+
 			return new Solver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
@@ -116,10 +116,11 @@ public class Parser
 		return null;
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws CloneNotSupportedException
 	{
 		Parser parser = new Parser();
 		Solver solver = parser.loadFile("basic.mzn");
+		Solver solver2 = (Solver) solver.clone();
 		System.out.println(solver);
 		try
 		{
@@ -130,6 +131,7 @@ public class Parser
 			e.printStackTrace();
 		}
 		System.out.println(solver);
+		System.out.println(solver2);
 		System.out.println(solver.generateFinalOutput());
 	}
 }

@@ -122,9 +122,14 @@ public class Variable
 	@Override
 	protected Object clone() throws CloneNotSupportedException
 	{
+		ArrayList<Domain> newDomains = new ArrayList<Domain>();
+		for (Domain domain : domains)
+		{
+			newDomains.add((Domain)domain.clone());
+		}
 		try
 		{
-			return new Variable(new String(name), new ArrayList<>(domains), value, isInstantiated);
+			return new Variable(new String(name), newDomains, value, isInstantiated);
 		} catch (VariableValueException e)
 		{
 			return null;
