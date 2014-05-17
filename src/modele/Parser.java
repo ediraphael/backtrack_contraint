@@ -107,7 +107,7 @@ public class Parser
 			finalOutput = finalOutput.replaceAll("output|\\[|\\]|;", "");
 			finalOutput = finalOutput.replaceAll("\\\\t", "\t");
 			finalOutput = finalOutput.replaceAll("\\\\n", "\n");
-
+			
 			return new Solver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
@@ -129,7 +129,6 @@ public class Parser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(solver);
 		solver.doTestAndGenerate();
 		System.out.println(solver.generateFinalOutput());
 	}

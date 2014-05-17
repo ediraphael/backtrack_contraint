@@ -119,7 +119,7 @@ public class Solver
 	{
 		String outputRepresentation = "";
 		String elements[] = finalOutput.split("\\+");
-		String textPattern = "\\s*\".*\"\\s*";
+		String textPattern = "[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*.*[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*";
 		for (String element : elements)
 		{
 			if (element.matches(textPattern))
