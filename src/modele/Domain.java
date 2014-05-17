@@ -1,5 +1,7 @@
 package modele;
 
+import Exception.DomainBoundaryException;
+
 public class Domain
 {
 	private int bottomBoundary;

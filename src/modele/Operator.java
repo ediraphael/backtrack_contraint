@@ -3,6 +3,8 @@ package modele;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Exception.DomainBoundaryException;
+
 public enum Operator
 {
 	INFERIOR("<")

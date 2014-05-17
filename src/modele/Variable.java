@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import Exception.VariableValueException;
+
 public class Variable
 {
 	private String name;
