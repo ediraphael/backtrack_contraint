@@ -42,6 +42,8 @@ public class Parser
 				Pattern variablePattern = Pattern.compile(variablePaternString);
 				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s+(<|>|!=|==|<=|>=)\\s+([a-zA-Z]+|[0-9]+);";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
+				String spacePatternString = "\\s*";
+				
 				if (line.matches(variablePaternString))
 				{
 					Matcher matcher = variablePattern.matcher(line);
@@ -77,7 +79,7 @@ public class Parser
 					{
 						System.err.println("Error creation constraint : " + line);
 					}
-				} else
+				} else if(!line.matches(spacePatternString))
 				{
 					System.err.println("Not regocnize : " + line);
 				}
