@@ -88,6 +88,7 @@ public class Parser
 	public static void main(String[] args)
 	{
 		Parser parser = new Parser();
-		parser.loadFile("basic.mzn");
+		Solver solver = parser.loadFile("basic.mzn");
+		System.out.println(solver);
 	}
 }

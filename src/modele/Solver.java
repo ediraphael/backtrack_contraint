@@ -33,4 +33,19 @@ public class Solver
 		this.constraintList = constraintList;
 	}
 
+	@Override
+	public String toString()
+	{
+		String representation = "Variable(s) :\n";
+		for (Variable variable : variableList)
+		{
+			representation += "\t" + variable + "\n";
+		}
+		representation+="Constraint(s) :\n";
+		for (Constraint constraint : constraintList)
+		{
+			representation += "\t" + constraint + "\n";
+		}
+		return representation;
+	}
 }
