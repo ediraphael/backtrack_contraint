@@ -612,7 +612,7 @@ public enum Operator
 
 	}
 
-	public Operator getOperatorByString(String operatorRepresentation)
+	public static Operator getOperatorByString(String operatorRepresentation)
 	{
 		for (Operator operator : Operator.values())
 		{
