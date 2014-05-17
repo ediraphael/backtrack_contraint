@@ -32,11 +32,11 @@ public class Variable
 		this.isInstantiated = false;
 	}
 
-	public Variable(String name, ArrayList<Domain> domain, int value, boolean isInstantiated)
+	public Variable(String name, ArrayList<Domain> domain, int value, boolean isInstantiated) throws VariableValueException
 	{
 		this.name = name;
 		this.domains = domain;
-		this.value = value;
+		setValue(value);
 		this.isInstantiated = isInstantiated;
 	}
 
@@ -65,7 +65,7 @@ public class Variable
 		return value;
 	}
 
-	public void setValue(int value)
+	public void setValue(int value) throws VariableValueException
 	{
 		boolean isPossible = false;
 		for (Domain domain : this.domains)
@@ -79,6 +79,9 @@ public class Variable
 		{
 			this.value = value;
 			this.isInstantiated = true;
+		} else
+		{
+			throw new VariableValueException("Error during setting new value, " + value + " is out of possible Domains");
 		}
 	}
 
