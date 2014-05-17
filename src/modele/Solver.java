@@ -8,6 +8,7 @@ public class Solver
 {
 	private ArrayList<Variable> variableList;
 	private ArrayList<Constraint> constraintList;
+	private ArrayList<Variable> solutionList;
 	private String finalOutput;
 
 	public Solver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
@@ -85,6 +86,16 @@ public class Solver
 	public void setFinalOutput(String finalOutput)
 	{
 		this.finalOutput = finalOutput;
+	}
+
+	public ArrayList<Variable> getSolutionList()
+	{
+		return solutionList;
+	}
+
+	public void setSolutionList(ArrayList<Variable> solutionList)
+	{
+		this.solutionList = solutionList;
 	}
 
 	@Override
