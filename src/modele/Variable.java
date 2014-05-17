@@ -67,8 +67,19 @@ public class Variable
 
 	public void setValue(int value)
 	{
-		this.value = value;
-		this.isInstantiated = true;
+		boolean isPossible = false;
+		for (Domain domain : this.domains)
+		{
+			if (value >= domain.getBottomBoundary() && value <= domain.getUpperBoundary())
+			{
+				isPossible = true;
+			}
+		}
+		if (isPossible)
+		{
+			this.value = value;
+			this.isInstantiated = true;
+		}
 	}
 
 	public boolean isInstantiated()
