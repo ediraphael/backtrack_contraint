@@ -121,6 +121,15 @@ public class Parser
 		Parser parser = new Parser();
 		Solver solver = parser.loadFile("basic.mzn");
 		System.out.println(solver);
+		try
+		{
+			solver.doArcConsistency();
+		} catch (DomainBoundaryException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(solver);
 		System.out.println(solver.generateFinalOutput());
 	}
 }

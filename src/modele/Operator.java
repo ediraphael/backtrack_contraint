@@ -132,8 +132,11 @@ public enum Operator
 								}
 								if (shouldReduce)
 								{
-									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
-									asChange = true;
+									if (rightDomain.getBottomBoundary() != leftDomain.getBottomBoundary() + 1)
+									{
+										rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+										asChange = true;
+									}
 								}
 							}
 							// Case
@@ -154,8 +157,11 @@ public enum Operator
 								}
 								if (shouldReduce)
 								{
-									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
-									asChange = true;
+									if (leftDomain.getUpperBoundary() != rightDomain.getUpperBoundary() - 1)
+									{
+										leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
+										asChange = true;
+									}
 								}
 							}
 						}
@@ -558,8 +564,11 @@ public enum Operator
 								}
 								if (shouldReduce)
 								{
-									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary());
-									asChange = true;
+									if (rightDomain.getBottomBoundary() != leftDomain.getBottomBoundary())
+									{
+										rightDomain.setBottomBoundary(leftDomain.getBottomBoundary());
+										asChange = true;
+									}
 								}
 							}
 							// Case
@@ -580,8 +589,11 @@ public enum Operator
 								}
 								if (shouldReduce)
 								{
-									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary());
-									asChange = true;
+									if (leftDomain.getUpperBoundary() != rightDomain.getUpperBoundary())
+									{
+										leftDomain.setUpperBoundary(rightDomain.getUpperBoundary());
+										asChange = true;
+									}
 								}
 							}
 						}
