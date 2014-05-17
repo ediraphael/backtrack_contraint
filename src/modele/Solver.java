@@ -114,4 +114,10 @@ public class Solver
 		}
 		return representation;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		return new Solver(new ArrayList<Variable>(variableList), new ArrayList<Constraint>(constraintList), new String(finalOutput));
+	}
 }
