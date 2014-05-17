@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import Exception.DomainBoundaryException;
+
 public class Solver
 {
 	private ArrayList<Variable> variableList;
@@ -13,6 +15,19 @@ public class Solver
 		this.variableList = variableList;
 		this.constraintList = constraintList;
 		this.finalOutput = finalOutput;
+	}
+
+	public void doArcConsistency() throws DomainBoundaryException
+	{
+		boolean oneTrue = true;
+		while (oneTrue)
+		{
+			oneTrue = false;
+			for (Constraint constraint : constraintList)
+			{
+				oneTrue = constraint.reduceDomainVariables() || oneTrue;
+			}
+		}
 	}
 
 	public String generateFinalOutput()
