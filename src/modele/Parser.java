@@ -31,9 +31,10 @@ public class Parser
 	{
 		ArrayList<Variable> variableList = new ArrayList<Variable>();
 		ArrayList<Constraint> constraintList = new ArrayList<Constraint>();
-
+		String finalOutput = "";
 		BufferedReader inputF = new BufferedReader(new StringReader(fileContent));
 		String line = null;
+		boolean isForOutput = false;
 		try
 		{
 			while ((line = inputF.readLine()) != null)
@@ -43,7 +44,9 @@ public class Parser
 				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s+(<|>|!=|==|<=|>=)\\s+([a-zA-Z]+|[0-9]+);";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
 				String spacePatternString = "\\s*";
-				
+				String outputStartPatternString = "output\\s+\\[.*";
+				String outputMiddlePatternString = ".*";
+				String outputEndPatternString = ".*\\];";
 				if (line.matches(variablePaternString))
 				{
 					Matcher matcher = variablePattern.matcher(line);
@@ -79,7 +82,18 @@ public class Parser
 					{
 						System.err.println("Error creation constraint : " + line);
 					}
-				} else if(!line.matches(spacePatternString))
+				} else if (line.matches(outputStartPatternString))
+				{
+					isForOutput = true;
+					finalOutput+=line;
+				} else if (line.matches(outputEndPatternString))
+				{
+					isForOutput = false;
+					finalOutput+=line;
+				} else if (line.matches(outputMiddlePatternString) && isForOutput)
+				{
+					finalOutput+=line;
+				} else if (!line.matches(spacePatternString))
 				{
 					System.err.println("Not regocnize : " + line);
 				}
