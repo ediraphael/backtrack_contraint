@@ -627,23 +627,4 @@ public enum Operator
 	{
 		return this.representation;
 	}
-
-	public static void main(String[] args) throws DomainBoundaryException
-	{
-		Variable var1 = new Variable("var1", new Domain(5, 9));
-		Variable var2 = new Variable("var2", new Domain(8, 10));
-		var1.getDomains().add(new Domain(10, 15));
-		var2.getDomains().add(new Domain(15, 20));
-		Constraint contraint = new Constraint(var1, var2, SUPERIOR);
-		System.out.println("Début");
-		System.out.println(var1);
-		System.out.println(var2);
-		System.out.println("-----------------");
-		// var2.setValue(7);
-		contraint.reduceDomainVariables();
-		System.out.println(contraint);
-		System.out.println(contraint.getLeftVariable());
-		System.out.println(contraint.getRightVariable());
-
-	}
 }
