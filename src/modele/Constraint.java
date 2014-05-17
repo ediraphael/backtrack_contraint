@@ -25,9 +25,9 @@ public class Constraint
 		return operator.checkIfPossible(leftVariable, rightVariable);
 	}
 
-	public void reduceDomainVariables() throws DomainBoundaryException
+	public boolean reduceDomainVariables() throws DomainBoundaryException
 	{
-		operator.reduceDomains(leftVariable, rightVariable);
+		return operator.reduceDomains(leftVariable, rightVariable);
 	}
 
 	public Variable getLeftVariable()
