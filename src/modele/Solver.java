@@ -28,7 +28,9 @@ public class Solver
 			oneTrue = false;
 			for (Constraint constraint : constraintList)
 			{
+				System.out.println(constraint);
 				oneTrue = constraint.reduceDomainVariables() || oneTrue;
+				System.out.println(this);
 			}
 		}
 	}
@@ -38,7 +40,7 @@ public class Solver
 		for (Variable variable : variableList)
 		{
 			if (!variable.isInstantiated())
-			{
+			{	
 				if (solutionList.size() == 0)
 				{
 					for (Domain domain : variable.getDomains())

@@ -120,17 +120,17 @@ public class Parser
 	{
 		Parser parser = new Parser();
 		Solver solver = parser.loadFile("basic.mzn");
-		Solver solver2 = (Solver) solver.clone();
 		System.out.println(solver);
-		
+		try
+		{
+			solver.doArcConsistency();
+		} catch (DomainBoundaryException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(solver);
 		solver.doTestAndGenerate();
-		System.out.println("recup");
-		for (Variable variable2 : solver.getSolutionList())
-		{
-			System.out.print(variable2.getName() + ":" + variable2.getValue() + ",");
-		}
-		System.out.println();
 		System.out.println(solver.generateFinalOutput());
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Exception.DomainBoundaryException;
+import Exception.VariableValueException;
 
 public enum Operator
 {
@@ -196,6 +197,31 @@ public enum Operator
 			{
 				Operator.INFERIOR.reduceDomains(left, right);
 			}
+			if (!left.isInstantiated() && !right.isInstantiated())
+			{
+				if (!left.getDomains().isEmpty())
+				{
+					try
+					{
+						left.setValue(left.getDomains().get(0).getBottomBoundary());
+						left.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if (!right.getDomains().isEmpty())
+				{
+					try
+					{
+						right.setValue(right.getDomains().get(0).getBottomBoundary());
+						right.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
 			return asChange;
 		}
 	},
@@ -285,6 +311,31 @@ public enum Operator
 			}
 			left.setDomains(newLeftDomains);
 			right.setDomains(newRightDomains);
+			if (!left.isInstantiated() && !right.isInstantiated())
+			{
+				if (!left.getDomains().isEmpty())
+				{
+					try
+					{
+						left.setValue(left.getDomains().get(0).getBottomBoundary());
+						left.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if (!right.getDomains().isEmpty())
+				{
+					try
+					{
+						right.setValue(right.getDomains().get(0).getBottomBoundary());
+						right.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
 			return asChange;
 		}
 	},
@@ -462,6 +513,31 @@ public enum Operator
 					}
 				}
 			}
+			if (!left.isInstantiated() && !right.isInstantiated())
+			{
+				if (!left.getDomains().isEmpty())
+				{
+					try
+					{
+						left.setValue(left.getDomains().get(0).getBottomBoundary());
+						left.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if (!right.getDomains().isEmpty())
+				{
+					try
+					{
+						right.setValue(right.getDomains().get(0).getBottomBoundary());
+						right.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
 			return asChange;
 		}
 	},
@@ -627,6 +703,31 @@ public enum Operator
 			if (importantChange)
 			{
 				Operator.INFERIOR.reduceDomains(left, right);
+			}
+			if (!left.isInstantiated() && !right.isInstantiated())
+			{
+				if (!left.getDomains().isEmpty())
+				{
+					try
+					{
+						left.setValue(left.getDomains().get(0).getBottomBoundary());
+						left.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				if (!right.getDomains().isEmpty())
+				{
+					try
+					{
+						right.setValue(right.getDomains().get(0).getBottomBoundary());
+						right.setInstantiated(false);
+					} catch (VariableValueException e)
+					{
+						e.printStackTrace();
+					}
+				}
 			}
 			return asChange;
 		}

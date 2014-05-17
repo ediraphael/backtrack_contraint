@@ -81,6 +81,9 @@ public class Variable
 		{
 			this.value = value;
 			this.isInstantiated = true;
+		} else if (this.domains.isEmpty())
+		{
+			this.value = value;
 		} else
 		{
 			throw new VariableValueException("Error during setting new value, " + value + " is out of possible Domains " + domains);
