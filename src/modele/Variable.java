@@ -14,15 +14,21 @@ public class Variable
 		this.name = name;
 		this.domains = new ArrayList<Domain>();
 		this.domains.add(domain);
-		this.value = 0;
+		this.value = domain.getBottomBoundary();
 		this.isInstantiated = false;
 	}
 
-	public Variable(String name, ArrayList<Domain> domain)
+	public Variable(String name, ArrayList<Domain> domains)
 	{
 		this.name = name;
-		this.domains = domain;
-		this.value = 0;
+		this.domains = domains;
+		if (!domains.isEmpty())
+		{
+			this.value = domains.get(0).getBottomBoundary();
+		} else
+		{
+			this.value = 0;
+		}
 		this.isInstantiated = false;
 	}
 
@@ -78,7 +84,7 @@ public class Variable
 	@Override
 	public String toString()
 	{
-		return this.name + " " + this.domains + " : " + this.value + " active:" + this.isInstantiated;
+		return this.name + ", " + this.domains + ", value=" + this.value + ", active=" + this.isInstantiated;
 	}
 
 	@Override
