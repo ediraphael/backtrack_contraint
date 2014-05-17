@@ -30,8 +30,9 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
+			boolean asChange = false;
 			boolean isPossible = false;
 			boolean importantChange = true;
 			HashMap<Domain, Integer> rightDomainUsed = new HashMap<Domain, Integer>();
@@ -61,6 +62,7 @@ public enum Operator
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() < rightDomain.getUpperBoundary())
 							{
 								rightDomain.setBottomBoundary(left.getValue() + 1);
+								asChange = true;
 							}
 							// Case
 							// ----------------1-----------------
@@ -73,6 +75,7 @@ public enum Operator
 								right.getDomains().remove(rightDomain);
 								importantChange = true;
 								isPossible = false;
+								asChange = true;
 							}
 						} else if (!left.isInstantiated() && right.isInstantiated())
 						{
@@ -90,6 +93,7 @@ public enum Operator
 							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() > leftDomain.getBottomBoundary())
 							{
 								leftDomain.setBottomBoundary(right.getValue() - 1);
+								asChange = true;
 							}
 							// Case
 							// --------[-------]----------------
@@ -102,6 +106,7 @@ public enum Operator
 								left.getDomains().remove(leftDomain);
 								importantChange = true;
 								isPossible = false;
+								asChange = true;
 							}
 						}
 						// Mean that the bottom boundary of the left domain is under to the upper boundary of the right domain
@@ -128,6 +133,7 @@ public enum Operator
 								if (shouldReduce)
 								{
 									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+									asChange = true;
 								}
 							}
 							// Case
@@ -149,6 +155,7 @@ public enum Operator
 								if (shouldReduce)
 								{
 									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary() - 1);
+									asChange = true;
 								}
 							}
 						}
@@ -161,6 +168,7 @@ public enum Operator
 					{
 						left.getDomains().remove(leftDomain);
 						importantChange = true;
+						asChange = true;
 					}
 					if (importantChange)
 					{
@@ -174,6 +182,7 @@ public enum Operator
 				{
 					right.getDomains().remove(rightDomain);
 					importantChange = true;
+					asChange = true;
 					break;
 				}
 			}
@@ -181,6 +190,7 @@ public enum Operator
 			{
 				Operator.INFERIOR.reduceDomains(left, right);
 			}
+			return asChange;
 		}
 	},
 	SUPERIOR(">")
@@ -195,9 +205,9 @@ public enum Operator
 			return Operator.INFERIOR.checkIfPossible(right, left);
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
-			Operator.INFERIOR.reduceDomains(right, left);
+			return Operator.INFERIOR.reduceDomains(right, left);
 		}
 	},
 	EQUAL("==")
@@ -223,18 +233,21 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
+			boolean asChange = false;
 			ArrayList<Domain> newLeftDomains = new ArrayList<Domain>();
 			ArrayList<Domain> newRightDomains = new ArrayList<Domain>();
 			if (left.isInstantiated() && !right.isInstantiated())
 			{
 				newLeftDomains.add(new Domain(left.getValue(), left.getValue()));
 				newRightDomains.add(new Domain(left.getValue(), left.getValue()));
+				asChange = true;
 			} else if (!left.isInstantiated() && right.isInstantiated())
 			{
 				newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
 				newRightDomains.add(new Domain(right.getValue(), right.getValue()));
+				asChange = true;
 			} else
 			{
 				for (Domain leftDomain : left.getDomains())
@@ -249,6 +262,10 @@ public enum Operator
 						// -----------[------]--------------
 						if (leftDomain.isCompatibleTo(rightDomain))
 						{
+							if (leftDomain.getBottomBoundary() != rightDomain.getBottomBoundary() || leftDomain.getUpperBoundary() != rightDomain.getUpperBoundary())
+							{
+								asChange = true;
+							}
 							Domain newDomain = leftDomain.getIntersectionWith(rightDomain);
 							newLeftDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
 							newRightDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
@@ -256,8 +273,13 @@ public enum Operator
 					}
 				}
 			}
+			if (left.getDomains().size() != newLeftDomains.size() || right.getDomains().size() != newRightDomains.size())
+			{
+				asChange = true;
+			}
 			left.setDomains(newLeftDomains);
 			right.setDomains(newRightDomains);
+			return asChange;
 		}
 	},
 	NOTEQUAL("!=")
@@ -283,8 +305,9 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
+			boolean asChange = false;
 			boolean importantChange = true;
 			while (importantChange)
 			{
@@ -306,6 +329,7 @@ public enum Operator
 								if (left.getValue() == rightDomain.getBottomBoundary() && left.getValue() != rightDomain.getUpperBoundary())
 								{
 									rightDomain.setBottomBoundary(left.getValue() + 1);
+									asChange = true;
 								}
 								// case
 								// -------------------1-------------
@@ -316,6 +340,7 @@ public enum Operator
 								else if (left.getValue() != rightDomain.getBottomBoundary() && left.getValue() == rightDomain.getUpperBoundary())
 								{
 									rightDomain.setUpperBoundary(left.getValue() - 1);
+									asChange = true;
 								}
 								// case
 								// --------------1------------------
@@ -328,6 +353,7 @@ public enum Operator
 									right.getDomains().add(new Domain(left.getValue() + 1, rightDomain.getUpperBoundary()));
 									rightDomain.setUpperBoundary(left.getValue() - 1);
 									importantChange = true;
+									asChange = true;
 								}
 							}
 						} else if (!left.isInstantiated() && right.isInstantiated())
@@ -343,6 +369,7 @@ public enum Operator
 								if (right.getValue() == leftDomain.getBottomBoundary() && right.getValue() != leftDomain.getUpperBoundary())
 								{
 									leftDomain.setBottomBoundary(right.getValue() + 1);
+									asChange = true;
 								}
 								// cas
 								// -------------------1-------------
@@ -353,6 +380,7 @@ public enum Operator
 								else if (right.getValue() != leftDomain.getBottomBoundary() && right.getValue() == leftDomain.getUpperBoundary())
 								{
 									leftDomain.setUpperBoundary(right.getValue() - 1);
+									asChange = true;
 								}
 								// case
 								// --------------1------------------
@@ -365,6 +393,7 @@ public enum Operator
 									left.getDomains().add(new Domain(right.getValue() + 1, leftDomain.getUpperBoundary()));
 									leftDomain.setUpperBoundary(right.getValue() - 1);
 									importantChange = true;
+									asChange = true;
 								}
 							}
 						}
@@ -376,6 +405,7 @@ public enum Operator
 							left.getDomains().remove(leftDomain);
 							right.getDomains().remove(rightDomain);
 							importantChange = true;
+							asChange = true;
 						} else
 						{
 							if (leftDomain.getAmplitude() == 0 && leftDomain.getIntersectionWith(rightDomain) != null)
@@ -383,14 +413,17 @@ public enum Operator
 								if (leftDomain.getBottomBoundary() == rightDomain.getBottomBoundary())
 								{
 									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+									asChange = true;
 								} else if (leftDomain.getBottomBoundary() == rightDomain.getUpperBoundary())
 								{
 									rightDomain.setUpperBoundary(leftDomain.getBottomBoundary() - 1);
+									asChange = true;
 								} else
 								{
 									right.getDomains().add(new Domain(leftDomain.getBottomBoundary() + 1, rightDomain.getUpperBoundary()));
 									rightDomain.setUpperBoundary(leftDomain.getBottomBoundary() - 1);
 									importantChange = true;
+									asChange = true;
 								}
 							}
 							if (rightDomain.getAmplitude() == 0 && leftDomain.getIntersectionWith(rightDomain) != null)
@@ -398,14 +431,17 @@ public enum Operator
 								if (rightDomain.getBottomBoundary() == leftDomain.getBottomBoundary())
 								{
 									leftDomain.setBottomBoundary(leftDomain.getBottomBoundary() + 1);
+									asChange = true;
 								} else if (rightDomain.getBottomBoundary() == leftDomain.getUpperBoundary())
 								{
 									leftDomain.setBottomBoundary(leftDomain.getBottomBoundary() - 1);
+									asChange = true;
 								} else
 								{
 									left.getDomains().add(new Domain(rightDomain.getBottomBoundary() + 1, leftDomain.getUpperBoundary()));
 									leftDomain.setUpperBoundary(rightDomain.getBottomBoundary() - 1);
 									importantChange = true;
+									asChange = true;
 								}
 							}
 						}
@@ -420,6 +456,7 @@ public enum Operator
 					}
 				}
 			}
+			return asChange;
 		}
 	},
 	INFERIOREQUAL("<=")
@@ -445,8 +482,9 @@ public enum Operator
 			return possible;
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
+			boolean asChange = false;
 			boolean isPossible = false;
 			boolean importantChange = true;
 			HashMap<Domain, Integer> rightDomainUsed = new HashMap<Domain, Integer>();
@@ -476,6 +514,7 @@ public enum Operator
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 							{
 								rightDomain.setBottomBoundary(left.getValue());
+								asChange = true;
 							}
 						} else if (!left.isInstantiated() && right.isInstantiated())
 						{
@@ -493,6 +532,7 @@ public enum Operator
 							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() >= leftDomain.getBottomBoundary())
 							{
 								leftDomain.setBottomBoundary(right.getValue());
+								asChange = true;
 							}
 						}
 						// Mean that the bottom boundary of the left domain is under to the upper boundary of the right domain
@@ -519,6 +559,7 @@ public enum Operator
 								if (shouldReduce)
 								{
 									rightDomain.setBottomBoundary(leftDomain.getBottomBoundary());
+									asChange = true;
 								}
 							}
 							// Case
@@ -540,6 +581,7 @@ public enum Operator
 								if (shouldReduce)
 								{
 									leftDomain.setUpperBoundary(rightDomain.getUpperBoundary());
+									asChange = true;
 								}
 							}
 						}
@@ -551,6 +593,7 @@ public enum Operator
 					if (!isPossible)
 					{
 						left.getDomains().remove(leftDomain);
+						asChange = true;
 						importantChange = true;
 					}
 					if (importantChange)
@@ -564,6 +607,7 @@ public enum Operator
 				if (!rightDomainUsed.containsKey(rightDomain))
 				{
 					right.getDomains().remove(rightDomain);
+					asChange = true;
 					importantChange = true;
 					break;
 				}
@@ -572,6 +616,7 @@ public enum Operator
 			{
 				Operator.INFERIOR.reduceDomains(left, right);
 			}
+			return asChange;
 		}
 	},
 	SUPERIOREQUAL(">=")
@@ -586,9 +631,9 @@ public enum Operator
 			return Operator.INFERIOREQUAL.checkIfPossible(right, left);
 		}
 
-		public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
-			Operator.INFERIOREQUAL.reduceDomains(right, left);
+			return Operator.INFERIOREQUAL.reduceDomains(right, left);
 		}
 	};
 
@@ -609,9 +654,9 @@ public enum Operator
 		return false;
 	}
 
-	public void reduceDomains(Variable left, Variable right) throws DomainBoundaryException
+	public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 	{
-
+		return false;
 	}
 
 	public static Operator getOperatorByString(String operatorRepresentation)
