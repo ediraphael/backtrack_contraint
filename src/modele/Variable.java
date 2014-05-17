@@ -80,4 +80,20 @@ public class Variable
 	{
 		return this.name + " " + this.domains + " : " + this.value + " active:" + this.isInstantiated;
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
+			return false;
+		} else if (!(obj instanceof Variable))
+		{
+			return false;
+		} else if (!((Variable) obj).getName().equals(this.getName()))
+		{
+			return false;
+		}
+		return true;
+	}
 }
