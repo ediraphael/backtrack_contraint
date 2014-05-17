@@ -6,11 +6,13 @@ public class Solver
 {
 	private ArrayList<Variable> variableList;
 	private ArrayList<Constraint> constraintList;
+	private String finalOutput;
 
-	public Solver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList)
+	public Solver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
 	{
 		this.variableList = variableList;
 		this.constraintList = constraintList;
+		this.finalOutput = finalOutput;
 	}
 
 	public ArrayList<Variable> getVariableList()
@@ -33,6 +35,16 @@ public class Solver
 		this.constraintList = constraintList;
 	}
 
+	public String getFinalOutput()
+	{
+		return finalOutput;
+	}
+
+	public void setFinalOutput(String finalOutput)
+	{
+		this.finalOutput = finalOutput;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -41,7 +53,7 @@ public class Solver
 		{
 			representation += "\t" + variable + "\n";
 		}
-		representation+="Constraint(s) :\n";
+		representation += "Constraint(s) :\n";
 		for (Constraint constraint : constraintList)
 		{
 			representation += "\t" + constraint + "\n";

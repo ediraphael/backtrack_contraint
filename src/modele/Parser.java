@@ -85,20 +85,27 @@ public class Parser
 				} else if (line.matches(outputStartPatternString))
 				{
 					isForOutput = true;
-					finalOutput+=line;
+					finalOutput += line;
 				} else if (line.matches(outputEndPatternString))
 				{
 					isForOutput = false;
-					finalOutput+=line;
+					finalOutput += line;
 				} else if (line.matches(outputMiddlePatternString) && isForOutput)
 				{
-					finalOutput+=line;
+					finalOutput += line;
 				} else if (!line.matches(spacePatternString))
 				{
 					System.err.println("Not regocnize : " + line);
 				}
 			}
-			return new Solver(variableList, constraintList);
+
+			// Fixing output String
+			String showOutputPatternString = "show\\(([a-zA-Z]+)\\)";
+			finalOutput = finalOutput.replaceAll(showOutputPatternString, "$1");
+			finalOutput = finalOutput.replace(",", "+");
+			finalOutput = finalOutput.replaceAll("output|\\[|\\]|;", "");
+			System.out.println(finalOutput);
+			return new Solver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
 			System.err.println("Error parsing : " + e.getMessage());
