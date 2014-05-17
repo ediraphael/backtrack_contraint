@@ -15,6 +15,7 @@ public class Solver
 	{
 		this.variableList = variableList;
 		this.constraintList = constraintList;
+		this.solutionList = new ArrayList<Variable>();
 		this.finalOutput = finalOutput;
 	}
 
