@@ -32,6 +32,7 @@ public abstract class AbstractSolver
 							minVariableDomains = variable.calculateDomainsPossility();
 						}
 					}
+					variableList.remove(minVariable);
 					newVariableList.add(minVariable);
 				}
 				return newVariableList;
@@ -73,7 +74,7 @@ public abstract class AbstractSolver
 
 	public ArrayList<Variable> launch(Heuristic heuristic)
 	{
-		heuristic.apply(variableList);
+		variableList = heuristic.apply(variableList);
 		for (Variable variable : variableList)
 		{
 			if (!variable.isInstantiated())

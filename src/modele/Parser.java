@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import modele.AbstractSolver.Heuristic;
+
 import Exception.DomainBoundaryException;
 
 public class Parser
@@ -152,7 +154,7 @@ public class Parser
 	{
 		Parser parser = new Parser();
 		AbstractSolver solver = parser.loadFile("basic.mzn",SolverType.FORWARDCHECKING);
-		System.out.println(solver);
+		
 		try
 		{
 			solver.doArcConsistency();
@@ -161,7 +163,8 @@ public class Parser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		solver.launch();
+		solver.launch(Heuristic.MINDOMAIN);
+		System.out.println(solver);
 		System.out.println(solver.generateFinalOutput());
 	}
 }
