@@ -81,7 +81,8 @@ public abstract class AbstractSolver
 			{
 				if (solutionList.size() == 0)
 				{
-					for (Domain domain : variable.getDomains())
+					ArrayList<Domain> domainsCopy = (ArrayList<Domain>) variable.getDomains().clone();
+					for (Domain domain : domainsCopy)
 					{
 						if (solutionList.size() == 0)
 						{
