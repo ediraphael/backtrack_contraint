@@ -312,7 +312,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 			fail("Fail during setting leftVariable value : " + e.getMessage());
 		}
 		reduceDomains();
-		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getLeftVariable().getDomains().size() == 1);
 		assertTrue(getRightVariable().getDomains().size() == 0);
 	}
 
@@ -332,7 +332,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 			fail("Fail during setting leftVariable value : " + e.getMessage());
 		}
 		reduceDomains();
-		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getLeftVariable().getDomains().size() == 1);
 		assertTrue(getRightVariable().getDomains().size() == 0);
 	}
 
@@ -359,11 +359,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
 		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
 	}
-	
-	
-	
-	
-	
+
 	@Test
 	public void rightInstanciatedInferiorLeft()
 	{
@@ -381,7 +377,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		}
 		reduceDomains();
 		assertTrue(getLeftVariable().getDomains().size() == 0);
-		assertTrue(getRightVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 1);
 	}
 
 	@Test
@@ -401,7 +397,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		}
 		reduceDomains();
 		assertTrue(getLeftVariable().getDomains().size() == 0);
-		assertTrue(getRightVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 1);
 	}
 
 	@Test
@@ -422,6 +418,32 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		leftDomainTest = initDomain(7, 7);
 		rightDomainTest = initDomain(7, 7);
 		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
+		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
+	}
+
+	@Test
+	public void leftInstanciatedInOneRight()
+	{
+		// Case
+		// --------1-----------------
+		// ----[-----]-[----]---------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		getRightVariable().getDomains().add(initDomain(15, 20));
+		try
+		{
+			this.getLeftVariable().setValue(7);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		leftDomainTest = initDomain(7, 7);
+		rightDomainTest = initDomain(7, 7);
+		reduceDomains();
+		System.out.println(getRightVariable().getDomains());
 		assertTrue(getLeftVariable().getDomains().size() == 1);
 		assertTrue(getRightVariable().getDomains().size() == 1);
 		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
