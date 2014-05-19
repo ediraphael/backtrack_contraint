@@ -81,8 +81,7 @@ public abstract class AbstractSolver
 			{
 				if (solutionList.size() == 0)
 				{
-					ArrayList<Domain> domainsCopy = (ArrayList<Domain>) variable.getDomains().clone();
-					for (Domain domain : domainsCopy)
+					for (Domain domain : variable.getDomains())
 					{
 						if (solutionList.size() == 0)
 						{
@@ -91,12 +90,11 @@ public abstract class AbstractSolver
 								if (solutionList.size() == 0)
 								{
 									variable.setValue(i);
-
-									if (problemCheck())
+									try
 									{
-										try
+										AbstractSolver newSolver = (AbstractSolver) this.clone();
+										if (newSolver.problemCheck())
 										{
-											AbstractSolver newSolver = (AbstractSolver) this.clone();
 											solutionList = newSolver.launch(heuristic);
 											if (solutionList.size() == 0)
 											{
@@ -127,11 +125,12 @@ public abstract class AbstractSolver
 											{
 												return solutionList;
 											}
-										} catch (CloneNotSupportedException e)
-										{
-											e.printStackTrace();
 										}
+									} catch (CloneNotSupportedException e)
+									{
+										e.printStackTrace();
 									}
+
 								}
 							}
 						}
