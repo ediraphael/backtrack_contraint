@@ -13,13 +13,36 @@ import Exception.DomainBoundaryException;
 
 public class Parser
 {
-	public Solver loadFile(String path)
+	public static enum SolverType
+	{
+		TESTANDGENERATE
+		{
+			public AbstractSolver generateSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
+			{
+				return new TestAndGenerateSolver(variableList, constraintList, finalOutput);
+			}
+		},
+		FORWARDCHECKING
+		{
+			public AbstractSolver generateSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
+			{
+				return new ForwardCheckingSolver(variableList, constraintList, finalOutput);
+			}
+		};
+
+		public AbstractSolver generateSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
+		{
+			return null;
+		}
+	}
+
+	public AbstractSolver loadFile(String path, SolverType solverType)
 	{
 		try
 		{
 			byte[] encoded = Files.readAllBytes(Paths.get(path));
 			String fileContent = new String(encoded);
-			return load(fileContent);
+			return load(fileContent, solverType);
 		} catch (IOException e)
 		{
 			System.err.println("Error reading file : " + e.getMessage() + "  -> " + e.getCause());
@@ -27,7 +50,7 @@ public class Parser
 		return null;
 	}
 
-	public Solver load(String fileContent)
+	public AbstractSolver load(String fileContent, SolverType solverType)
 	{
 		ArrayList<Variable> variableList = new ArrayList<Variable>();
 		ArrayList<Constraint> constraintList = new ArrayList<Constraint>();
@@ -117,7 +140,7 @@ public class Parser
 			finalOutput = finalOutput.replaceAll("\\\\t", "\t");
 			finalOutput = finalOutput.replaceAll("\\\\n", "\n");
 
-			return new Solver(variableList, constraintList, finalOutput);
+			return solverType.generateSolver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
 			System.err.println("Error parsing : " + e.getMessage());
@@ -128,7 +151,7 @@ public class Parser
 	public static void main(String[] args) throws CloneNotSupportedException
 	{
 		Parser parser = new Parser();
-		Solver solver = parser.loadFile("basic.mzn");
+		AbstractSolver solver = parser.loadFile("basic.mzn",SolverType.FORWARDCHECKING);
 		System.out.println(solver);
 		try
 		{

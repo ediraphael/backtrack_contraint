@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import Exception.DomainBoundaryException;
 import Exception.VariableValueException;
 
-public class Solver
+public abstract class AbstractSolver
 {
 	private ArrayList<Variable> variableList;
 	private ArrayList<Constraint> constraintList;
 	private ArrayList<Variable> solutionList;
 	private String finalOutput;
 
-	public Solver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
+	public AbstractSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
 	{
 		this.variableList = variableList;
 		this.constraintList = constraintList;
@@ -33,44 +33,7 @@ public class Solver
 		}
 	}
 
-	public boolean testAndGenerateCheck()
-	{
-		boolean noProbleme = true;
-		for (Constraint constraint : constraintList)
-		{
-			if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
-			{
-				noProbleme = constraint.checkInstance() && noProbleme;
-			}
-		}
-		return noProbleme;
-	}
-
-	public boolean forwardCheckingCheck()
-	{
-		boolean noProbleme = true;
-		for (Constraint constraint : constraintList)
-		{
-			try
-			{
-				constraint.reduceDomainVariables();
-			} catch (DomainBoundaryException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		for (Constraint constraint : constraintList)
-		{
-			if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
-			{
-				noProbleme = constraint.checkInstance() && noProbleme;
-			} else
-			{
-				noProbleme = constraint.checkIfPossible() && noProbleme;
-			}
-		}
-		return noProbleme;
-	}
+	public abstract boolean problemCheck();
 
 	public ArrayList<Variable> launch()
 	{
@@ -95,13 +58,13 @@ public class Solver
 									{
 										e1.printStackTrace();
 									}
-									boolean noProbleme = testAndGenerateCheck();
+									boolean noProbleme = problemCheck();
 
 									if (noProbleme)
 									{
 										try
 										{
-											Solver newSolver = (Solver) this.clone();
+											AbstractSolver newSolver = (AbstractSolver) this.clone();
 											solutionList = newSolver.launch();
 											if (solutionList.size() == 0)
 											{
@@ -228,33 +191,5 @@ public class Solver
 			representation += "\t" + constraint + "\n";
 		}
 		return representation;
-	}
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException
-	{
-		ArrayList<Variable> newVariableList = new ArrayList<Variable>();
-		for (Variable variable : variableList)
-		{
-			newVariableList.add((Variable) variable.clone());
-		}
-		ArrayList<Constraint> newConstraintList = new ArrayList<Constraint>();
-		for (Constraint constraint : constraintList)
-		{
-			Variable left = null;
-			Variable right = null;
-			for (Variable variable : newVariableList)
-			{
-				if (constraint.getLeftVariable().equals(variable))
-				{
-					left = variable;
-				} else if (constraint.getRightVariable().equals(variable))
-				{
-					right = variable;
-				}
-			}
-			newConstraintList.add(new Constraint(left, right, constraint.getOperator()));
-		}
-		return new Solver(newVariableList, newConstraintList, new String(finalOutput));
 	}
 }
