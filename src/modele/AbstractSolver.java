@@ -128,15 +128,15 @@ public abstract class AbstractSolver
 										}
 									} catch (CloneNotSupportedException e)
 									{
-										e.printStackTrace();
+										System.err.println("Error during copy : " + e.getMessage());
 									}
-
 								}
 							}
 						}
 					}
 				}
 			}
+			variable.setInstantiated(false);
 		}
 		return solutionList;
 	}
