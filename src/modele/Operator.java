@@ -268,31 +268,52 @@ public enum Operator
 		public boolean reduceDomains(Variable left, Variable right) throws DomainBoundaryException
 		{
 			boolean asChange = false;
+			boolean importantChange = true;
 			ArrayList<Domain> newLeftDomains = new ArrayList<Domain>();
 			ArrayList<Domain> newRightDomains = new ArrayList<Domain>();
-			if (left.isInstantiated() && !right.isInstantiated())
+
+			while (importantChange)
 			{
-				newLeftDomains.add(new Domain(left.getValue(), left.getValue()));
-				newRightDomains.add(new Domain(left.getValue(), left.getValue()));
-				asChange = true;
-			} else if (!left.isInstantiated() && right.isInstantiated())
-			{
-				newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
-				newRightDomains.add(new Domain(right.getValue(), right.getValue()));
-				asChange = true;
-			} else
-			{
+				importantChange = false;
+
 				for (Domain leftDomain : left.getDomains())
 				{
 					for (Domain rightDomain : right.getDomains())
 					{
+						if (left.isInstantiated() && !right.isInstantiated())
+						{
+							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
+							{
+								newLeftDomains.add(new Domain(left.getValue(), left.getValue()));
+								newRightDomains.add(new Domain(left.getValue(), left.getValue()));
+								asChange = true;
+							} else
+							{
+								right.getDomains().remove(rightDomain);
+								importantChange = true;
+								asChange = true;
+							}
+						} else if (!left.isInstantiated() && right.isInstantiated())
+						{
+							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
+							{
+								newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
+								newRightDomains.add(new Domain(right.getValue(), right.getValue()));
+								asChange = true;
+							} else
+							{
+								right.getDomains().remove(rightDomain);
+								importantChange = true;
+								asChange = true;
+							}
+						}
 						// Case
 						// -----------[------]--------------
 						// ---------[-----------]-----------
 						// Become
 						// -----------[------]--------------
 						// -----------[------]--------------
-						if (leftDomain.isCompatibleTo(rightDomain))
+						else if (leftDomain.isCompatibleTo(rightDomain))
 						{
 							if (leftDomain.getBottomBoundary() != rightDomain.getBottomBoundary() || leftDomain.getUpperBoundary() != rightDomain.getUpperBoundary())
 							{
@@ -302,6 +323,14 @@ public enum Operator
 							newLeftDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
 							newRightDomains.add(new Domain(newDomain.getBottomBoundary(), newDomain.getUpperBoundary()));
 						}
+						if (importantChange)
+						{
+							break;
+						}
+					}
+					if (importantChange)
+					{
+						break;
 					}
 				}
 			}

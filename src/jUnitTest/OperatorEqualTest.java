@@ -7,6 +7,8 @@ import modele.Operator;
 import org.junit.Before;
 import org.junit.Test;
 
+import Exception.VariableValueException;
+
 public class OperatorEqualTest extends AbstractOperatorTest
 {
 	Domain leftDomainTest;
@@ -224,7 +226,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
 		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
 	}
-	
+
 	@Test
 	public void twoRightSurroundingEqualOneLeftTest()
 	{
@@ -245,7 +247,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(13, 15)));
 		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
 	}
-	
+
 	@Test
 	public void twoLeftCrenelEqualTwoRightTest()
 	{
@@ -269,7 +271,7 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(19, 20)));
 		assertTrue(getRightVariable().getDomains().contains(initDomain(19, 20)));
 	}
-	
+
 	@Test
 	public void twoRightCrenelEqualTwoLeftTest()
 	{
@@ -292,5 +294,137 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		assertTrue(getRightVariable().getDomains().contains(initDomain(13, 15)));
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(19, 20)));
 		assertTrue(getRightVariable().getDomains().contains(initDomain(19, 20)));
+	}
+
+	@Test
+	public void leftInstanciatedInferiorRight()
+	{
+		// Case
+		// --1-----------------------
+		// ----[-----]---------------
+		initLeftVariable("left", 0, 10);
+		initRightVariable("right", 5, 10);
+		try
+		{
+			this.getLeftVariable().setValue(0);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 0);
+	}
+
+	@Test
+	public void leftInstanciatedSuperiorRight()
+	{
+		// Case
+		// ------------1-------------
+		// ----[-----]---------------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		try
+		{
+			this.getLeftVariable().setValue(15);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 0);
+	}
+
+	@Test
+	public void leftInstanciatedInRight()
+	{
+		// Case
+		// --------1-----------------
+		// ----[-----]---------------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		try
+		{
+			this.getLeftVariable().setValue(7);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		leftDomainTest = initDomain(7, 7);
+		rightDomainTest = initDomain(7, 7);
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
+		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
+	}
+	
+	
+	
+	
+	
+	@Test
+	public void rightInstanciatedInferiorLeft()
+	{
+		// Case
+		// ----[-----]---------------
+		// --1-----------------------
+		initLeftVariable("left", 5, 10);
+		initRightVariable("right", 0, 10);
+		try
+		{
+			this.getRightVariable().setValue(0);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 0);
+	}
+
+	@Test
+	public void rightInstanciatedSuperiorLeft()
+	{
+		// Case
+		// ----[-----]---------------
+		// ------------1-------------
+		initLeftVariable("left", 5, 10);
+		initRightVariable("right", 0, 15);
+		try
+		{
+			this.getRightVariable().setValue(15);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 0);
+		assertTrue(getRightVariable().getDomains().size() == 0);
+	}
+
+	@Test
+	public void rightInstanciatedInLeft()
+	{
+		// Case
+		// ----[-----]---------------
+		// --------1-----------------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		try
+		{
+			this.getRightVariable().setValue(7);
+		} catch (VariableValueException e)
+		{
+			fail("Fail during setting leftVariable value : " + e.getMessage());
+		}
+		leftDomainTest = initDomain(7, 7);
+		rightDomainTest = initDomain(7, 7);
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
+		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
 	}
 }
