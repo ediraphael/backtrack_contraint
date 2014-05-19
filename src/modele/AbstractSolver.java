@@ -68,6 +68,12 @@ public abstract class AbstractSolver
 
 	public ArrayList<Variable> launch()
 	{
+		return launch(Heuristic.DEFAULT);
+	}
+
+	public ArrayList<Variable> launch(Heuristic heuristic)
+	{
+		heuristic.apply(variableList);
 		for (Variable variable : variableList)
 		{
 			if (!variable.isInstantiated())
@@ -96,7 +102,7 @@ public abstract class AbstractSolver
 										try
 										{
 											AbstractSolver newSolver = (AbstractSolver) this.clone();
-											solutionList = newSolver.launch();
+											solutionList = newSolver.launch(heuristic);
 											if (solutionList.size() == 0)
 											{
 												boolean allInstantiated = true;
