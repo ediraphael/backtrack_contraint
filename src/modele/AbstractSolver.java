@@ -67,12 +67,12 @@ public abstract class AbstractSolver
 
 	public abstract boolean problemCheck();
 
-	public ArrayList<Variable> launch()
+	public ArrayList<Variable> launch() throws VariableValueException
 	{
 		return launch(Heuristic.DEFAULT);
 	}
 
-	public ArrayList<Variable> launch(Heuristic heuristic)
+	public ArrayList<Variable> launch(Heuristic heuristic) throws VariableValueException
 	{
 		variableList = heuristic.apply(variableList);
 		for (Variable variable : variableList)
@@ -89,16 +89,9 @@ public abstract class AbstractSolver
 							{
 								if (solutionList.size() == 0)
 								{
-									try
-									{
-										variable.setValue(i);
-									} catch (VariableValueException e1)
-									{
-										e1.printStackTrace();
-									}
-									boolean noProbleme = problemCheck();
+									variable.setValue(i);
 
-									if (noProbleme)
+									if (problemCheck())
 									{
 										try
 										{

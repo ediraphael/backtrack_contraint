@@ -16,13 +16,13 @@ public class ForwardCheckingSolver extends AbstractSolver
 		boolean noProbleme = true;
 		for (Constraint constraint : this.getConstraintList())
 		{
-			try
-			{
-				constraint.reduceDomainVariables();
-			} catch (DomainBoundaryException e)
-			{
-				e.printStackTrace();
-			}
+//			try
+//			{
+//				constraint.reduceDomainVariables();
+//			} catch (DomainBoundaryException e)
+//			{
+//				e.printStackTrace();
+//			}
 		}
 		for (Constraint constraint : this.getConstraintList())
 		{
