@@ -138,7 +138,7 @@ public class Parser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		solver.doTestAndGenerate();
+		solver.launch();
 		System.out.println(solver.generateFinalOutput());
 	}
 }

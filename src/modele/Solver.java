@@ -33,12 +33,51 @@ public class Solver
 		}
 	}
 
-	public ArrayList<Variable> doTestAndGenerate()
+	public boolean testAndGenerateCheck()
+	{
+		boolean noProbleme = true;
+		for (Constraint constraint : constraintList)
+		{
+			if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
+			{
+				noProbleme = constraint.checkInstance() && noProbleme;
+			}
+		}
+		return noProbleme;
+	}
+
+	public boolean forwardCheckingCheck()
+	{
+		boolean noProbleme = true;
+		for (Constraint constraint : constraintList)
+		{
+			try
+			{
+				constraint.reduceDomainVariables();
+			} catch (DomainBoundaryException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		for (Constraint constraint : constraintList)
+		{
+			if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
+			{
+				noProbleme = constraint.checkInstance() && noProbleme;
+			} else
+			{
+				noProbleme = constraint.checkIfPossible() && noProbleme;
+			}
+		}
+		return noProbleme;
+	}
+
+	public ArrayList<Variable> launch()
 	{
 		for (Variable variable : variableList)
 		{
 			if (!variable.isInstantiated())
-			{	
+			{
 				if (solutionList.size() == 0)
 				{
 					for (Domain domain : variable.getDomains())
@@ -56,20 +95,14 @@ public class Solver
 									{
 										e1.printStackTrace();
 									}
-									boolean noProbleme = true;
-									for (Constraint constraint : constraintList)
-									{
-										if (constraint.getLeftVariable().isInstantiated() && constraint.getRightVariable().isInstantiated())
-										{
-											noProbleme = constraint.checkInstance() && noProbleme;
-										}
-									}
+									boolean noProbleme = testAndGenerateCheck();
+
 									if (noProbleme)
 									{
 										try
 										{
 											Solver newSolver = (Solver) this.clone();
-											solutionList = newSolver.doTestAndGenerate();
+											solutionList = newSolver.launch();
 											if (solutionList.size() == 0)
 											{
 												boolean allInstantiated = true;
@@ -95,8 +128,7 @@ public class Solver
 														return solutionList;
 													}
 												}
-											}
-											else
+											} else
 											{
 												return solutionList;
 											}
