@@ -12,6 +12,37 @@ public abstract class AbstractSolver
 	private ArrayList<Variable> solutionList;
 	private String finalOutput;
 
+	public static enum Heuristic
+	{
+		DEFAULT,
+		MINDOMAIN
+		{
+			public ArrayList<Variable> apply(ArrayList<Variable> variableList)
+			{
+				ArrayList<Variable> newVariableList = new ArrayList<Variable>();
+				while (!variableList.isEmpty())
+				{
+					Variable minVariable = null;
+					int minVariableDomains = Integer.MAX_VALUE;
+					for (Variable variable : variableList)
+					{
+						if (variable.calculateDomainsPossility() < minVariableDomains)
+						{
+							minVariable = variable;
+							minVariableDomains = variable.calculateDomainsPossility();
+						}
+					}
+					newVariableList.add(minVariable);
+				}
+				return newVariableList;
+			}
+		};
+		public ArrayList<Variable> apply(ArrayList<Variable> variableList)
+		{
+			return variableList;
+		}
+	}
+
 	public AbstractSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
 	{
 		this.variableList = variableList;
