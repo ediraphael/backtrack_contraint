@@ -443,7 +443,6 @@ public class OperatorEqualTest extends AbstractOperatorTest
 		leftDomainTest = initDomain(7, 7);
 		rightDomainTest = initDomain(7, 7);
 		reduceDomains();
-		System.out.println(getRightVariable().getDomains());
 		assertTrue(getLeftVariable().getDomains().size() == 1);
 		assertTrue(getRightVariable().getDomains().size() == 1);
 		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));

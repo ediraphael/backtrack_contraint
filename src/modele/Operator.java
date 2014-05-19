@@ -284,7 +284,11 @@ public enum Operator
 						{
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 							{
-								newRightDomains.add(new Domain(left.getValue(), left.getValue()));
+								Domain newDomain = new Domain(left.getValue(), left.getValue());
+								if (!newRightDomains.contains(newDomain))
+								{
+									newRightDomains.add(newDomain);
+								}
 								asChange = true;
 							} else
 							{
@@ -296,7 +300,11 @@ public enum Operator
 						{
 							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
 							{
-								newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
+								Domain newDomain = new Domain(right.getValue(), right.getValue());
+								if (!newLeftDomains.contains(newDomain))
+								{
+									newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
+								}
 								asChange = true;
 							} else
 							{
