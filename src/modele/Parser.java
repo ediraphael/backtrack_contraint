@@ -39,7 +39,7 @@ public class Parser
 		{
 			while ((line = inputF.readLine()) != null)
 			{
-				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+):\\s+([a-zA-Z]+);";
+				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(,([0-9]+)\\.\\.([0-9]+))*:\\s+([a-zA-Z]+);";
 				Pattern variablePattern = Pattern.compile(variablePaternString);
 				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s+(<|>|!=|==|<=|>=)\\s+([a-zA-Z]+|[0-9]+);";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
@@ -53,7 +53,16 @@ public class Parser
 					matcher.find();
 					try
 					{
-						variableList.add(new Variable(matcher.group(3), new Domain(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)))));
+						Variable newVariable = new Variable(matcher.group(matcher.groupCount()), new Domain(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))));
+
+						String variablePaternOtherDomainString = ",([0-9]+)\\.\\.([0-9]+)";
+						Pattern variablePaternOtherDomain = Pattern.compile(variablePaternOtherDomainString);
+						Matcher matcherOtherDomain = variablePaternOtherDomain.matcher(line);
+						while (matcherOtherDomain.find())
+						{
+							newVariable.getDomains().add(new Domain(Integer.parseInt(matcherOtherDomain.group(1)), Integer.parseInt(matcherOtherDomain.group(2))));
+						}
+						variableList.add(newVariable);
 					} catch (NumberFormatException | DomainBoundaryException e)
 					{
 						System.err.println("Erreur creation variable : " + e.getMessage());
@@ -107,7 +116,7 @@ public class Parser
 			finalOutput = finalOutput.replaceAll("output|\\[|\\]|;", "");
 			finalOutput = finalOutput.replaceAll("\\\\t", "\t");
 			finalOutput = finalOutput.replaceAll("\\\\n", "\n");
-			
+
 			return new Solver(variableList, constraintList, finalOutput);
 		} catch (IOException e)
 		{
