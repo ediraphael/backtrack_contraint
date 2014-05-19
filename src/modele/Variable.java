@@ -52,6 +52,16 @@ public class Variable
 		this.name = name;
 	}
 
+	public int calculateDomainsPossility()
+	{
+		int nbPossibility = 0;
+		for (Domain domain : this.domains)
+		{
+			nbPossibility = domain.getAmplitude() + 1;
+		}
+		return nbPossibility;
+	}
+
 	public ArrayList<Domain> getDomains()
 	{
 		return domains;
