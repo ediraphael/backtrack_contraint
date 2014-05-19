@@ -153,16 +153,9 @@ public class Parser
 	public static void main(String[] args) throws CloneNotSupportedException
 	{
 		Parser parser = new Parser();
-		AbstractSolver solver = parser.loadFile("basic.mzn",SolverType.FORWARDCHECKING);
+		AbstractSolver solver = parser.loadFile("basic.mzn",SolverType.TESTANDGENERATE);
 		
-		try
-		{
-			solver.doArcConsistency();
-		} catch (DomainBoundaryException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		solver.launch(Heuristic.MINDOMAIN);
 		System.out.println(solver);
 		System.out.println(solver.generateFinalOutput());
