@@ -159,7 +159,7 @@ public class MainView
 	private JRadioButton rdbtnForwardCheking;
 	private JRadioButton rdbtnTestGenerate;
 	private JRadioButton rdbtnAucun;
-	private JRadioButton rdbtnAC3;
+	private JRadioButton rdbtnAC1;
 	private final ButtonGroup buttonGroupAc = new ButtonGroup();
 	private final ButtonGroup buttonGroupAlgo = new ButtonGroup();
 
@@ -356,7 +356,7 @@ public class MainView
 					heuristic=Heuristic.MINDOMAIN;
 				}
 				
-				if(rdbtnAC3.isSelected())
+				if(rdbtnAC1.isSelected())
 				{
 					try 
 					{
@@ -726,9 +726,9 @@ public class MainView
 		buttonGroupAc.add(rdbtnAucun);
 		panAcRdbContainer.add(rdbtnAucun, BorderLayout.NORTH);
 
-		rdbtnAC3 = new JRadioButton("AC 3");
-		buttonGroupAc.add(rdbtnAC3);
-		panAcRdbContainer.add(rdbtnAC3, BorderLayout.SOUTH);
+		rdbtnAC1 = new JRadioButton("AC 1");
+		buttonGroupAc.add(rdbtnAC1);
+		panAcRdbContainer.add(rdbtnAC1, BorderLayout.SOUTH);
 
 		mainPanTopSetting = new JPanel();
 		mainPanel.add(mainPanTopSetting, BorderLayout.NORTH);
