@@ -39,7 +39,7 @@ public class Parser
 		}
 	}
 
-	public String getFileContent(String path)
+	public static String getFileContent(String path)
 	{
 		try
 		{

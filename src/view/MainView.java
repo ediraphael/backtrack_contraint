@@ -24,126 +24,143 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 
+import modele.AbstractSolver;
+import modele.AbstractSolver.Heuristic;
+import modele.Parser;
+import modele.Parser.SolverType;
+
+import javax.swing.JScrollPane;
+
+import Exception.VariableValueException;
+
 public class MainView 
 {
 
 	private JFrame frame;
+
 	private JPanel mainPanel;
-	private Box hbResult;
-	private JSeparator separatorTop;
-	private JPanel panelResult;
-	private Box hbResultSetting;
 	private JPanel panMainSetting; 
 	private JPanel panSeparatorTop;
 	private JPanel panelSeparatorLow;
-	private JSeparator separatorLow;
-	private Box vbLeftSettingRun;
-	private Box hbResultContainer;
-	private JPanel mainPanResult;
+	private JPanel panelResult;
 	private JPanel panResultSetting;
-	private Box hbAction;
+	private JPanel mainPanResult;
 	private JPanel panelAction;
-	private Box vbButton;
 	private JPanel panelButton;
-	private Box hbRun;
 	private JPanel panelRun;
-	private Box hbTopSettingRun;
-	private Box hbLowSettingRun;
-	private Box hbContainerRunBtn;
 	private JPanel panContainRunBtn;
-	private JButton btnRun;
-	private Box vbRightSettingRun;
-	private Box hbExit;
 	private JPanel panelExit;
-	private Box hbTopSettingExit;
-	private Box hbLowSettingExit;
-	private Box hbContainerExitBtn;
 	private JPanel panContainExitBtn;
-	private JButton btnExit;
-	private Box vbLeftSettingExit;
-	private Box vbRightSettingExit;
-	private Box vbChoice;
+	private JPanel panAlgo;
 	private JPanel panChoice;
-	private Box vbChoiceLeftSetting;
-	private Box hbChoiceTopSetting;
-	private Box hbChoiceLowSetting;
-	private Box hbChoiceContainer;
 	private JPanel panChoiceElement;
 	private JPanel panChoiceAlgo;
-	private Box hbTopChoiceAlgo;
-	private JPanel panAlgo;
-	private JLabel lblAlgo;
 	private JPanel panAlgoLeftSetting;
 	private JPanel panAlgoSeparator;
 	private JPanel panAlgoSeparatorLeftSetting;
 	private JPanel panAlgoSeparatorRightSetting;
-	private JSeparator separatorAlgo;
-	private Box hbLowChoiceAlgo;
 	private JPanel panRdbChoiceAlgo;
-	private JRadioButton rdbtnForwardCheking;
-	private JRadioButton rdbtnTestGenerate;
 	private JPanel panChoiceHeuristicAndUpload;
 	private JPanel panChoiceAc;
 	private JPanel mainPanTopSetting;
 	private JPanel mainPanRightSetting;
 	private JPanel mainPanLeftSetting;
-	private Box hbTopChoiceAc;
 	private JPanel panAc;
-	private JLabel lblAc;
 	private JPanel panAcLeftSetting;
 	private JPanel panAcSeparator;
 	private JPanel panAcSeparatorLeftSetting;
 	private JPanel panAlcSeparatorRightSetting;
-	private JSeparator separatorAc;
-	private Box hbLowChoiceAc;
-	private JPanel panRdbChoiceAc;
-	private JRadioButton rdbtnAucun;
-	private JRadioButton rdbtnAC3;
 	private JPanel panAcRdbLeftSetting;
 	private JPanel panAcRdbContainer;
 	private JPanel panChoiceHeuristic;
 	private JPanel panUpload;
-	private Box hbTopChoiceHeuristic;
-	private Box hbLowChoiceHeuristic;
 	private JPanel panHeuristic;
-	private JLabel lblHeuristique;
 	private JPanel panHeristicLabelLeftSetting;
 	private JPanel panHeristicSeparatorContainer;
 	private JPanel panHeristicSeparator;
 	private JPanel panHeuristicSeparatorLeftSetting;
-	private JSeparator separator;
 	private JPanel panContainerHeuristicList;
 	private JPanel panHeuristicList;
 	private JPanel panHeuristicListTopSetting;
 	private JPanel panHeuristicListLowSetting;
 	private JPanel panHeuristicListLeftSetting;
-	private JComboBox<String> cbHeuristic;
 	private JPanel panUploadFile;
 	private JPanel panLabelFileLeftSetting;
 	private JPanel panUploadSeparatorContainer;
 	private JPanel panContainerLabelFile;
-	private JLabel lblFichier;
 	private JPanel panUploadSeparatorLeftSetting;
 	private JPanel panUploadSeparatorRightSetting;
 	private JPanel panUploadSeparator;
-	private JSeparator separatorUpload;
 	private JPanel panContainerUpload;
 	private JPanel panBtnUploadContainer;
 	private JPanel panBtnUploadLeftSetting;
 	private JPanel panBtnUploadTopSetting;
 	private JPanel panBtnUploadRightSetting;
 	private JPanel panBtnUpload;
-	private JButton btnSearch;
-	private JPanel panBtnUploadLowSetting;
-	private final ButtonGroup buttonGroupAlgo = new ButtonGroup();
-	private final ButtonGroup buttonGroupAc = new ButtonGroup();
-	private JPanel panShowFileContainer;
 	private JPanel panShowResultContainer;
 	private JPanel panSeparatorShow;
-	private JPanel panShowResult;
-	private JTextArea textAreaShowResult;
-	private JTextArea textAreaShowFile;
+	private JPanel panBtnUploadLowSetting;
 	
+	private JScrollPane scrollPaneShowFile;
+	private JScrollPane scrollPaneShowResult;
+
+	private Box vbLeftSettingExit;
+	private Box vbRightSettingExit;
+	private Box vbChoice;
+	private Box vbChoiceLeftSetting;
+	private Box hbChoiceTopSetting;
+	private Box hbChoiceLowSetting;
+	private Box hbChoiceContainer;
+	private Box hbTopChoiceAlgo;
+	private Box hbResult;
+	private Box hbResultSetting;
+	private Box vbLeftSettingRun;
+	private Box hbResultContainer;
+	private Box hbAction;
+	private Box vbButton;
+	private Box hbRun;
+	private Box hbTopSettingRun;
+	private Box hbLowSettingRun;
+	private Box hbContainerRunBtn;
+	private Box vbRightSettingRun;
+	private Box hbExit;
+	private Box hbTopSettingExit;
+	private Box hbLowSettingExit;
+	private Box hbContainerExitBtn;
+	private Box hbLowChoiceAlgo;
+	private Box hbTopChoiceAc;
+	private Box hbLowChoiceAc;
+	private Box hbTopChoiceHeuristic;
+	private Box hbLowChoiceHeuristic;
+
+	private JSeparator separatorTop;
+	private JSeparator separatorLow;
+	private JSeparator separatorAlgo;
+	private JSeparator separatorAc;
+	private JSeparator separator;
+	private JSeparator separatorUpload;
+	
+	private JButton btnRun;
+	private JButton btnExit;
+	private JButton btnSearch;
+
+	private JLabel lblAlgo;
+	private JLabel lblAc;
+	private JPanel panRdbChoiceAc;
+	private JLabel lblHeuristique;
+	private JLabel lblFichier;
+	
+	private JRadioButton rdbtnForwardCheking;
+	private JRadioButton rdbtnTestGenerate;
+	private JRadioButton rdbtnAucun;
+	private JRadioButton rdbtnAC3;
+	private final ButtonGroup buttonGroupAc = new ButtonGroup();
+	private final ButtonGroup buttonGroupAlgo = new ButtonGroup();
+
+	private JTextArea textAreaShowFile;
+	private JTextArea textAreaShowResult;
+	
+	private JComboBox<String> cbHeuristic;
 	
 	/**
 	 * Launch the application.
@@ -230,14 +247,6 @@ public class MainView
 		panResultSetting = new JPanel();
 		mainPanResult.add(panResultSetting, BorderLayout.SOUTH);
 		
-		panShowFileContainer = new JPanel();
-		panShowFileContainer.setPreferredSize(new Dimension(250, 10));
-		mainPanResult.add(panShowFileContainer, BorderLayout.WEST);
-		panShowFileContainer.setLayout(new BorderLayout(0, 0));
-		
-		textAreaShowFile = new JTextArea();
-		panShowFileContainer.add(textAreaShowFile, BorderLayout.CENTER);
-		
 		panShowResultContainer = new JPanel();
 		mainPanResult.add(panShowResultContainer, BorderLayout.CENTER);
 		panShowResultContainer.setLayout(new BorderLayout(0, 0));
@@ -247,12 +256,19 @@ public class MainView
 		panShowResultContainer.add(panSeparatorShow, BorderLayout.WEST);
 		panSeparatorShow.setLayout(new BorderLayout(0, 0));
 		
-		panShowResult = new JPanel();
-		panShowResultContainer.add(panShowResult, BorderLayout.CENTER);
-		panShowResult.setLayout(new BorderLayout(0, 0));
+		scrollPaneShowResult = new JScrollPane();
+		panShowResultContainer.add(scrollPaneShowResult, BorderLayout.CENTER);
 		
 		textAreaShowResult = new JTextArea();
-		panShowResult.add(textAreaShowResult, BorderLayout.CENTER);
+		textAreaShowResult.setEditable(false);
+		scrollPaneShowResult.setViewportView(textAreaShowResult);
+		
+		scrollPaneShowFile = new JScrollPane();
+		scrollPaneShowFile.setPreferredSize(new Dimension(300, 3));
+		mainPanResult.add(scrollPaneShowFile, BorderLayout.WEST);
+		
+		textAreaShowFile = new JTextArea();
+		scrollPaneShowFile.setViewportView(textAreaShowFile);
 		
 		hbAction = Box.createHorizontalBox();
 		hbAction.setPreferredSize(new Dimension(0, 100));
@@ -299,7 +315,33 @@ public class MainView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				//TODO lancer algo
+				Parser parserLunchAlgo = new Parser();
+				SolverType svt=null;
+				if(rdbtnForwardCheking.isSelected())
+				{
+					svt=SolverType.FORWARDCHECKING;
+				}
+				else
+				{
+					svt=SolverType.TESTANDGENERATE;
+				}
+				AbstractSolver solver=parserLunchAlgo.load(textAreaShowFile.getText(), svt);
+				Heuristic heuristic=Heuristic.DEFAULT;
+				
+				if(!(cbHeuristic.getSelectedItem() == null || "".equals(cbHeuristic.getSelectedItem())))
+				{
+					heuristic=Heuristic.MINDOMAIN;
+				}
+				
+				try 
+				{
+					solver.launch(heuristic);
+				} 
+				catch (VariableValueException e) 
+				{
+					textAreaShowResult.setText(e.getMessage());
+				}
+				textAreaShowResult.setText(solver.generateFinalOutput());
 			}
 		});
 		panContainRunBtn.add(btnRun, BorderLayout.CENTER);
@@ -573,10 +615,12 @@ public class MainView
 				JFileChooser chooser;
 				chooser = new JFileChooser(); 
 				chooser.setCurrentDirectory(new java.io.File("."));
-				chooser.setDialogTitle("Select Corpus");
+				chooser.setDialogTitle("Parcourir");
 				chooser.setAcceptAllFileFilterUsed(false); 
-				chooser.getSelectedFile().toString();
-				
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+				{ 
+					textAreaShowFile.setText(Parser.getFileContent(chooser.getSelectedFile().toString()));
+				}
 			}
 		});
 		panBtnUpload.add(btnSearch, BorderLayout.CENTER);
