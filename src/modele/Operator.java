@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import Exception.DomainBoundaryException;
 import Exception.VariableValueException;
@@ -269,8 +271,8 @@ public enum Operator
 		{
 			boolean asChange = false;
 			boolean importantChange = true;
-			ArrayList<Domain> newLeftDomains = new ArrayList<Domain>();
-			ArrayList<Domain> newRightDomains = new ArrayList<Domain>();
+			TreeSet<Domain> newLeftDomains = new TreeSet<Domain>();
+			TreeSet<Domain> newRightDomains = new TreeSet<Domain>();
 
 			while (importantChange)
 			{
@@ -285,10 +287,7 @@ public enum Operator
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 							{
 								Domain newDomain = new Domain(left.getValue(), left.getValue());
-								if (!newRightDomains.contains(newDomain))
-								{
-									newRightDomains.add(newDomain);
-								}
+								newRightDomains.add(newDomain);
 								asChange = true;
 							} else
 							{
@@ -301,10 +300,7 @@ public enum Operator
 							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
 							{
 								Domain newDomain = new Domain(right.getValue(), right.getValue());
-								if (!newLeftDomains.contains(newDomain))
-								{
-									newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
-								}
+								newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
 								asChange = true;
 							} else
 							{
@@ -353,8 +349,8 @@ public enum Operator
 			{
 				asChange = true;
 			}
-			left.setDomains(newLeftDomains);
-			right.setDomains(newRightDomains);
+			left.setDomains(new ArrayList<>(newLeftDomains));
+			right.setDomains(new ArrayList<>(newRightDomains));
 			if (!left.isInstantiated() && !right.isInstantiated())
 			{
 				if (!left.getDomains().isEmpty())

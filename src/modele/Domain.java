@@ -2,7 +2,7 @@ package modele;
 
 import Exception.DomainBoundaryException;
 
-public class Domain
+public class Domain implements Comparable<Domain>
 {
 	private int bottomBoundary;
 	private int upperBoundary;
@@ -98,5 +98,11 @@ public class Domain
 		{
 			return null;
 		}
+	}
+
+	@Override
+	public int compareTo(Domain o)
+	{
+		return this.bottomBoundary - o.bottomBoundary;
 	}
 }
