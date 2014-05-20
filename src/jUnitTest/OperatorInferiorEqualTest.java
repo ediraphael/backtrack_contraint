@@ -1,12 +1,14 @@
 package jUnitTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import modele.Domain;
 import modele.Operator;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
+
+import Exception.VariableValueException;
 
 public class OperatorInferiorEqualTest extends AbstractOperatorTest
 {
@@ -213,6 +215,31 @@ public class OperatorInferiorEqualTest extends AbstractOperatorTest
 		assertTrue(getRightVariable().getDomains().size() == 1);
 		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
 		assertTrue(getLeftVariable().getDomains().contains(initDomain(15, 20)));
+		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
+	}
+
+	@Test
+	public void leftInitiatedInRightTest()
+	{
+		// Case
+		// -----1---------------------
+		// --[---------]--------------
+		initLeftVariable("left", 0, 20);
+		initRightVariable("right", 0, 15);
+		leftDomainTest = initDomain(0, 20);
+		rightDomainTest = initDomain(5, 15);
+		try
+		{
+			getLeftVariable().setValue(5);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
 		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
 	}
 }
