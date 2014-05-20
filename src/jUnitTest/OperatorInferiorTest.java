@@ -365,4 +365,168 @@ public class OperatorInferiorTest extends AbstractOperatorTest
 		assertEquals(leftDomainTest, getLeftVariable().getDomains().get(0));
 		assertEquals(rightDomainTest, getRightVariable().getDomains().get(0));
 	}
+	
+
+	
+	
+	
+	
+	@Test
+	public void rightInitiatedBetweenTwoLeftTest()
+	{
+		// Case
+		// --[---------]---[-----]----
+		// --------------1------------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 20);
+		getLeftVariable().getDomains().add(initDomain(20, 25));
+		leftDomainTest = initDomain(0, 15);
+		rightDomainTest = initDomain(5, 20);
+		try
+		{
+			getRightVariable().setValue(18);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+	}
+	
+	@Test
+	public void rightInitiatedInTwoLeftTest()
+	{
+		// Case
+		// --[---------]---[-----]----
+		// --------1------------------
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		getLeftVariable().getDomains().add(initDomain(20, 25));
+		leftDomainTest = initDomain(0, 7);
+		rightDomainTest = initDomain(5, 10);
+		try
+		{
+			getRightVariable().setValue(8);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+	}
+	
+	@Test
+	public void rightInitiatedInTwoLeftTestTwo()
+	{
+		// Case
+		// --[---------]---[-----]----
+		// -------------------1-------
+		initLeftVariable("left", 5, 10);
+		initRightVariable("right", 10, 20);
+		getLeftVariable().getDomains().add(initDomain(15, 25));
+		leftDomainTest = initDomain(5, 10);
+		rightDomainTest = initDomain(10, 20);
+		try
+		{
+			getRightVariable().setValue(20);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+
+		assertTrue(getLeftVariable().getDomains().size() == 2);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getLeftVariable().getDomains().contains(initDomain(15, 19)));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+	}
+	
+	@Test
+	public void leftInitiatedBetweenTwoRightTest()
+	{
+		// Case
+		// --------------1------------
+		// --[---------]---[-----]----
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		getRightVariable().getDomains().add(initDomain(20, 25));
+		leftDomainTest = initDomain(0, 15);
+		rightDomainTest = initDomain(20, 25);
+		try
+		{
+			getLeftVariable().setValue(15);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+	}
+	
+	@Test
+	public void leftInitiatedInTwoRightTest()
+	{
+		// Case
+		// --------1------------------
+		// --[---------]---[-----]----
+		initLeftVariable("left", 0, 15);
+		initRightVariable("right", 5, 10);
+		getRightVariable().getDomains().add(initDomain(20, 25));
+		leftDomainTest = initDomain(0, 15);
+		rightDomainTest = initDomain(20, 25);
+		try
+		{
+			getLeftVariable().setValue(8);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 2);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(initDomain(9, 10)));
+	}
+	
+	@Test
+	public void leftInitiatedInTwoRightTestTwo()
+	{
+		// Case
+		// -------------------1-------
+		// --[---------]---[-----]----
+		initLeftVariable("left", 5, 30);
+		initRightVariable("right", 5, 10);
+		getRightVariable().getDomains().add(initDomain(20, 25));
+		leftDomainTest = initDomain(5, 30);
+		rightDomainTest = initDomain(23, 25);
+		try
+		{
+			getLeftVariable().setValue(22);
+		} catch (VariableValueException e)
+		{
+			fail("Error setting value : " + e.getMessage());
+		}
+
+		reduceDomains();
+		assertTrue(getLeftVariable().getDomains().size() == 1);
+		assertTrue(getRightVariable().getDomains().size() == 1);
+		assertTrue(getLeftVariable().getDomains().contains(leftDomainTest));
+		assertTrue(getRightVariable().getDomains().contains(rightDomainTest));
+	}
 }
