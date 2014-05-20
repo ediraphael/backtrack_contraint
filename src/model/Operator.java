@@ -650,7 +650,7 @@ public enum Operator
 							// ----------------1----------------
 							if (right.getValue() <= leftDomain.getUpperBoundary() && right.getValue() >= leftDomain.getBottomBoundary())
 							{
-								leftDomain.setBottomBoundary(right.getValue());
+								leftDomain.setUpperBoundary(right.getValue());
 								asChange = true;
 							}
 						}
@@ -715,7 +715,7 @@ public enum Operator
 							break;
 						}
 					}
-					if (!isPossible)
+					if (!isPossible && !left.isInstantiated())
 					{
 						left.getDomains().remove(leftDomain);
 						asChange = true;
@@ -727,19 +727,22 @@ public enum Operator
 					}
 				}
 			}
-			for (Domain rightDomain : right.getDomains())
+			if (!right.isInstantiated())
 			{
-				if (!rightDomainUsed.containsKey(rightDomain))
+				for (Domain rightDomain : right.getDomains())
 				{
-					right.getDomains().remove(rightDomain);
-					asChange = true;
-					importantChange = true;
-					break;
+					if (!rightDomainUsed.containsKey(rightDomain))
+					{
+						right.getDomains().remove(rightDomain);
+						asChange = true;
+						importantChange = true;
+						break;
+					}
 				}
 			}
 			if (importantChange)
 			{
-				Operator.INFERIOR.reduceDomains(left, right);
+				Operator.INFERIOREQUAL.reduceDomains(left, right);
 			}
 			if (!left.isInstantiated() && !right.isInstantiated())
 			{
