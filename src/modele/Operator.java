@@ -2,7 +2,6 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import Exception.DomainBoundaryException;
@@ -286,8 +285,7 @@ public enum Operator
 						{
 							if (left.getValue() >= rightDomain.getBottomBoundary() && left.getValue() <= rightDomain.getUpperBoundary())
 							{
-								Domain newDomain = new Domain(left.getValue(), left.getValue());
-								newRightDomains.add(newDomain);
+								newRightDomains.add(new Domain(left.getValue(), left.getValue()));
 								asChange = true;
 							} else
 							{
@@ -299,7 +297,6 @@ public enum Operator
 						{
 							if (right.getValue() >= leftDomain.getBottomBoundary() && right.getValue() <= leftDomain.getUpperBoundary())
 							{
-								Domain newDomain = new Domain(right.getValue(), right.getValue());
 								newLeftDomains.add(new Domain(right.getValue(), right.getValue()));
 								asChange = true;
 							} else
