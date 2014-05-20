@@ -17,8 +17,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JSeparator;
-import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -566,6 +566,19 @@ public class MainView
 		panBtnUpload.setLayout(new BorderLayout(0, 0));
 		
 		btnSearch = new JButton("Parcourir");
+		btnSearch.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				JFileChooser chooser;
+				chooser = new JFileChooser(); 
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Select Corpus");
+				chooser.setAcceptAllFileFilterUsed(false); 
+				chooser.getSelectedFile().toString();
+				
+			}
+		});
 		panBtnUpload.add(btnSearch, BorderLayout.CENTER);
 		
 		panBtnUploadLowSetting = new JPanel();
