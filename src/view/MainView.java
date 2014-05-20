@@ -31,7 +31,10 @@ import modele.Parser.SolverType;
 
 import javax.swing.JScrollPane;
 
+import Exception.DomainBoundaryException;
 import Exception.VariableValueException;
+import java.awt.Font;
+import java.awt.Color;
 
 public class MainView 
 {
@@ -100,6 +103,7 @@ public class MainView
 	private JPanel panShowResultContainer;
 	private JPanel panSeparatorShow;
 	private JPanel panBtnUploadLowSetting;
+	private JPanel panelTimeExecution;
 	
 	private JScrollPane scrollPaneShowFile;
 	private JScrollPane scrollPaneShowResult;
@@ -149,6 +153,8 @@ public class MainView
 	private JPanel panRdbChoiceAc;
 	private JLabel lblHeuristique;
 	private JLabel lblFichier;
+	private JLabel lblTpsLoadFile;
+	private JLabel lblTpsAlgo;
 	
 	private JRadioButton rdbtnForwardCheking;
 	private JRadioButton rdbtnTestGenerate;
@@ -161,6 +167,7 @@ public class MainView
 	private JTextArea textAreaShowResult;
 	
 	private JComboBox<String> cbHeuristic;
+	
 	
 	/**
 	 * Launch the application.
@@ -214,7 +221,7 @@ public class MainView
 		panelResult.setLayout(new BorderLayout(0, 0));
 		
 		hbResultSetting = Box.createHorizontalBox();
-		hbResultSetting.setPreferredSize(new Dimension(0, 20));
+		hbResultSetting.setPreferredSize(new Dimension(0, 30));
 		panelResult.add(hbResultSetting, BorderLayout.SOUTH);
 		
 		panMainSetting = new JPanel();
@@ -222,12 +229,27 @@ public class MainView
 		panMainSetting.setLayout(new BorderLayout(0, 0));
 		
 		panSeparatorTop = new JPanel();
-		panSeparatorTop.setPreferredSize(new Dimension(0, 10));
+		panSeparatorTop.setPreferredSize(new Dimension(0, 20));
 		panMainSetting.add(panSeparatorTop, BorderLayout.NORTH);
 		panSeparatorTop.setLayout(new BorderLayout(0, 0));
 		
 		separatorTop = new JSeparator();
-		panSeparatorTop.add(separatorTop, BorderLayout.CENTER);
+		panSeparatorTop.add(separatorTop, BorderLayout.SOUTH);
+		
+		panelTimeExecution = new JPanel();
+		panSeparatorTop.add(panelTimeExecution, BorderLayout.WEST);
+		panelTimeExecution.setLayout(new BorderLayout(0, 0));
+		
+		lblTpsLoadFile = new JLabel("");
+		lblTpsLoadFile.setForeground(new Color(0, 0, 128));
+		lblTpsLoadFile.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblTpsLoadFile.setPreferredSize(new Dimension(310, 15));
+		panelTimeExecution.add(lblTpsLoadFile, BorderLayout.WEST);
+		
+		lblTpsAlgo = new JLabel("");
+		lblTpsAlgo.setForeground(new Color(0, 0, 128));
+		lblTpsAlgo.setFont(new Font("Dialog", Font.PLAIN, 12));
+		panelTimeExecution.add(lblTpsAlgo, BorderLayout.CENTER);
 		
 		panelSeparatorLow = new JPanel();
 		panelSeparatorLow.setPreferredSize(new Dimension(0, 10));
@@ -235,7 +257,7 @@ public class MainView
 		panelSeparatorLow.setLayout(new BorderLayout(0, 0));
 		
 		separatorLow = new JSeparator();
-		panelSeparatorLow.add(separatorLow, BorderLayout.CENTER);
+		panelSeparatorLow.add(separatorLow, BorderLayout.SOUTH);
 		
 		hbResultContainer = Box.createHorizontalBox();
 		panelResult.add(hbResultContainer, BorderLayout.CENTER);
@@ -315,6 +337,7 @@ public class MainView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				textAreaShowResult.setText("");
 				Parser parserLunchAlgo = new Parser();
 				SolverType svt=null;
 				if(rdbtnForwardCheking.isSelected())
@@ -333,13 +356,28 @@ public class MainView
 					heuristic=Heuristic.MINDOMAIN;
 				}
 				
+				if(rdbtnAC3.isSelected())
+				{
+					try 
+					{
+						solver.doArcConsistency();
+					} 
+					catch (DomainBoundaryException e) 
+					{
+						textAreaShowResult.setText(e.getMessage());
+					}
+				}
+				
 				try 
 				{
+					long start = System.currentTimeMillis();
 					solver.launch(heuristic);
+					long end = System.currentTimeMillis();
+					lblTpsAlgo.setText("\nTemps d'execution de l'algorithme : " + (end-start)+"ms");
 				} 
 				catch (VariableValueException e) 
 				{
-					textAreaShowResult.setText(e.getMessage());
+					textAreaShowResult.setText(textAreaShowResult.getText()+"\n\n"+e.getMessage());
 				}
 				textAreaShowResult.setText(solver.generateFinalOutput());
 			}
@@ -619,7 +657,10 @@ public class MainView
 				chooser.setAcceptAllFileFilterUsed(false); 
 				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
 				{ 
+					long start = System.currentTimeMillis();
 					textAreaShowFile.setText(Parser.getFileContent(chooser.getSelectedFile().toString()));
+					long end = System.currentTimeMillis();
+					lblTpsLoadFile.setText("\nTemps de chargement du fichier : " + (end-start)+"ms");
 				}
 			}
 		});
