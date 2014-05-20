@@ -89,7 +89,7 @@ public class Domain implements Comparable<Domain>
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException
 	{
 		try
 		{

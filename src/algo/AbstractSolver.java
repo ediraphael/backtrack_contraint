@@ -1,6 +1,10 @@
-package model;
+package algo;
 
 import java.util.ArrayList;
+
+import model.Constraint;
+import model.Domain;
+import model.Variable;
 
 import exception.DomainBoundaryException;
 import exception.VariableValueException;

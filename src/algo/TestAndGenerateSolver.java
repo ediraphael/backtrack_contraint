@@ -1,6 +1,9 @@
-package model;
+package algo;
 
 import java.util.ArrayList;
+
+import model.Constraint;
+import model.Variable;
 
 public class TestAndGenerateSolver extends AbstractSolver
 {
@@ -23,7 +26,7 @@ public class TestAndGenerateSolver extends AbstractSolver
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException
 	{
 		ArrayList<Variable> newVariableList = new ArrayList<Variable>();
 		for (Variable variable : this.getVariableList())

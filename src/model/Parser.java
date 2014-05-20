@@ -9,10 +9,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import algo.AbstractSolver;
+import algo.ForwardCheckingSolver;
+import algo.TestAndGenerateSolver;
+import algo.AbstractSolver.Heuristic;
+
 import exception.DomainBoundaryException;
 import exception.VariableValueException;
 
-import model.AbstractSolver.Heuristic;
 
 public class Parser
 {

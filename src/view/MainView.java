@@ -24,12 +24,13 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 
-import model.AbstractSolver;
 import model.Parser;
-import model.AbstractSolver.Heuristic;
 import model.Parser.SolverType;
 
 import javax.swing.JScrollPane;
+
+import algo.AbstractSolver;
+import algo.AbstractSolver.Heuristic;
 
 import exception.DomainBoundaryException;
 import exception.VariableValueException;

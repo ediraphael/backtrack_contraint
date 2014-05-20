@@ -134,7 +134,7 @@ public class Variable
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException
 	{
 		ArrayList<Domain> newDomains = new ArrayList<Domain>();
 		for (Domain domain : domains)

@@ -67,7 +67,7 @@ public class Constraint
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public Object clone() throws CloneNotSupportedException
 	{
 		return new Constraint((Variable) leftVariable.clone(), (Variable) rightVariable.clone(), operator);
 	}
