@@ -1,8 +1,15 @@
 package jUnitTest;
 
+<<<<<<< HEAD
 import static org.junit.Assert.*;
 import modele.Domain;
 import modele.Operator;
+=======
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import model.Domain;
+import model.Operator;
+>>>>>>> de95bae0fe5897633c8bca17b8123c30cf8a1df1
 
 import org.junit.Before;
 import org.junit.Test;
