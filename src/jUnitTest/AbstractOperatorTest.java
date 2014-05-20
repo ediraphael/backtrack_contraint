@@ -2,9 +2,9 @@ package jUnitTest;
 
 import static org.junit.Assert.fail;
 import Exception.DomainBoundaryException;
-import modele.Domain;
-import modele.Operator;
-import modele.Variable;
+import model.Domain;
+import model.Operator;
+import model.Variable;
 
 public abstract class AbstractOperatorTest
 {

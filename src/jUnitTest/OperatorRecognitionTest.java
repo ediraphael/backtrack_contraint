@@ -1,6 +1,6 @@
 package jUnitTest;
 
-import modele.Operator;
+import model.Operator;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

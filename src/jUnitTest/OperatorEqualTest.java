@@ -1,8 +1,8 @@
 package jUnitTest;
 
 import static org.junit.Assert.*;
-import modele.Domain;
-import modele.Operator;
+import model.Domain;
+import model.Operator;
 
 import org.junit.Before;
 import org.junit.Test;

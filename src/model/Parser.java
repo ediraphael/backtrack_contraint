@@ -1,4 +1,4 @@
-package modele;
+package model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import modele.AbstractSolver.Heuristic;
-
+import model.AbstractSolver.Heuristic;
 import Exception.DomainBoundaryException;
 import Exception.VariableValueException;
 

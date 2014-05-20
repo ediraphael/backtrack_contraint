@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import modele.Domain;
-import modele.Operator;
+import model.Domain;
+import model.Operator;
 
 public class OperatorNotEqualTest extends AbstractOperatorTest
 {
