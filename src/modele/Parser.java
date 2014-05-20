@@ -39,6 +39,20 @@ public class Parser
 		}
 	}
 
+	public String getFileContent(String path)
+	{
+		try
+		{
+			byte[] encoded = Files.readAllBytes(Paths.get(path));
+			return new String(encoded);
+		} catch (IOException e)
+		{
+			System.err.println("Error reading file : " + e.getMessage());
+			return null;
+		}
+
+	}
+
 	public AbstractSolver loadFile(String path, SolverType solverType)
 	{
 		try
@@ -154,8 +168,8 @@ public class Parser
 	public static void main(String[] args) throws CloneNotSupportedException, DomainBoundaryException, VariableValueException
 	{
 		Parser parser = new Parser();
-		AbstractSolver solver = parser.loadFile("basic.mzn",SolverType.FORWARDCHECKING);
-		
+		AbstractSolver solver = parser.loadFile("basic.mzn", SolverType.FORWARDCHECKING);
+
 		solver.doArcConsistency();
 		solver.launch(Heuristic.MINDOMAIN);
 		System.out.println(solver);

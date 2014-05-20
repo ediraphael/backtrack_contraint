@@ -135,8 +135,8 @@ public abstract class AbstractSolver
 						}
 					}
 				}
+				break;
 			}
-			variable.setInstantiated(false);
 		}
 		return solutionList;
 	}
