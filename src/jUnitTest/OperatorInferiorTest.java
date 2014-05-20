@@ -9,7 +9,8 @@ import model.Operator;
 import org.junit.Before;
 import org.junit.Test;
 
-import Exception.VariableValueException;
+import exception.VariableValueException;
+
 
 public class OperatorInferiorTest extends AbstractOperatorTest
 {

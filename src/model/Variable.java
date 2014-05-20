@@ -2,7 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
-import Exception.VariableValueException;
+import exception.VariableValueException;
+
 
 public class Variable
 {

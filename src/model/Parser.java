@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import exception.DomainBoundaryException;
+import exception.VariableValueException;
+
 import model.AbstractSolver.Heuristic;
-import Exception.DomainBoundaryException;
-import Exception.VariableValueException;
 
 public class Parser
 {

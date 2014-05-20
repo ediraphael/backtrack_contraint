@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import Exception.DomainBoundaryException;
-import Exception.VariableValueException;
+import exception.DomainBoundaryException;
+import exception.VariableValueException;
+
 
 public enum Operator
 {

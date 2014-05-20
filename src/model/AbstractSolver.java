@@ -2,8 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
-import Exception.DomainBoundaryException;
-import Exception.VariableValueException;
+import exception.DomainBoundaryException;
+import exception.VariableValueException;
+
 
 public abstract class AbstractSolver
 {

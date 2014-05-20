@@ -2,7 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
-import Exception.DomainBoundaryException;
+import exception.DomainBoundaryException;
+
 
 public class ForwardCheckingSolver extends AbstractSolver
 {

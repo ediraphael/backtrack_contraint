@@ -31,8 +31,9 @@ import model.Parser.SolverType;
 
 import javax.swing.JScrollPane;
 
-import Exception.DomainBoundaryException;
-import Exception.VariableValueException;
+import exception.DomainBoundaryException;
+import exception.VariableValueException;
+
 
 import java.awt.Font;
 import java.awt.Color;

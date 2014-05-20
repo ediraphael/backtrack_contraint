@@ -1,6 +1,6 @@
 package model;
 
-import Exception.DomainBoundaryException;
+import exception.DomainBoundaryException;
 
 public class Domain implements Comparable<Domain>
 {

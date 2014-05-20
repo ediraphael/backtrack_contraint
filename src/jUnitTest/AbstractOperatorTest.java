@@ -1,7 +1,7 @@
 package jUnitTest;
 
 import static org.junit.Assert.fail;
-import Exception.DomainBoundaryException;
+import exception.DomainBoundaryException;
 import model.Domain;
 import model.Operator;
 import model.Variable;

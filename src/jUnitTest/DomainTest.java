@@ -4,7 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Exception.DomainBoundaryException;
+import exception.DomainBoundaryException;
+
 import model.Domain;
 
 public class DomainTest
