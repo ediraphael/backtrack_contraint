@@ -12,10 +12,7 @@ import java.util.regex.Pattern;
 import algo.AbstractSolver;
 import algo.ForwardCheckingSolver;
 import algo.TestAndGenerateSolver;
-import algo.AbstractSolver.Heuristic;
-
 import exception.DomainBoundaryException;
-import exception.VariableValueException;
 
 public class Parser
 {
@@ -83,7 +80,7 @@ public class Parser
 			while ((line = inputF.readLine()) != null)
 			{
 				//var O..5: te;
-				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z]+)\\s*;";
+				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z0-9]+)\\s*;";
 				Pattern variablePattern = Pattern.compile(variablePaternString);
 				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s*(<|>|!=|==|<=|>=)\\s*([a-zA-Z]+|[0-9]+)\\s*;";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
