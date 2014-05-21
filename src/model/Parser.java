@@ -164,7 +164,7 @@ public class Parser
 			}
 
 			// Fixing output String
-			String showOutputPatternString = "show\\(([a-zA-Z]+)\\)";
+			String showOutputPatternString = "show\\(([a-zA-Z][a-zA-Z0-9]+)\\)";
 			finalOutput = finalOutput.replaceAll(showOutputPatternString, "$1");
 			finalOutput = finalOutput.replaceAll(",(\\s+|\t+)", ",");
 			finalOutput = finalOutput.replaceAll(",", "+");
