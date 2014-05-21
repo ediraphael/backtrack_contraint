@@ -20,13 +20,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 
+import model.Generator;
 import model.Parser;
 import model.Parser.SolverType;
 
@@ -710,7 +710,9 @@ public class MainView
 				    @Override
 				    public void windowDeactivated(WindowEvent e) 
 				    {
-				    	JOptionPane.showMessageDialog(frame,"var :    "+nbVariable);
+				    	Generator generator = new Generator(nbVariable, nbConstraint, minDomain, maxDomain);
+				    	textAreaShowFile.setText(generator.generate());
+				    	frame.toFront();
 				    }
 				});
 				

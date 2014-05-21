@@ -63,6 +63,10 @@ public class GenerateView
 				{
 					JOptionPane.showMessageDialog(frame,"Tous les champs sont obligatoires");
 				}
+				else if(Integer.parseInt(textFieldMinDomain.getText()) > Integer.parseInt(textFieldMaxDomain.getText()))
+				{
+					JOptionPane.showMessageDialog(frame,"Le domaine minimum doit être inférieur au domaine maximum");
+				}
 				else
 				{
 					MainView.nbVariable = Integer.parseInt(textFieldVariable.getText());
