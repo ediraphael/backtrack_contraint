@@ -16,8 +16,11 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
@@ -31,10 +34,8 @@ import javax.swing.JScrollPane;
 
 import algo.AbstractSolver;
 import algo.AbstractSolver.Heuristic;
-
 import exception.DomainBoundaryException;
 import exception.VariableValueException;
-
 
 import java.awt.Font;
 import java.awt.Color;
@@ -175,6 +176,10 @@ public class MainView
 	
 	private JComboBox<String> cbHeuristic;
 
+	public static int nbVariable;
+	public static int nbConstraint;
+	public static int minDomain;
+	public static int maxDomain;
 	
 	
 	/**
@@ -699,7 +704,16 @@ public class MainView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				
-				//TODO
+				GenerateView generateFrame = new GenerateView();
+				generateFrame.getFrame().addWindowListener(new WindowAdapter()
+				{
+				    @Override
+				    public void windowDeactivated(WindowEvent e) 
+				    {
+				    	JOptionPane.showMessageDialog(frame,"var :    "+nbVariable);
+				    }
+				});
+				
 			}
 		});
 		panBtnGenerate.add(btnGnrer, BorderLayout.CENTER);
