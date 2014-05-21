@@ -21,6 +21,10 @@ public class TestAndGenerateSolver extends AbstractSolver
 			{
 				noProbleme = constraint.checkInstance() && noProbleme;
 			}
+			if (noProbleme)
+			{
+				break;
+			}
 		}
 		return noProbleme;
 	}

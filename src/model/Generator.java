@@ -64,7 +64,7 @@ public class Generator
 
 	public static void main(String[] args)
 	{
-		Generator generator = new Generator(2, 10, 0, 90000);
+		Generator generator = new Generator(30, 5, 0, 1000);
 		System.out.println(generator.generate());
 	}
 
