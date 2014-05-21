@@ -82,14 +82,15 @@ public class Parser
 		{
 			while ((line = inputF.readLine()) != null)
 			{
-				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(,([0-9]+)\\.\\.([0-9]+))*:\\s+([a-zA-Z]+);";
+				//var O..5: te;
+				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z]+)\\s*;";
 				Pattern variablePattern = Pattern.compile(variablePaternString);
-				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s+(<|>|!=|==|<=|>=)\\s+([a-zA-Z]+|[0-9]+);";
+				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s*(<|>|!=|==|<=|>=)\\s*([a-zA-Z]+|[0-9]+)\\s*;";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
 				String spacePatternString = "\\s*";
-				String outputStartPatternString = "output\\s+\\[.*";
+				String outputStartPatternString = "output\\s*\\[.*";
 				String outputMiddlePatternString = ".*";
-				String outputEndPatternString = ".*\\];";
+				String outputEndPatternString = ".*\\]\\s*;";
 				if (line.matches(variablePaternString))
 				{
 					Matcher matcher = variablePattern.matcher(line);
