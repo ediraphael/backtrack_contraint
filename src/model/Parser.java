@@ -80,7 +80,7 @@ public class Parser
 			while ((line = inputF.readLine()) != null)
 			{
 				//var O..5: te;
-				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z0-9]+)\\s*;";
+				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*;";
 				Pattern variablePattern = Pattern.compile(variablePaternString);
 				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s*(<|>|!=|==|<=|>=)\\s*([a-zA-Z]+|[0-9]+)\\s*;";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
