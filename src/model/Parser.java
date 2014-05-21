@@ -82,7 +82,7 @@ public class Parser
 				//var O..5: te;
 				String variablePaternString = "var\\s+([0-9]+)\\.\\.([0-9]+)(\\s*,\\s*([0-9]+)\\.\\.([0-9]+))*\\s*:\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*;";
 				Pattern variablePattern = Pattern.compile(variablePaternString);
-				String constraintPaternString = "constraint\\s+([a-zA-Z]+|[0-9]+)\\s*(<|>|!=|==|<=|>=)\\s*([a-zA-Z]+|[0-9]+)\\s*;";
+				String constraintPaternString = "constraint\\s+([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\s*(<|>|!=|==|<=|>=)\\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\\s*;";
 				Pattern constraintPattern = Pattern.compile(constraintPaternString);
 				String spacePatternString = "\\s*";
 				String outputStartPatternString = "output\\s*\\[.*";

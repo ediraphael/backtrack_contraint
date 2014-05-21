@@ -56,7 +56,7 @@ public class Generator
 		content += "output [";
 		for (Variable variable : variableList)
 		{
-			content += "\"\n\\n" + variable.getName()+"=\",show("+ variable.getName()+"),";
+			content += "\n\"\\n" + variable.getName()+"=\",show("+ variable.getName()+"),";
 		}
 		content += "];";
 		return content;
@@ -64,7 +64,7 @@ public class Generator
 
 	public static void main(String[] args)
 	{
-		Generator generator = new Generator(3, 3, 0, 20);
+		Generator generator = new Generator(2, 10, 0, 90000);
 		System.out.println(generator.generate());
 	}
 

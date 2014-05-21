@@ -117,6 +117,7 @@ public abstract class AbstractSolver
 													}
 													if (allConstraintGood)
 													{
+														System.out.println("Solution");
 														ArrayList<Variable> solution = new ArrayList<Variable>();
 														for (Variable variable2 : variableList)
 														{
