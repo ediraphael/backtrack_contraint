@@ -7,7 +7,6 @@ import model.Variable;
 
 import exception.DomainBoundaryException;
 
-
 public class ForwardCheckingSolver extends AbstractSolver
 {
 	public ForwardCheckingSolver(ArrayList<Variable> variableList, ArrayList<Constraint> constraintList, String finalOutput)
@@ -63,6 +62,14 @@ public class ForwardCheckingSolver extends AbstractSolver
 				{
 					right = variable;
 				}
+			}
+			if (left == null)
+			{
+				left = (Variable) constraint.getLeftVariable().clone();
+			}
+			if (right == null)
+			{
+				right = (Variable) constraint.getRightVariable().clone();
 			}
 			newConstraintList.add(new Constraint(left, right, constraint.getOperator()));
 		}

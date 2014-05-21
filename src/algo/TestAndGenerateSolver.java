@@ -48,6 +48,14 @@ public class TestAndGenerateSolver extends AbstractSolver
 					right = variable;
 				}
 			}
+			if (left == null)
+			{
+				left = (Variable) constraint.getLeftVariable().clone();
+			}
+			if (right == null)
+			{
+				right = (Variable) constraint.getRightVariable().clone();
+			}
 			newConstraintList.add(new Constraint(left, right, constraint.getOperator()));
 		}
 		return new TestAndGenerateSolver(newVariableList, newConstraintList, new String(this.getFinalOutput()));

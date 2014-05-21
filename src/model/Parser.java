@@ -17,7 +17,6 @@ import algo.AbstractSolver.Heuristic;
 import exception.DomainBoundaryException;
 import exception.VariableValueException;
 
-
 public class Parser
 {
 	public static enum SolverType
@@ -127,6 +126,20 @@ public class Parser
 						{
 							rightVariable = variable;
 						}
+					}
+					try
+					{
+						if (leftVariable == null && matcher.group(1).matches("^[0-9]+$"))
+						{
+							leftVariable = new Variable(matcher.group(1), new Domain(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(1))));
+						}
+						if (rightVariable == null && matcher.group(3).matches("^[0-9]+$"))
+						{
+							rightVariable = new Variable(matcher.group(3), new Domain(Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(3))));
+						}
+					} catch (NumberFormatException | DomainBoundaryException e)
+					{
+						System.err.println("Erreur creation variable : " + e.getMessage());
 					}
 					if (operator != null && leftVariable != null && rightVariable != null)
 					{
