@@ -105,8 +105,11 @@ public class MainView
 	private JPanel panBtnUpload;
 	private JPanel panShowResultContainer;
 	private JPanel panSeparatorShow;
-	private JPanel panBtnUploadLowSetting;
+	private JPanel panBtnGenerate;
 	private JPanel panelTimeExecution;
+	private JPanel panBtnGenerateLeftSettings;
+	private JPanel panBtnGenerateRightSetting;
+	private JPanel panBtnGenerateTopSetting;
 	
 	private JScrollPane scrollPaneShowFile;
 	private JScrollPane scrollPaneShowResult;
@@ -150,7 +153,8 @@ public class MainView
 	private JButton btnRun;
 	private JButton btnExit;
 	private JButton btnSearch;
-
+	private JButton btnGnrer;
+	
 	private JLabel lblAlgo;
 	private JLabel lblAc;
 	private JPanel panRdbChoiceAc;
@@ -170,6 +174,7 @@ public class MainView
 	private JTextArea textAreaShowResult;
 	
 	private JComboBox<String> cbHeuristic;
+
 	
 	
 	/**
@@ -639,6 +644,7 @@ public class MainView
 		panBtnUploadContainer.add(panBtnUploadLeftSetting, BorderLayout.WEST);
 		
 		panBtnUploadTopSetting = new JPanel();
+		panBtnUploadTopSetting.setPreferredSize(new Dimension(10, 4));
 		panBtnUploadContainer.add(panBtnUploadTopSetting, BorderLayout.NORTH);
 		
 		panBtnUploadRightSetting = new JPanel();
@@ -670,8 +676,33 @@ public class MainView
 		});
 		panBtnUpload.add(btnSearch, BorderLayout.CENTER);
 		
-		panBtnUploadLowSetting = new JPanel();
-		panBtnUploadContainer.add(panBtnUploadLowSetting, BorderLayout.SOUTH);
+		panBtnGenerate = new JPanel();
+		panBtnGenerate.setPreferredSize(new Dimension(10, 22));
+		panBtnUploadContainer.add(panBtnGenerate, BorderLayout.SOUTH);
+		panBtnGenerate.setLayout(new BorderLayout(0, 0));
+		
+		panBtnGenerateLeftSettings = new JPanel();
+		panBtnGenerateLeftSettings.setPreferredSize(new Dimension(30, 10));
+		panBtnGenerate.add(panBtnGenerateLeftSettings, BorderLayout.WEST);
+		
+		panBtnGenerateRightSetting = new JPanel();
+		panBtnGenerateRightSetting.setPreferredSize(new Dimension(30, 10));
+		panBtnGenerate.add(panBtnGenerateRightSetting, BorderLayout.EAST);
+		
+		panBtnGenerateTopSetting = new JPanel();
+		panBtnGenerateTopSetting.setPreferredSize(new Dimension(10, 3));
+		panBtnGenerate.add(panBtnGenerateTopSetting, BorderLayout.NORTH);
+		
+		btnGnrer = new JButton("Générer");
+		btnGnrer.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				
+				//TODO
+			}
+		});
+		panBtnGenerate.add(btnGnrer, BorderLayout.CENTER);
 		
 		panChoiceAc = new JPanel();
 		panChoiceAc.setPreferredSize(new Dimension(100, 10));
