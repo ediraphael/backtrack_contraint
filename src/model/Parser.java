@@ -182,15 +182,4 @@ public class Parser
 		}
 		return null;
 	}
-
-	public static void main(String[] args) throws CloneNotSupportedException, DomainBoundaryException, VariableValueException
-	{
-		Parser parser = new Parser();
-		AbstractSolver solver = parser.loadFile("basic.mzn", SolverType.FORWARDCHECKING);
-
-		solver.doArcConsistency();
-		solver.launch(Heuristic.MINDOMAIN);
-		System.out.println(solver);
-		System.out.println(solver.generateFinalOutput());
-	}
 }
