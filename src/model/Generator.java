@@ -16,7 +16,6 @@ public class Generator
 
 	public Generator(int nbVariable, int nbConstraint, int minValue, int maxValue)
 	{
-		super();
 		this.nbVariable = nbVariable;
 		this.nbConstraint = nbConstraint;
 		this.minValue = minValue;
