@@ -733,7 +733,7 @@ public class MainView
 		hbTopChoiceAc.add(panAc);
 		panAc.setLayout(new BorderLayout(0, 0));
 		
-		lblAc = new JLabel("Arc-consientcy");
+		lblAc = new JLabel("Arc-consitency");
 		panAc.add(lblAc, BorderLayout.CENTER);
 		
 		panAcLeftSetting = new JPanel();

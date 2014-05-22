@@ -16,10 +16,10 @@ public class Generator
 
 	public Generator(int nbVariable, int nbConstraint, int minValue, int maxValue)
 	{
-		this.nbVariable = nbVariable;
+		this.nbVariable = nbVariable > 2 ? nbVariable : 2;
 		this.nbConstraint = nbConstraint;
 		this.minValue = minValue;
-		this.maxValue = maxValue;
+		this.maxValue = maxValue >= minValue ? maxValue : 2 * minValue - maxValue;
 		this.variableList = new ArrayList<Variable>();
 		this.constraintList = new ArrayList<Constraint>();
 	}
@@ -44,19 +44,38 @@ public class Generator
 
 		for (int i = 0; i < nbConstraint; i++)
 		{
-			int leftVariable = random.nextInt(variableList.size());
-			int rightVariable = random.nextInt(variableList.size());
-			while (rightVariable == leftVariable)
+			int leftVariable;
+			int rightVariable;
+			int operator;
+			boolean incoherence = false;
+			do
 			{
+				leftVariable = random.nextInt(variableList.size());
 				rightVariable = random.nextInt(variableList.size());
-			}
-			int operator = random.nextInt(Operator.values().length);
+				while (rightVariable == leftVariable)
+				{
+					rightVariable = random.nextInt(variableList.size());
+				}
+				operator = random.nextInt(Operator.values().length);
+				if (Operator.SUPERIOR == Operator.values()[operator])
+				{
+					incoherence = incoherence || constraintList.contains(new Constraint(variableList.get(leftVariable), variableList.get(rightVariable), Operator.INFERIOR));
+					incoherence = incoherence || constraintList.contains(new Constraint(variableList.get(rightVariable), variableList.get(leftVariable), Operator.values()[operator]));
+				} else if (Operator.EQUAL == Operator.values()[operator])
+				{
+					incoherence = incoherence || constraintList.contains(new Constraint(variableList.get(leftVariable), variableList.get(rightVariable), Operator.NOTEQUAL));
+				} else if (Operator.NOTEQUAL == Operator.values()[operator])
+				{
+					incoherence = incoherence || constraintList.contains(new Constraint(variableList.get(leftVariable), variableList.get(rightVariable), Operator.EQUAL));
+				}
+			} while (incoherence);
 			content += "constraint " + variableList.get(leftVariable).getName() + " " + Operator.values()[operator] + " " + variableList.get(rightVariable).getName() + ";\n";
+			constraintList.add(new Constraint(variableList.get(leftVariable), variableList.get(rightVariable), Operator.values()[operator]));
 		}
 		content += "output [";
 		for (Variable variable : variableList)
 		{
-			content += "\n\"\\n" + variable.getName()+"=\",show("+ variable.getName()+"),";
+			content += "\n\"\\n" + variable.getName() + "=\",show(" + variable.getName() + "),";
 		}
 		content += "];";
 		return content;
@@ -64,7 +83,7 @@ public class Generator
 
 	public static void main(String[] args)
 	{
-		Generator generator = new Generator(30, 5, 0, 1000);
+		Generator generator = new Generator(20, 10, 0, 40);
 		System.out.println(generator.generate());
 	}
 
