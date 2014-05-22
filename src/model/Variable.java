@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import exception.VariableValueException;
 
-
 public class Variable
 {
 	private String name;
@@ -39,8 +38,15 @@ public class Variable
 	{
 		this.name = name;
 		this.domains = domain;
-		setValue(value);
 		this.isInstantiated = isInstantiated;
+		if (this.isInstantiated)
+		{
+			setValue(value);
+		} else
+		{
+			this.value = value;
+		}
+
 	}
 
 	public String getName()
@@ -97,7 +103,7 @@ public class Variable
 			this.value = value;
 		} else
 		{
-			throw new VariableValueException("Error during setting new value, " + value + " is out of possible Domains " + domains);
+			throw new VariableValueException("Error during setting new value to " + name + ", " + value + " is out of possible Domains " + domains);
 		}
 	}
 
