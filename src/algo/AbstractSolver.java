@@ -9,7 +9,6 @@ import model.Variable;
 import exception.DomainBoundaryException;
 import exception.VariableValueException;
 
-
 public abstract class AbstractSolver
 {
 	private ArrayList<Variable> variableList;
@@ -149,26 +148,32 @@ public abstract class AbstractSolver
 	public String generateFinalOutput()
 	{
 		String outputRepresentation = "";
-		String elements[] = finalOutput.split("\\+");
-		String textPattern = "[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*.*[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*";
-		for (String element : elements)
+		if (solutionList.size() != 0)
 		{
-			if (element.matches(textPattern))
+			String elements[] = finalOutput.split("\\+");
+			String textPattern = "[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*.*[\\n|\\t|\\s]*\"[\\n|\\t|\\s]*";
+			for (String element : elements)
 			{
-				element = element.replaceAll("\"", "");
-				outputRepresentation += element;
-			}
-			// Should be a variable
-			else
-			{
-				for (Variable variable : this.solutionList)
+				if (element.matches(textPattern))
 				{
-					if (element.trim().equals(variable.getName()))
+					element = element.replaceAll("\"", "");
+					outputRepresentation += element;
+				}
+				// Should be a variable
+				else
+				{
+					for (Variable variable : this.solutionList)
 					{
-						outputRepresentation += variable.getValue();
+						if (element.trim().equals(variable.getName()))
+						{
+							outputRepresentation += variable.getValue();
+						}
 					}
 				}
 			}
+		} else
+		{
+			outputRepresentation += "Aucune solution trouvée";
 		}
 		return outputRepresentation;
 	}
