@@ -15,6 +15,7 @@ public abstract class AbstractSolver
 	private ArrayList<Constraint> constraintList;
 	private ArrayList<Variable> solutionList;
 	private String finalOutput;
+	public static int nodeCpt = 0;
 
 	public static enum Heuristic
 	{
@@ -93,6 +94,8 @@ public abstract class AbstractSolver
 							{
 								if (solutionList.size() == 0)
 								{
+									nodeCpt++;
+									System.out.println(nodeCpt);
 									variable.setValue(i);
 									try
 									{

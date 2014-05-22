@@ -24,7 +24,7 @@ public class ForwardCheckingSolver extends AbstractSolver
 				constraint.reduceDomainVariables();
 			} catch (DomainBoundaryException e)
 			{
-				e.printStackTrace();
+				System.err.println("Error reducing variable during forward checking : " + e.getMessage());
 			}
 		}
 		for (Constraint constraint : this.getConstraintList())
