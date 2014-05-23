@@ -30,6 +30,8 @@ public class Generator
 		boolean retry = false;
 		do
 		{
+			this.variableList = new ArrayList<Variable>();
+			this.constraintList = new ArrayList<Constraint>();
 			content = "";
 			Random random = new Random();
 			for (int i = 0; i < nbVariable; i++)
