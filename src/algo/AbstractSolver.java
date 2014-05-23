@@ -167,7 +167,7 @@ public abstract class AbstractSolver
 				{
 					for (Variable variable : this.solutionList)
 					{
-						if (element.trim().equals(variable.getName()))
+						if (element.trim().equals(variable.getName().trim()))
 						{
 							outputRepresentation += variable.getValue();
 						}
